@@ -2,7 +2,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 --- 
 <p align="center">
-  <img src="assets/splash3_medium.png", alt="RaTrace", width=300, height=300, style="display: block; margin: 0 auto" />
+  <img src="assets/RaTrace_medium.png", alt="RaTrace", width=300, height=300, style="display: block; margin: 0 auto" />
 </p>
 
 <p align="center">
@@ -33,5 +33,5 @@
 * ...
 
 <p align="center">
-  <img src="assets/scene_01_Hello_world.png", alt="scene_01_Hello_world", width=400, height=150, style="display: block; margin: 0 auto" />
+  <img src="assets/scene_01_Hello_world_02.png", alt="scene_01_Hello_world", width=400, height=150, style="display: block; margin: 0 auto" />
 </p>
