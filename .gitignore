@@ -1,0 +1,7 @@
+/scenes_all
+/.idea
+*.pyc
+print_folder_structure.bat
+print_folder_structure.py
+scenes/__init__.py
+__pycache__/
