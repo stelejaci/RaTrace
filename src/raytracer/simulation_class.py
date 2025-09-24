@@ -1,12 +1,9 @@
-import numpy as np
 from PyQt5.QtCore import pyqtSignal, QObject, pyqtSlot
 import importlib.util
 import time
 import pathlib
 import inspect
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
+import os
 from raytracer  import raytrace_class
 from elements   import element_class
 from light      import light_class
@@ -56,7 +53,13 @@ class SimulationClass(QObject):
         module_name = self.scene_file.split('/')[-1].split('.')[0]
         spec = importlib.util.spec_from_file_location(module_name, self.scene_file)
         module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
+
+        try:
+            spec.loader.exec_module(module)
+        except:
+            print(f'Scene file does not exist: {scene_file}')
+            self.scene_loaded_successfully = False
+            return
 
         # Loading the scene itself, by running the "load_scene" method in the file
         try:

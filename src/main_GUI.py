@@ -1,11 +1,8 @@
-from PyQt5 import QtCore, QtWidgets, QtGui
-import sys
-import os
-
+from PyQt5 import QtWidgets
+import sys, os
 from utils.configuration_class import config
-from gui import simulation_gui_class, splash
+from gui import simulation_gui_class
 from raytracer import simulation_class
-
 
 
 

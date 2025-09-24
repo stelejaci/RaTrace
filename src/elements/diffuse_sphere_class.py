@@ -1,12 +1,6 @@
 import numpy as np
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
-from utils.varia import mm, µm, nm, deg, X, Y
-from utils.optics import N_air, N_glass
+from utils.varia import X, Y
 from utils import geometry
-from elements import element_class
-from light import light_class
 import matplotlib.pyplot as plt
 from utils.configuration_class import config
 from gui import canvas_class

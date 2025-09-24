@@ -1,8 +1,6 @@
 import numpy as np
 from numba import jit
-import math
-
-from utils.varia import mm, µm, nm, deg, X, Y, EPSILON
+from utils.varia import X, Y, EPSILON
 from utils.varia import sort_x_left_to_right
 
 

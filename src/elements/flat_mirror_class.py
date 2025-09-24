@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
-from utils.varia import mm, µm, nm, deg, X, Y
+from utils.varia import mm, X, Y
 from light import light_class
 from elements import element_class
 from utils import geometry
@@ -23,7 +22,7 @@ class FlatMirrorClass(element_class.ElementClass):
         new_rays = list()
         if (self.n_coll is not None)    and    (geometry.point_is_on_PP_line(ray.p1, self.pts[0], self.pts[1])):
             R = 2 * np.dot(self.n_coll, -ray.r) * self.n_coll + ray.r
-            ray_new = light_class.RayClass(p0=ray.p1, r=R, intensity=ray.intensity, wavelength=ray.wavelength, N=ray.N, ray_parent=ray, source_element=self, plot_color=ray.plot_color, is_active = True, is_visible=True)
+            ray_new = light_class.RayClass(p0=ray.p1, r=R, intensity=ray.intensity, wavelength=ray.wavelength, N=ray.N, ray_parent=ray, source_element=self, plot_color=ray.plot_color, is_active=True, is_visible=True)
             new_rays.append(ray_new)
         return new_rays
 

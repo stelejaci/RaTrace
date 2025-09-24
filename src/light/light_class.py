@@ -1,14 +1,11 @@
-import os, sys
 import numpy as np
 import math
 from PyQt5.QtCore import pyqtSignal
-sys.path.append(os.path.abspath('..'))
 from PyQt5 import QtWidgets
-
 from utils import geometry
-from utils.varia import mm, µm, nm, deg, X, Y
+from utils.varia import nm, deg, X, Y
 from utils import varia
-from utils.optics import N_air, N_glass
+from utils.optics import N_air
 from utils.configuration_class import config
 
 
@@ -224,13 +221,3 @@ class RayClass:
 
         # Plot the ray segment
         graph.plot([self.p0[X], p1[X]], [self.p0[Y], p1[Y]], color=col, linewidth=linewidth, linestyle='solid')
-
-
-
-
-if __name__ == '__main__':
-    # The app is needed because the LightSourceClass inherits from QWidget, otherwise it will crash
-    # It 's the core event loop and initialization hub for all Qt objects.
-    app = QtWidgets.QApplication(sys.argv)
-    light = LightSourceClass()
-    print(light)

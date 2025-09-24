@@ -1,6 +1,5 @@
 import numpy as np
-
-from utils.varia import mm, µm, nm, deg, X, Y, EPSILON
+from utils.varia import mm, µm, X
 
 global N_glass, N_air
 N_air = 1
@@ -162,12 +161,3 @@ def GLB_calculate_peak_intensity_at_z(w0, ZR, intensity_total, z=0*mm):  # GLB =
     w = GLB_calculate_width_at_z(w0=w0, ZR=ZR, z=z)
     intensity_peak = np.sqrt(np.pi/2) * intensity_total/w
     return intensity_peak
-
-
-
-
-if __name__ == '__main__':
-    # [f, R0, R1] = derive_lens_radii_and_f(N=1.5, f=16*mm, T=2*mm)
-    # [f, R0, R1] = derive_lens_radii_and_f(N=1.5, R0=15.66*mm, R1=-15.66*mm, T=2*mm)
-    # [f, R0, R1] = derive_lens_radii_and_f(N=1.5, R0=0.34058*mm, R1=-0.34058*mm, T=2*mm)
-    pass

@@ -1,9 +1,6 @@
 import sys
 from PyQt5 import QtWidgets
-from datetime import datetime
 import time
-
-from utils.configuration_class import config
 from raytracer import simulation_class
 from utils import varia
 

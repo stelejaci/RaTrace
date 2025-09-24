@@ -1,7 +1,4 @@
 import numpy as np
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
 from light import light_class
 from utils import varia
 from utils.varia import mm, µm, nm, deg, X, Y

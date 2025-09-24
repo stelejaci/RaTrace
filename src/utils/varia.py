@@ -30,7 +30,7 @@ def generate_color(index):
     col = cols[np.mod(index, len(cols))]
     return col
 
-def load_colormap(color=[0,0,0,1], N_rays=1, wavelength=None):
+def load_colormap(color=(0,0,0,1), N_rays=1, wavelength=None):
     if color == 'wavelength'  or  color is None:
         if wavelength is None:
             from light.light_class import WAVELENGTH_DEFAULT

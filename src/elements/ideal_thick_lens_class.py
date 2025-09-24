@@ -1,15 +1,11 @@
 import numpy as np
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
+from utils.varia import mm, deg
+from utils.optics import N_glass
 from utils import varia
-from utils.varia import mm, µm, nm, deg, X, Y
 from utils import optics
-from utils.optics import N_air, N_glass
 from utils import geometry
 from light import light_class
 from elements import element_class
-from elements import glass_element_class
 import matplotlib.pyplot as plt
 from utils.configuration_class import config
 from gui import canvas_class
@@ -19,11 +15,11 @@ from gui import canvas_class
 
 # ToDo rewrite to new structure, inherit from glass_element_class too
 class ThickLensClass(element_class.ElementClass):
-    def __init__(self, p0, f, D, N, blur_angle, nr_of_secondary_rays, p1=None, n=None, length=None):
+    def __init__(self, p0=np.array([0,0]), f=100*mm, D=10*mm, N=N_glass, blur_angle=0*deg, nr_of_secondary_rays=1, p1=None, n0=None, length=None):
         self.p0 = p0    # Mid-point on the front lens surface
         self.p1 = p1    # Mid-point on the back lens surface
         self.length = length
-        self.n = n     # Towards mid-FOV
+        self.n0 = n0     # Towards mid-FOV
         self.f = f
         self.D = D
         self.N = N
@@ -34,18 +30,18 @@ class ThickLensClass(element_class.ElementClass):
         # OR the length of the lens is given, as well as the principal normal, then p1 is calculated
         if self.p1 is not None:
             self.length = geometry.distance_between_2_points(self.p0, self.p1)
-            self.n = -geometry.distance_between_2_points(self.p0, self.p1)
-        elif self.length is not None  and  self.n is not None:
-            self.n = geometry.normalize(n)     # Towards mid-FOV
-            self.p1 = self.p0 - self.length * self.n
+            self.n0 = -geometry.distance_between_2_points(self.p0, self.p1)
+        elif self.length is not None  and  self.n0 is not None:
+            self.n0 = geometry.normalize(n0)     # Towards mid-FOV
+            self.p1 = self.p0 - self.length * self.n0
         else:
             print('Lens definition not well defined, check parameter p1, OR parameters length and normal')
 
         # We go from an abstract description of the lens (p0,p1,n,r) to an explicit description with 4 points and normals, and redefine some parameters
-        self.r   = geometry.perpendicular_direction_to_vector(-self.n)
-        self.pts = geometry.create_points_from_position_direction_length(p0=self.p0, r=self.r, L=self.D, sort_left_to_right=False, symmetric=True)
-        self.pts = np.append(self.pts, [self.pts[1]-self.n*self.length], axis=0)
-        self.pts = np.append(self.pts, [self.pts[0]-self.n*self.length], axis=0)
+        self.r   = geometry.normal_from_orientation(-self.n0)
+        self.pts = geometry.points_from_position_direction_length(p0=self.p0, r=self.r, L=self.D, sort_left_to_right=False, symmetric=True)
+        self.pts = np.append(self.pts, [self.pts[1]-self.n0*self.length], axis=0)
+        self.pts = np.append(self.pts, [self.pts[0]-self.n0*self.length], axis=0)
 
         # Initialise the ElementsClass instance
         super().__init__(p0=self.p0, pts=self.pts)
@@ -86,7 +82,7 @@ class ThickLensClass(element_class.ElementClass):
         elif np.dot(ray.r, self.n_coll) > 0:
             image_distance = optics.calculate_image_distance(-t1, self.f)
             if   t1<0 and image_distance>0:
-                direction = varia.direction_between_two_points(ray.p1, self.p0+image_distance*self.n_coll)
+                direction = geometry.direction_between_two_points(ray.p1, self.p0+image_distance*self.n_coll)
             elif t1<0 and image_distance<0:
                 try:
                     direction = geometry.direction_between_two_points(self.p0+image_distance*self.n_coll, ray.p1)
@@ -155,7 +151,3 @@ class ThickLensClass(element_class.ElementClass):
 #             rays.append(scattered_ray)
 #
 #     return rays
-
-
-if __name__ == "__main__":
-    pass

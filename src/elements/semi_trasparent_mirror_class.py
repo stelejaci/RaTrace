@@ -1,10 +1,6 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
 from utils import varia, geometry
-from utils.varia import mm, µm, nm, deg, X, Y
+from utils.varia import mm, X, Y
 from elements import element_class
 from light import light_class
 from utils.configuration_class import config

@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
-from utils.varia import mm, µm, nm, deg, X, Y
+from utils.varia import mm, X, Y
 from light import light_class
 from elements import element_class
 from utils import geometry, optics

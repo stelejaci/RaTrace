@@ -1,10 +1,7 @@
 import numpy as np
 import math
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
 from utils import varia
-from utils.varia import mm, µm, nm, deg, X, Y
+from utils.varia import mm, µm, X, Y
 from utils import geometry
 from utils.configuration_class import config
 from display import display_class

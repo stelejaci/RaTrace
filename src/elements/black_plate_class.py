@@ -1,8 +1,5 @@
 import numpy as np
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
-from utils.varia import mm, µm, nm, deg, X, Y
+from utils.varia import mm
 from utils import geometry
 from elements import element_class
 import matplotlib.pyplot as plt

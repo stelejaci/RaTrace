@@ -1,12 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
-from utils.varia import mm, µm, nm, deg, X, Y
-from utils.optics import N_air, N_glass
-from light import light_class
+from utils.varia import nm, deg, X, Y
+from utils.optics import N_air
 
 
 class FilterClass:

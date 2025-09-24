@@ -1,9 +1,6 @@
 import numpy as np
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
 from utils import geometry
-from utils.varia import mm, µm, nm, deg, X, Y, EPSILON
+from utils.varia import X, Y, EPSILON
 from utils.configuration_class import config
 
 EPSILON = 1e-6

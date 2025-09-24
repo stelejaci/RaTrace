@@ -1,13 +1,9 @@
 import numpy as np
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
 from utils import varia
-from utils.varia import mm, µm, nm, deg, X, Y
+from utils.varia import mm, X, Y
 from utils import optics
-from utils.optics import N_air, N_glass
+from utils.optics import N_glass
 from utils import geometry
-from light import light_class
 from elements import glass_element_class
 import matplotlib.pyplot as plt
 from utils.configuration_class import config
@@ -94,15 +90,3 @@ class SphericalLensClass(glass_element_class.GlassElementClass):
     def __str__(self):
         s = f'{self.name} --> Element ID= {self.ID}, p0={self.p0}, n0={self.n0}, N={self.N}, R0={self.R0}, R1={self.R1}, f={self.f}, thickness={self.thickness}, diameter={self.diameter}, blur angle={self.blur_angle}, number of secondary rays={self.nr_of_secondary_rays}, number of points={self.nr_of_pts}'
         return s
-
-
-
-if __name__ == "__main__":
-    lens = LensClass(p0=np.array([0,0]), R0=100, R1=-100, thickness=10, D=50, N=1.5, resolution=0.1)
-    # lens = LensClass(R0=-100, R1=100, thickness=10, D=50, N=1.5, resolution=0.1)
-    # lens = LensClass(R0=-100, R1=-100, thickness=10, D=50, N=1.5, resolution=0.1)
-    # lens = LensClass(R0=9999, R1=100, thickness=10, D=50, N=1.5, resolution=0.1)
-    ray = light_class.RayClass(p0=np.array([-25,-20]), r=np.array([25,10]))
-    [p_coll, t0, t1] = lens.check_collision(ray)
-    ray_new = lens.propagate_ray(ray)
-    print(ray_new)

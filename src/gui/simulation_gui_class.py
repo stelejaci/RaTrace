@@ -1,14 +1,11 @@
-import sys
+import sys, os
 import matplotlib
 import numpy as np
 matplotlib.use('Qt5Agg')
 from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtCore import pyqtSignal
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
-import os, sys
-sys.path.append(os.path.abspath('..'))
 from datetime import datetime
-
 from gui import canvas_class
 from utils.configuration_class import config
 from display import display_class, imager_class

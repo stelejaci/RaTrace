@@ -1,12 +1,8 @@
 import numpy as np
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
 from light import light_class
 from utils import varia
-from utils.varia import mm, µm, nm, deg, X, Y
-from utils.optics import N_air, N_glass
-from utils import geometry
+from utils.varia import mm, nm, X, Y
+from utils.optics import N_air
 
 WAVELENGTH_DEFAULT = 660*nm
 
@@ -14,7 +10,7 @@ WAVELENGTH_DEFAULT = 660*nm
 
 
 class PlaneSourceClass(light_class.LightSourceClass):
-    def __init__(self, p0=[0,0], n0=[1,0], diameter=10*mm, wavelength=WAVELENGTH_DEFAULT, intensity=1, intensity_distribution='equidistant', plot_color=None):
+    def __init__(self, p0=[0,0], n0=[1,0], diameter=10*mm, wavelength=WAVELENGTH_DEFAULT, intensity=1, intensity_distribution='equidistant', plot_color='wavelength'):
         self.diameter = diameter
         self.intensity_distribution = intensity_distribution
 
@@ -67,30 +63,13 @@ class PlaneSourceClass(light_class.LightSourceClass):
     def plot(self, graph):
         # Plotting the origin of the source, e.g. a plane, a point, a laser source, ...
         print(f' --> Plotting origin of source {self.ID+1}/{light_class.LightSourceClass.nr_of_sources}')
-        col = varia.colormap_wavelength(N=1, wavelength=self.wavelength)
-        col = col[0]
+
+        source_plot_color = 'wavelength' if isinstance(self.plot_color, str) else self.plot_color
+        cols = varia.load_colormap(color=source_plot_color, N_rays=1, wavelength=self.wavelength)
+        col = cols[0]
+
         graph.plot(self.p0[X] + self.r[X] * self.diameter / 2 * np.array([-1, 1]),  self.p0[Y] + self.r[Y] * self.diameter / 2 * np.array([-1, 1]), color=col,  linewidth=3, linestyle='solid')
         # Plot the principal radiating direction
         graph.quiver(self.p0[X], self.p0[Y], 10*self.n0[X], 10*self.n0[Y], color=col, width=0.2, units='xy')
         # Plot the rays
         super().plot(graph)
-
-
-
-
-
-
-if __name__ == '__main__':
-    print('\nTest 1')
-    rays = []
-    rays.append(light_class.RayClass())
-    rays.append(light_class.RayClass())
-    print(rays[0])
-    print(rays[1])
-
-    print('\nTest 2')
-    PlaneSource = PlaneSourceClass(p0=np.array([0,0]), n=np.array([1,0]), wavelength=450*nm, intensity=10, diameter=10*mm, intensity_distribution='equidistant', plot_color='rainbow')
-    PlaneSource.generate_rays(N_rays=3)
-    print(PlaneSource)
-    for ray in PlaneSource.rays:
-        print(ray)

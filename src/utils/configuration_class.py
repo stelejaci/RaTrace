@@ -1,7 +1,6 @@
 import configparser
 from pathlib import Path
-import os, sys
-sys.path.append(os.path.abspath('..'))
+import os
 
 CONFIG_FILE = 'config.ini'
 

@@ -1,12 +1,7 @@
-import time
-
 import numpy as np
 from PyQt5.QtCore import pyqtSignal, QObject
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
 from utils import varia
-from utils.varia import mm, µm, nm, deg, X, Y
+from utils.varia import mm
 from light import light_class
 from elements import element_class
 from utils.configuration_class import config

@@ -1,15 +1,11 @@
 import numpy as np
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
 from utils import varia
-from utils.varia import mm, µm, nm, deg, X, Y
+from utils.varia import mm, deg, X, Y
 from utils import optics
-from utils.optics import N_air, N_glass
+from utils.optics import N_glass
 from utils import geometry
 from light import light_class
 from elements import glass_element_class
-import matplotlib.pyplot as plt
 from utils.configuration_class import config
 
 RED, WHITE = '\033[31m', '\033[0m'
@@ -18,7 +14,7 @@ RED, WHITE = '\033[31m', '\033[0m'
 
 
 class IdealThinLensClass(glass_element_class.GlassElementClass):
-    def __init__(self, p0=np.array([10,0]), n0=np.array([-1,0]), f=None, diameter=10*mm, N=N_glass, blur_angle=0, nr_of_secondary_rays=1):
+    def __init__(self, p0=np.array([10,0]), n0=np.array([-1,0]), f=100*mm, diameter=10*mm, N=N_glass, blur_angle=0, nr_of_secondary_rays=1):
         self.diameter  = diameter     # Diameter of the lens
         self.f = f
 

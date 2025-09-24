@@ -1,16 +1,9 @@
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
 import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT
 from matplotlib.figure import Figure
-import matplotlib.pyplot as plt
-from PyQt5.QtCore import pyqtSignal
 import numpy as np
-
-from utils.varia import mm, µm, nm, deg, X, Y
-from utils import geometry
+from utils.varia import X, Y
 from utils.configuration_class import config
 
 
