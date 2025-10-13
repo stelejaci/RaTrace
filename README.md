@@ -14,15 +14,14 @@
 <p><i>!! Disclaimer !! Mind you that this is very much a work-in-progress. This started as a personal hobby project and I never had the intent to release this publicly.
 The code is in many places sub-optimal,but it works for my intent of use. </i></p>
 
-
 ---
 
 ## Table of contents
 * [Overview](#Overview)
 * [Usage](#Usage)
 * [Examples](#Examples)
+* [Graphical user interface](#Graphical user interface)
 * [Syntax](#Syntax)
-* [GUI](#Graphical user interface)
 
 ---
 
@@ -165,6 +164,10 @@ The list of elements in the load_scene module becomes a bit too long to show her
 
 ---
 
+## Graphical user interface
+
+---
+
 ## Syntax
 
 ### Light sources
@@ -177,6 +180,4 @@ The list of elements in the load_scene module becomes a bit too long to show her
 
 ### Targets
 
----
 
-## Graphical user interface
