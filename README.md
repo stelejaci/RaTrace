@@ -22,6 +22,7 @@ The code is in many places sub-optimal,but it works for my intent of use. </i></
 * [Usage](#Usage)
 * [Examples](#Examples)
 * [Syntax](#Syntax)
+* [GUI](#Graphical user interface)
 
 ---
 
@@ -111,7 +112,7 @@ splash_screen_transition = 0
 The scenes itself are Python code and are dynamically loaded whenever a new scene is loaded. See the next chapter for examples.
 
 ### Note:
-The standard units for calculations in RaTrace are mm and radians. You can import and use other units from the utils.vara module in the following way:
+The standard units for calculations in RaTrace are <b>mm</b> and <b>radians</b>. You can import and use other units from the utils.vara module in the following way:
 ```
 from utils.varia import mm, nm, deg
 wavelength_mm = 660*nm
@@ -159,9 +160,11 @@ beam_dump = black_plate_class.BlackPlateClass(  p0=np.array([40, 0]), n0=np.arra
 
 ### Newtonian telescope
 The list of elements in the load_scene module becomes a bit too long to show here, so I refer to the file itself in case you are interested.
+
 ![](scenes/scene_08_NEWTONIAN_TELESCOPE_parabolic_mirror_lenses_display_1.png)
 
 ---
+
 ## Syntax
 
 ### Light sources
@@ -173,3 +176,7 @@ The list of elements in the load_scene module becomes a bit too long to show her
 ### Mirrors
 
 ### Targets
+
+---
+
+## Graphical user interface
