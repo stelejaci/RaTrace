@@ -20,7 +20,7 @@ The code is in many places sub-optimal,but it works for my intent of use. </i></
 * [Overview](#Overview)
 * [Usage](#Usage)
 * [Examples](#Examples)
-* [Graphical user interface](#GUI)
+* [GUI](#GUI)
 * [Syntax](#Syntax)
 
 ---
