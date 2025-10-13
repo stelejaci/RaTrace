@@ -12,7 +12,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 <p><i>!! Disclaimer !! Mind you that this is very much a work-in-progress. This started as a personal hobby project and I never had the intent to release this publicly.
-The code is in many places sub-optimal and buggy, but it works for my intent of use. Ok, most of the time.</i>:blush:</p>
+The code is in many places sub-optimal and buggy, but it works for my intent of use. Ok, most of the time. And I only tested in Windows.</i>:blush:</p>
 
 ---
 
@@ -53,10 +53,13 @@ The code is in many places sub-optimal and buggy, but it works for my intent of 
 * Light source: B/W image source
 * Better error handling when scene is faulty
 * Diffuse scattering sphere
+* Glass materials library
+* Multi-node surfaces instead of simple lines
 
 <b>Known bugs</b>
 * First screenshot in looped gui does not set the axis correctly
 * Warning concerning colors
+* Many others ...
 
 <p align="center">
   <img src="assets/scene_01_Hello_world_02.png", alt="scene_01_Hello_world", width=400, height=150, style="display: block; margin: 0 auto" />
@@ -66,15 +69,17 @@ The code is in many places sub-optimal and buggy, but it works for my intent of 
 
 ## Usage
 
+Just download the files, and run one of the "main_XXX.py" files
+
 There are 4 ways to run RaTrace:
-* The primary way to use RaTrace is with the GUI. This way most of the settings can be changed, and scenes could loaded:
-> python.exe main_GUI.py
+* The primary way to use RaTrace is with the GUI. This way most of the settings can be changed, and new scenes can be loaded:
+``` python main_GUI.py```
 * With a GUI but automated and the possibility for taking screenshots. The program is closed when finished.
-> python.exe main_GUI_in_loop.py
+``` python main_GUI_in_loop.py```
 * Without GUI, the program finishes when finished.
-> python.exe main_noGUI.py
+``` python main_noGUI.py```
 * Without GUI but automated, the program finishes when finished.
-> python.exe main_noGUI_in_loop.py
+``` python main_noGUI_in_loop.py```
 
 When using the primary way-of-use via the GUI, the scene that is loaded is described in the config.ini file. 
 Also, most of the options that are available in the GUI can also be set in the same config.ini file.
