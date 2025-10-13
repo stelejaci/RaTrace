@@ -20,7 +20,7 @@ The code is in many places sub-optimal,but it works for my intent of use. </i></
 * [Overview](#Overview)
 * [Usage](#Usage)
 * [Examples](#Examples)
-* [Graphical user interface](#Graphical user interface)
+* [Graphical user interface](#GUI)
 * [Syntax](#Syntax)
 
 ---
@@ -164,7 +164,7 @@ The list of elements in the load_scene module becomes a bit too long to show her
 
 ---
 
-## Graphical user interface
+## GUI
 
 ---
 
