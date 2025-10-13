@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/RaTrace_medium.png", alt="RaTrace", width=200, height=200, style="display: block; margin: 0 auto" />
+  <img src="assets/RaTrace_medium.png", alt="RaTrace", width=400, height=400, style="display: block; margin: 0 auto" />
 </p>
 
 <p align="center">
@@ -12,7 +12,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 <p><i>!! Disclaimer !! Mind you that this is very much a work-in-progress. This started as a personal hobby project and I never had the intent to release this publicly.
-The code is in many places sub-optimal,but it works for my intent of use. </i></p>
+The code is in many places sub-optimal and buggy, but it works for my intent of use. Ok, most of the time. :blush :</i></p>
 
 ---
 
@@ -20,7 +20,7 @@ The code is in many places sub-optimal,but it works for my intent of use. </i></
 * [Overview](#Overview)
 * [Usage](#Usage)
 * [Examples](#Examples)
-* [GUI](#GUI)
+* [Graphical user interface](#Graphical user interface)
 * [Syntax](#Syntax)
 
 ---
@@ -164,7 +164,7 @@ The list of elements in the load_scene module becomes a bit too long to show her
 
 ---
 
-## GUI
+## Graphical user interface
 
 ---
 
