@@ -54,15 +54,15 @@ class SphericalLensClass(glass_element_class.GlassElementClass):
         elif t0 < t1:                       case = 0    # 2 intersections, first is closer
         else:                               case = 1    # 2 intersections, second is closer
 
-        if case == 0:    # If intersection with arc 1 and no intersection with 2nd arc
+        if case == 0:    # Intersection with arc 1 is the one to select
             self.n_coll = geometry.normalize(np.sign(self.R0) * (pt0 - self.C0))  # Normal at the front of the lens
             self.p_coll = pt0
             return [self.p_coll, t0, t0]
-        elif case == 1:                               # If no intersection with arc 1 and intersection with arc 2
+        elif case == 1:   # Intersection with arc 2 is the one to select
             self.n_coll  = -geometry.normalize(np.sign(self.R1) * (pt1 - self.C1))  # Normal at the back of the lens
             self.p_coll  = pt1
             return [self.p_coll, t1, t1]
-        else:
+        else:       # No intersections
             return [None, None, None]
 
     # def rotate_by_angle(self, angle, p_rot=np.array([0,0])):

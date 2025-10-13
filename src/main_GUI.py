@@ -5,7 +5,6 @@ from gui import simulation_gui_class
 from raytracer import simulation_class
 
 
-
 app = QtWidgets.QApplication(sys.argv)
 
 simulation = simulation_class.SimulationClass()

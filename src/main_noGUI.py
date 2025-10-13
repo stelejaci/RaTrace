@@ -17,7 +17,7 @@ simulation = simulation_class.SimulationClass()
 simulation.load_scene('../scene_01_Hello_world.py')
 
 # Set the number of rays per source to raytrace. This overrides the number in the config.ini file
-# simulation.set_nr_of_rays_per_source(10)
+simulation.set_nr_of_rays_per_source(1000)
 
 # Finally, raytrace the entire thing
 simulation.run()

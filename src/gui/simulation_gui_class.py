@@ -90,6 +90,11 @@ class SimulationGuiClass(QtWidgets.QWidget):
         self.tab_display.canvas_display.graph.cla()
         self.update_graphics()
 
+    # def set_axis_and_redraw(self, axis_lims):
+    #     self.canvas.axis_lims = axis_lims
+    #     self.canvas.update_items()
+    #     self.update_graphics()
+
     @QtCore.pyqtSlot()
     def update_graphics(self):
         print('Updating canvas and display graph ...')

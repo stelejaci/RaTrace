@@ -34,7 +34,7 @@ class IdealThinLensClass(glass_element_class.GlassElementClass):
                 self.p_coll, self.n_coll, t0, t1 = p_coll, n_coll, t0_tmp, t1_tmp
                 break
 
-        return [self.p_coll, t1, t0]
+        return [self.p_coll, t0, t1]
 
     def propagate_ray(self, ray):
         new_rays = list()
@@ -46,7 +46,7 @@ class IdealThinLensClass(glass_element_class.GlassElementClass):
         if np.isclose(ray.length, 0):
             print(f'{RED}The ray has zero length, possibly colliding within the ideal lens itself{WHITE}')
         else:
-            new_ray = light_class.RayClass(p0=ray.p1, r=ro, intensity=ray.intensity, wavelength=ray.wavelength, ray_parent=ray, N=self.N, source_element=self, is_active=ray.is_active, is_visible=ray.is_visible, is_virtual=ray.is_virtual, plot_color=ray.plot_color)
+            new_ray = light_class.RayClass(p0=ray.p1, r=ro, intensity=ray.intensity, wavelength=ray.wavelength, ray_parent=ray, N=ray.N, source_element=self, is_active=ray.is_active, is_visible=ray.is_visible, is_virtual=ray.is_virtual, plot_color=ray.plot_color)
             new_rays.append(new_ray)
 
         return new_rays
@@ -69,15 +69,3 @@ class IdealThinLensClass(glass_element_class.GlassElementClass):
     def __str__(self):
         s = f'{self.name} --> Element ID= {self.ID}, p0={self.p0}, n0={self.n0}, N={self.N}' # , R0={self.R0}, R1={self.R1}, f={self.f}, thickness={self.thickness}, diameter={self.diameter}, blur angle={self.blur_angle}, number of secondary rays={self.nr_of_secondary_rays}, number of points={self.nr_of_pts}'
         return s
-
-
-
-if __name__ == "__main__":
-    lens = LensClass(p0=np.array([0,0]), R0=100, R1=-100, thickness=10, D=50, N=1.5, resolution=0.1)
-    # lens = LensClass(R0=-100, R1=100, thickness=10, D=50, N=1.5, resolution=0.1)
-    # lens = LensClass(R0=-100, R1=-100, thickness=10, D=50, N=1.5, resolution=0.1)
-    # lens = LensClass(R0=9999, R1=100, thickness=10, D=50, N=1.5, resolution=0.1)
-    ray = light_class.RayClass(p0=np.array([-25,-20]), r=np.array([25,10]))
-    [p_coll, t0, t1] = lens.check_collision(ray)
-    ray_new = lens.propagate_ray(ray)
-    print(ray_new)

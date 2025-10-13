@@ -6,36 +6,45 @@ from gui import simulation_gui_class
 from raytracer import simulation_class
 import numpy as np
 
-angles = np.linspace(-30,0,31,endpoint=True)
 
+# f_lens = [18, 16]
+# p_BD   = [30, 40]
+f_lens = [18, 16, 14, 12, 10]
+p_BD   = [30, 40, 50, 60, 70]
+axis_lims = [-20, 100, -20, 20]
+# axis_X_lims = [-20, 100]
 
 def run_gui_iteration(app, iter):
     simulation = simulation_class.SimulationClass()
     simulation_GUI = simulation_gui_class.SimulationGuiClass(simulation)
+    # simulation_GUI.canvas.axis_lims = axis_lims
     simulation_GUI.show()
 
-    if config.getboolean('scenes', 'load_scene_at_startup'):
-        scene_file = os.path.join(config.get('scenes', 'scenes_folder'), config.get('scenes', 'scene_file'))
-        simulation.load_scene(scene_file, param=angles[iter])
-        # print(simulation)
+    scene_file = '../scenes/scene_10_SCENE_WITH_PARAMETERS_IN_A_LOOP.py'
+    # scene_file = os.path.join(config.get('scenes', 'scenes_folder'), config.get('scenes', 'scene_file'))
+    simulation.load_scene(scene_file, param=[f_lens[iter], p_BD[iter]])
 
-    if config.getboolean('simulation', 'start_simulation_at_startup'):
-        simulation.run()
+    # Set the number of rays per source to raytrace. This overrides the number in the config.ini file
+    simulation.set_nr_of_rays_per_source(10)
 
-    simulation_GUI.canvas.axis_lims = [-0.1, 0.1, -0.1, 0.1]
-    simulation_GUI.canvas.graph.axis(simulation_GUI.canvas.axis_lims)
+    simulation.run()
+    # simulation_GUI.canvas.axis_lims = axis_lims
+    # simulation_GUI.update_graphics()
+    # simulation_GUI.canvas.graph.set_xlim(axis_X_lims[0], axis_X_lims[1])
+    # simulation_GUI.canvas.draw()
+    # simulation_GUI.set_axis_and_redraw(axis_lims)
+    # simulation_GUI.canvas.axis_lims = axis_lims
+    # simulation_GUI.canvas.graph.axis(axis_lims)
+    # simulation_GUI.canvas.update_items()
 
-    simulation_GUI.repaint()
+    # Taking a screenshot and closing figure
     QtCore.QTimer.singleShot(2000, lambda: take_screenshot(app, simulation_GUI, iter))
-
-    if config.getboolean('simulation', 'exit_after_run'):
-        # print(f'Closing GUI')
-        QtCore.QTimer.singleShot(3000, simulation_GUI.close)
-
+    QtCore.QTimer.singleShot(3000, simulation_GUI.close)
+    pass
 
 def take_screenshot(app, window, iter):
     pixmap = window.grab()
-    pixmap.save(f'G:/screenshot_{iter:04d}.png')
+    pixmap.save(f'../screenshot_{iter:04d}.png')
     print(f"Screenshot {iter} saved")
 
 
@@ -43,8 +52,9 @@ def take_screenshot(app, window, iter):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
 
-    for iter in range(len(angles)):
+    for iter in range(len(f_lens)):
         run_gui_iteration(app, iter)
+
         # Process events until the current iteration is complete
         while app.activeWindow():
             app.processEvents()

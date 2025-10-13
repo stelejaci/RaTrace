@@ -174,7 +174,7 @@ class RayClass:
         self.optical_path_length = self.N * self.length
         self.phase_shift = 2 * np.pi / self.wavelength * self.optical_path_length
         self.phase_end = self.phase_start + self.phase_shift
-        self.phase_end = math.fmod(self.phase_end, 2 * math.pi) - math.pi
+        # self.phase_end = math.fmod(self.phase_end, 2 * math.pi) - math.pi
 
         # For "normal" light, the intensity of the active ray is what it is at the start, at initialisation
         # For laser light, the intensity of the active (!) ray depends on its position along the (cross-section of the) Gaussian beam
@@ -200,9 +200,6 @@ class RayClass:
         if (self.length is None)  and  (not config.getboolean('view', 'show_noncolliding_rays')):
             return
 
-        intensity_scaler = config.getfloat('view', 'intensity_scaler')
-        intensity_representation_scaled = np.min([intensity_scaler*intensity_representation, 1])
-
         # # Convert to RGB colors
         # if isinstance(col, str):
         #     col = matplotlib.colors.to_rgb(col)
@@ -213,7 +210,14 @@ class RayClass:
             col = col[0]
             if not isinstance(col, tuple):
                 col = col[0]
-        col = (col[0], col[1], col[2], intensity_representation_scaled)
+
+        alpha = col[3]      # The initially given alpha
+        intensity_scaler = config.getfloat('view', 'intensity_scaler')  # The overall scaler defined by the slider in the UI or in the config file
+        # "intensity_representation" is some scaling parameter defined in the source class, to make the look better
+        intensity_final_clipped = np.min([alpha*intensity_scaler*intensity_representation, 1])
+
+
+        col = (col[0], col[1], col[2], intensity_final_clipped)
 
         # Show rays not hitting an object as short grey lines
         length_of_non_colliding_rays = 5

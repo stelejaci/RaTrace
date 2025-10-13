@@ -22,15 +22,6 @@ class CanvasClass(FigureCanvasQTAgg):
         fig.subplots_adjust(left=0.055, right=0.99, bottom=0.03, top=0.99)
         self.axis_lims = []
 
-        # # Connect both events to the same handler
-        # self.graph.callbacks.connect('xlim_changed', self.on_axis_changed)
-        # self.graph.callbacks.connect('ylim_changed', self.on_axis_changed)
-
-    # def on_axis_changed(self, axes):
-    #     # Store both x and y limits whenever either changes
-    #     self.axis_lims = list(axes.get_xlim()) + list(axes.get_ylim())
-    #     print("Axis limits changed:", self.axis_lims)
-
     def set_nr_of_rays_to_plot(self, value):
         self.nr_of_rays_to_plot = value
 
