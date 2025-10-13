@@ -12,7 +12,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 <p><i>!! Disclaimer !! Mind you that this is very much a work-in-progress. This started as a personal hobby project and I never had the intent to release this publicly.
-The code is in many places sub-optimal and buggy, but it works for my intent of use. Ok, most of the time. :blush:</i></p>
+The code is in many places sub-optimal and buggy, but it works for my intent of use. Ok, most of the time.</i>:blush:</p>
 
 ---
 
