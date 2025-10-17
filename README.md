@@ -12,7 +12,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 <p><i>!! Disclaimer !! Mind you that this is very much a work-in-progress. This started as a personal hobby project and I never had the intent to release this publicly.
-The code is in many places sub-optimal and buggy, but it works for my intent of use. Ok, most of the time. And I only tested in Windows.</i>:blush:</p>
+The code is in many places sub-optimal and buggy, but it works for my intent of use. Ok ... most of the time ... in Windows.</i></p>
 
 ---
 
@@ -55,6 +55,8 @@ The code is in many places sub-optimal and buggy, but it works for my intent of 
 * Diffuse scattering sphere
 * Glass materials library
 * Multi-node surfaces instead of simple lines
+* Show a list of elements (properties) in the UI
+* Edit elements in the UI itself
 
 <b>Known bugs</b>
 * First screenshot in looped gui does not set the axis correctly
@@ -113,10 +115,10 @@ show_noncolliding_rays = 1
 splash_screen_transition = 0
 ```
 
-The scenes itself are Python code and are dynamically loaded whenever a new scene is loaded. See the next chapter for examples.
+The scenes itself are written in Python and are dynamically loaded whenever a new scene is loaded. See the next chapter for examples.
 
 ### Note:
-The standard units for calculations in RaTrace are <b>mm</b> and <b>radians</b>. You can import and use other units from the utils.vara module in the following way:
+The standard units for calculations in RaTrace are <b>mm</b> and <b>radians</b>. For ease-of-use you can import and use other units from the utils.vara module in the following way:
 ```
 from utils.varia import mm, nm, deg
 wavelength_mm = 660*nm
@@ -131,7 +133,7 @@ I invite u to browse and try out the different example scenes that are available
 
 ### Simple on-axis lens
 Below you find the content of a very simple scene file. 
-First, all the modules used in the scene are imported. Next the ```load_scene``` module must always be present and contains all necessary elements, in this case a point light, a ideal lens and a beam dump:
+First, all the modules used in the scene are imported. Next the ```load_scene``` module must always be present and contains all necessary elements, in this case a point light, an ideal lens and a beam dump to receive the rays:
 ```
 import numpy as np
 from utils.varia import mm,nm, deg
@@ -163,7 +165,7 @@ beam_dump = black_plate_class.BlackPlateClass(  p0=np.array([40, 0]), n0=np.arra
 ![](scenes/scene_04_CHROMATIC_ABERRATION_spherical_lens_with_dispersion.png)
 
 ### Newtonian telescope
-The list of elements in the load_scene module becomes a bit too long to show here, so I refer to the file itself in case you are interested.
+The list of elements in the load_scene module becomes a bit too long to show here, so please look at example 8 in the examples folder for details.
 
 ![](scenes/scene_08_NEWTONIAN_TELESCOPE_parabolic_mirror_lenses_display_1.png)
 
@@ -171,18 +173,80 @@ The list of elements in the load_scene module becomes a bit too long to show her
 
 ## GUI
 
+The GUI has a rather limited number of controls to keep things simple (for now). 
+
+<img src="assets/UI_overview.png", alt="UI_overview.png", width=900, height=230, style="display: block; margin: 0 auto" />
+
+### Setup
+
+<img src="assets/UI_Setup.png", alt="UI_Setup.png", width=900, height=230, style="display: block; margin: 0 auto" />
+
+### Simulation
+
+<img src="assets/UI_Simulation.png", alt="UI_Simulation.png", width=900, height=230, style="display: block; margin: 0 auto" />
+
+### View
+
+<img src="assets/UI_View.png", alt="UI_View.png", width=900, height=230, style="display: block; margin: 0 auto" />
+
+### Display
+
+<img src="assets/UI_Display.png", alt="UI_Display.png", width=900, height=230, style="display: block; margin: 0 auto" />
+
+#### Display modes
+<img src="assets/UI_Display_Scatterplot_1D.png", alt="UI_Display_Scatterplot_1D.png", width=900, height=230, style="display: block; margin: 0 auto" />
+<img src="assets/UI_Display_Scatterplot_2D.png", alt="UI_Display_Scatterplot_2D.png", width=900, height=230, style="display: block; margin: 0 auto" />
+<img src="assets/UI_Display_Image_2D.png", alt="UI_Display_Image_2D.png", width=900, height=230, style="display: block; margin: 0 auto" />
+<img src="assets/UI_Display_Image_centroid.png", alt="UI_Display_Image_centroid.png", width=900, height=230, style="display: block; margin: 0 auto" />
+<img src="assets/UI_Display_Phase_plot.png", alt="UI_Display_Phase_plot.png", width=900, height=230, style="display: block; margin: 0 auto" />
+
 ---
 
 ## Syntax
 
+
 ### Light sources
+
+#### Point source
+
+#### Parallel plane source
+
+#### Diffuse plane source
+
+#### Laser
+
+#### Virtual ray
+
 
 ### Glass elements
 
+#### Ideal (thin) lens
+
+#### Ideal thick lens
+
+#### Spherical lens
+
+
 ### Surfaces
+
+#### Diffuse plate
+
+#### Diffuse sphere
+
 
 ### Mirrors
 
+#### Flat mirror
+
+#### Semi-transparent mirror
+
+#### Parabolic mirror
+
+#### Black plate (Beam dump)
+
+
 ### Targets
 
+#### Display
 
+#### Imager
