@@ -185,7 +185,7 @@ The GUI has a rather limited number of controls to keep things simple (for now).
 
 ### Simulation
 <p align="center">
-<img src="assets/UI_Simulation.png", alt="UI_Simulation.png", width=300, height=300, style="display: block; margin: 0 auto" />
+<img src="assets/UI_Simulation.png", alt="UI_Simulation.png", width=300, height=200, style="display: block; margin: 0 auto" />
 </p>
 
 ### View
@@ -195,16 +195,16 @@ The GUI has a rather limited number of controls to keep things simple (for now).
 
 ### Display
 <p align="center">
-<img src="assets/UI_Display.png", alt="UI_Display.png", width=300, height=300, style="display: block; margin: 0 auto" />
+<img src="assets/UI_Display.png", alt="UI_Display.png", width=400, height=400, style="display: block; margin: 0 auto" />
 </p>
 
 #### Display modes
 <p align="center">
-<img src="assets/UI_Display_Scatterplot_1D.png", alt="UI_Display_Scatterplot_1D.png", width=900, height=200, style="display: block; margin: 0 auto" />
-<img src="assets/UI_Display_Scatterplot_2D.png", alt="UI_Display_Scatterplot_2D.png", width=900, height=200, style="display: block; margin: 0 auto" />
-<img src="assets/UI_Display_Image_2D.png", alt="UI_Display_Image_2D.png", width=900, height=200, style="display: block; margin: 0 auto" />
-<img src="assets/UI_Display_Image_centroid.png", alt="UI_Display_Image_centroid.png", width=900, height=200, style="display: block; margin: 0 auto" />
-<img src="assets/UI_Display_Phase_plot.png", alt="UI_Display_Phase_plot.png", width=900, height=200, style="display: block; margin: 0 auto" />
+<img src="assets/UI_Display_Scatterplot_1D.png", alt="UI_Display_Scatterplot_1D.png", width=900, height=180, style="display: block; margin: 0 auto" />
+<img src="assets/UI_Display_Scatterplot_2D.png", alt="UI_Display_Scatterplot_2D.png", width=900, height=180, style="display: block; margin: 0 auto" />
+<img src="assets/UI_Display_Image_2D.png", alt="UI_Display_Image_2D.png", width=900, height=180, style="display: block; margin: 0 auto" />
+<img src="assets/UI_Display_Image_centroid.png", alt="UI_Display_Image_centroid.png", width=900, height=180, style="display: block; margin: 0 auto" />
+<img src="assets/UI_Display_Phase_plot.png", alt="UI_Display_Phase_plot.png", width=900, height=180, style="display: block; margin: 0 auto" />
 </p>
 
 ---
