@@ -439,7 +439,7 @@ class DisplayTabWidget(QtWidgets.QWidget):
         # self.canvas_display.figure.tight_layout()
         self.canvas_display_toolbar = NavigationToolbar2QT(self.canvas_display, self)
 
-        self.graph_types = ["Scatterplot 1D", "Scatterplot 2D", "Image 2D", "Image centroid", "Phase plot"]
+        self.graph_types = ["Scatterplot 1D", "Scatterplot 2D", "Intensity plot 1D", "Intensity plot 2D", "Phase plot"]
         self.graph_type_ind = 1
         self.graphtype_dropdown = QtWidgets.QComboBox()
         self.graphtype_dropdown.addItems(self.graph_types)

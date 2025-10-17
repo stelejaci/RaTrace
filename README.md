@@ -173,35 +173,35 @@ The list of elements in the load_scene module becomes a bit too long to show her
 
 ## GUI
 
-The GUI has a rather limited number of controls to keep things simple (for now). The screenshot shown below is of a point light source, a spherical lens and an imager. The latter is because the display tab only enables when some sort of display is included in the scene. 
-<p align="center">
-<img src="assets/UI_overview.png", alt="UI_overview.png", width=900, height=230, style="display: block; margin: 0 auto" />
-</p>
-
-Most of the controls in the several tabs are self-explanatory, but we will give some clarification nevertheless:
+The GUI has a rather limited number of controls to keep things simple (for now). Most of the controls in the several tabs are self-explanatory, but we will give some clarification nevertheless:
 
 ### Setup
+
 <p align="center">
 <img src="assets/UI_Setup.png", alt="UI_Setup.png"/>
 </p>
 
 * <b>Browse / Reload -</b> This tab allow for loading scenes, as well as reloading scenes. The latter is handy when editing a scene file, and quickly viewing the results without the need to push the load-button and browse to the file over and over.
-* <b>Start simulation after loading scene -</b> When a scene is loaded and this checkbox is enabled, the UI immediately starts simulating the scene when loaded. This also quickens the iterative process of scene editing.
-* <b>Reset axis after loading scene -</b> Auto-zooms the scene to the entire scene space when a scene is loaded.
+* <b>Start simulation ... -</b> When a scene is loaded and this checkbox is enabled, the UI immediately starts simulating the scene when loaded. This also quickens the iterative process of scene editing.
+* <b>Reset axis ... -</b> Auto-zooms the scene to the entire scene space when a scene is loaded.
 * ( <b>Model parameters - </b> Not yet implemented )
 
 ### Simulation
+
 <p align="center">
 <img src="assets/UI_Simulation.png", alt="UI_Simulation.png" />
 </p>
 
-* <b>Number of rays - </b>The number of initial rays that is generated, per light source.
+* <b>Number of rays ... - </b>The number of initial rays that is generated, per light source.
 * <b>Use phase information - </b>Taking into account the phase information of the rays to generate an interfered image. This is only relevant when using an imager, since then the phase is integrated within the extent of a pixel.
-* <b>Items are ordered - </b>When selecting this option, the raytracer checks the elements for collision with the rays in the order that was given in the scene file. If the optical path is "more complex", unselect this checkbox.
+* <b>Items are ordered ... - </b>When selecting this option, the raytracer checks the elements for collision with the rays in the order that was given in the scene file. If the optical path is "more complex", unselect this checkbox.
 * <b>Start simulation - </b>you're a smart person, you can figure out what this button does.
+* <b>Export ray data - </b>Export all ray data to a structured ascii-file.
+* <b>Add timestamp ... - </b>Add or omit a timestamp to the export file name.
 
 
 ### View
+
 <p align="center">
 <img src="assets/UI_View.png", alt="UI_View.png"/>
 </p>
@@ -216,22 +216,34 @@ Most of the controls in the several tabs are self-explanatory, but we will give 
 * <b>Black background - </b>Show a black instead of white background. Usefull for dark-themed presentations, or in some cases the rays display better with a black background.
 * <b>Show pixels - </b>When enabled, this shows the center and extent of all pixels of an imager. This could slow down the plotting process when the imager has many pixels.
 * <b>Show non-colliding rays - </b>Show/hide rays that do not collide with any of the elements. Useful to speed up the plotting process or declutter the image in some cases.
+* <b>Redraw scene - </b>Guess what?
 
 Note that the intensity and line width of plotted rays automatically scales up or down with the number of plotted rays. 
 
 ### Display
+
 <p align="center">
 <img src="assets/UI_Display.png", alt="UI_Display.png"/>
 </p>
 
-#### Display modes
+The display tab is only enabled when there is a display or an imager present in the scene. The graph in this tab shows the impact points of the rays with the display, in various ways. 
+
+#### Display graph modes
+
+* <b>Scatterplot 1D : </b>The intersection points of the rays with the display, shown in 1D
+* <b>Scatterplot 2D : </b>The same as the 1D version, but shown in pseudo-2D, where each point gets a random vertical displacement. Useful for better visualisation. 
+* <b>Intensity plot 1D : </b>Only works with pixel-based imagers. This graph shows the intensity registered in all the pixels of the 1D imager.
+* <b>Intensity plot 2D : </b>Same as the 1D version, but shown as a pseudo-2D color image. 
+* <b>Phase plot : </b>This too only works with imagers. This shows the phases of the rays at the intersection points, as well as the resulting phase.
+
 <p align="center">
 <img src="assets/UI_Display_Scatterplot_1D.png", alt="UI_Display_Scatterplot_1D.png", width=900, height=180/>
 <img src="assets/UI_Display_Scatterplot_2D.png", alt="UI_Display_Scatterplot_2D.png", width=900, height=180/>
-<img src="assets/UI_Display_Image_2D.png", alt="UI_Display_Image_2D.png", width=900, height=180/>
-<img src="assets/UI_Display_Image_centroid.png", alt="UI_Display_Image_centroid.png", width=900, height=180/>
+<img src="assets/UI_Display_Intensity_plot_1D.png", alt="UI_Display_Intensity_plot_1D.png", width=900, height=180/>
+<img src="assets/UI_Display_Intensity_plot_2D.png", alt="UI_Display_Intensity_plot_2D.png", width=900, height=180/>
 <img src="assets/UI_Display_Phase_plot.png", alt="UI_Display_Phase_plot.png", width=900, height=180/>
 </p>
+
 
 ---
 

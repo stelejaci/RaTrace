@@ -173,17 +173,6 @@ class CanvasDisplayClass(FigureCanvasQTAgg):
                 self.graph.grid(config.getboolean('view', 'show_axis_and_grid'), which='both', axis='x')
                 self.graph.set_yticks([])
         elif graph_type_ind == 2:
-            if self.greyscale_mode:
-                self.graph.imshow(display.image, cmap='gray', aspect='auto')
-            else:
-                self.graph.imshow(display.image, cmap='jet', aspect='auto')
-            self.graph.tick_params(axis='x', which='both', top=False, bottom=config.getboolean('view', 'show_axis_and_grid'))
-            self.ylims = np.array([0,1.1*display.peak_intensity])
-            if self.zoom_on_centroid and display.FWHM is not None:
-                self.xlims = display.COG_IMF + 3 * display.FWHM * np.array([-1,1])
-            else:
-                self.xlims = np.array([0,display.number_of_pixels-1])
-        elif graph_type_ind == 3:
             x_mm  = np.array([pixel.x for pixel in display.pixels])
             x_ind = np.arange(display.number_of_pixels)
             self.graph.plot(x_mm, display.intensity, color='blue', marker='.', linestyle='-', linewidth=1, markersize=4)
@@ -199,6 +188,17 @@ class CanvasDisplayClass(FigureCanvasQTAgg):
             #     self.xlims = np.array([0, display.number_of_pixels - 1])
             self.ylims = np.array([0, 1.1 * display.peak_intensity])
             self.graph.grid(config.getboolean('view', 'show_axis_and_grid'), which='both')
+        elif graph_type_ind == 3:
+            if self.greyscale_mode:
+                self.graph.imshow(display.image, cmap='gray', aspect='auto')
+            else:
+                self.graph.imshow(display.image, cmap='jet', aspect='auto')
+            self.graph.tick_params(axis='x', which='both', top=False, bottom=config.getboolean('view', 'show_axis_and_grid'))
+            self.ylims = np.array([0, 1.1 * display.peak_intensity])
+            if self.zoom_on_centroid and display.FWHM is not None:
+                self.xlims = display.COG_IMF + 3 * display.FWHM * np.array([-1, 1])
+            else:
+                self.xlims = np.array([0, display.number_of_pixels - 1])
         elif graph_type_ind == 4:
             if len(display.cast_rays) <= np.inf + MAX_NR_OF_SCATTERPOINTS_PLOTTED:
                 size_pts = 100 / np.sqrt(len(display.cast_rays))
