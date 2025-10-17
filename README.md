@@ -174,31 +174,38 @@ The list of elements in the load_scene module becomes a bit too long to show her
 ## GUI
 
 The GUI has a rather limited number of controls to keep things simple (for now). 
-
+<p align="center">
 <img src="assets/UI_overview.png", alt="UI_overview.png", width=900, height=230, style="display: block; margin: 0 auto" />
+</p>
 
 ### Setup
-
+<p align="center">
 <img src="assets/UI_Setup.png", alt="UI_Setup.png", width=900, height=230, style="display: block; margin: 0 auto" />
+</p>
 
 ### Simulation
-
+<p align="center">
 <img src="assets/UI_Simulation.png", alt="UI_Simulation.png", width=900, height=230, style="display: block; margin: 0 auto" />
+</p>
 
 ### View
-
+<p align="center">
 <img src="assets/UI_View.png", alt="UI_View.png", width=900, height=230, style="display: block; margin: 0 auto" />
+</p>
 
 ### Display
-
+<p align="center">
 <img src="assets/UI_Display.png", alt="UI_Display.png", width=900, height=230, style="display: block; margin: 0 auto" />
+</p>
 
 #### Display modes
+<p align="center">
 <img src="assets/UI_Display_Scatterplot_1D.png", alt="UI_Display_Scatterplot_1D.png", width=900, height=230, style="display: block; margin: 0 auto" />
 <img src="assets/UI_Display_Scatterplot_2D.png", alt="UI_Display_Scatterplot_2D.png", width=900, height=230, style="display: block; margin: 0 auto" />
 <img src="assets/UI_Display_Image_2D.png", alt="UI_Display_Image_2D.png", width=900, height=230, style="display: block; margin: 0 auto" />
 <img src="assets/UI_Display_Image_centroid.png", alt="UI_Display_Image_centroid.png", width=900, height=230, style="display: block; margin: 0 auto" />
 <img src="assets/UI_Display_Phase_plot.png", alt="UI_Display_Phase_plot.png", width=900, height=230, style="display: block; margin: 0 auto" />
+</p>
 
 ---
 
