@@ -254,8 +254,9 @@ The display tab is only enabled when there is a display or an imager present in 
 ### Light sources
 
 #### Directed point source
-
+```
 <b>point_source_class.PointSourceClass</b>(p0=np.array([0,0]), n0=np.array([1,0]), fan_angle=30*deg, wavelength=660*nm, intensity=1, intensity_distribution='equiangular', plot_color='wavelength')
+```
 
 * <b>p0</b> (np.array | None) : Position of the origin of the point source
 * <b>n0</b> (np.array | None) : Orientation of thed directed source 
