@@ -255,16 +255,16 @@ The display tab is only enabled when there is a display or an imager present in 
 
 #### Directed point source
 ```
-point_source_class.PointSourceClass(p0=np.array([0,0]), n0=np.array([1,0]), fan_angle=30*deg, wavelength=660*nm, intensity=1, intensity_distribution='equiangular', plot_color='wavelength')
+point_source_class.PointSourceClass(p0, n0, fan_angle wavelength, intensity, intensity_distribution, plot_color)
 ```
 
-* <b>p0</b> (np.array | None) : Position of the origin of the point source
-* <b>n0</b> (np.array | None) : Orientation of thed directed source 
-* <b>fan_angle</b> (double | None) : Fan angle of the cone of light
-* <b>wavelength</b> (double | None) : Wavelength of the light rays 
-* <b>intensity</b> (double | None) : Intensity of the light rays
-* <b>intensity_distribution</b>  ('equiangular' | 'gaussian' | 'gaussianrandom' | 'random' | None) : Intensity distribution of the rays along the light fan 
-* <b>plot_color</b> (color | None): Plot color of the light rays along the fan of rays 
+* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the origin of the point source
+* <b>n0</b> (np.array | default=np.array([1,0])) : Orientation of thed directed source 
+* <b>fan_angle</b> (double | default=30*deg,) : Fan angle of the cone of light
+* <b>wavelength</b> (double | default=660*nm) : Wavelength of the light rays 
+* <b>intensity</b> (double | default=1) : Intensity of the light rays
+* <b>intensity_distribution</b>  ('equiangular' | 'gaussian' | 'gaussianrandom' | 'random' | default='equiangular') : Intensity distribution of the rays along the light fan 
+* <b>plot_color</b> (color | default='wavelength'): Plot color of the light rays along the fan of rays 
 
 #### Parallel plane source
 
