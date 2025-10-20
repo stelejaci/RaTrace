@@ -279,7 +279,7 @@ from light import point_source_class, plane_source_class, diffuse_plane_source_c
 
 #### Directed point source
 
-Creates a directed point light source object with an origin, orientation and spread fan angle
+A directed point light source object with an origin, orientation and spread fan angle
 
 <p align="center">
 <img src="assets/Syntax_point_source.png", alt="Syntax_point_source.png", width=200, height=100/>
@@ -299,7 +299,7 @@ point_source_class.PointSourceClass(p0, n0, fan_angle wavelength, intensity, int
 
 #### Parallel plane source
 
-Creates a directed parallel light source object with an origin, orientation and width
+A directed parallel light source object with an origin, orientation and width
 
 <p align="center">
 <img src="assets/Syntax_plane_source.png", alt="Syntax_plane_source.png", width=200, height=100/>
@@ -319,7 +319,7 @@ plane_source_class.PlaneSourceClass(p0, n0, diameter, wavelength, intensity, int
 
 #### Diffuse plane source
 
-Creates a directed diffuse parallel light source object with an origin, orientation, width and spread angle. The ray distribution along its diameter, as well as the ray orientation is random within the limits defined. The example below shows the situation for a 20° fan angle.
+A directed diffuse parallel light source object with an origin, orientation, width and spread angle. The ray distribution along its diameter, as well as the ray orientation is random within the limits defined. The example below shows the situation for a 20° fan angle.
 
 <p align="center">
 <img src="assets/Syntax_diffuse_plane_source.png", alt="Syntax_diffuse_plane_source.png", width=200, height=100/>
@@ -344,11 +344,43 @@ plane_source_class.DiffusePlaneSourceClass(p0, n0, diameter, fan_angle, waveleng
 
 ### Glass elements
 
+The following object classes should be imported from the 'light' folder:
+
+```
+from elements import ideal_thin_lens_class, spherical_lens_class, glass_element_class
+```
+
 #### Ideal (thin) lens
 
-#### Ideal thick lens
+An ideal lens (perfect focus, no aberrations) with a certain focal distance and diameter
+
+<p align="center">
+<img src="assets/Syntax_ideal_lens.png", alt="Syntax_ideal_lens.png", width=200, height=100/>
+</p>
+
+```
+ideal_thin_lens_class.IdealThinLensClass(p0, n0, f, diameter, N, blur_angle, nr_of_secondary_rays)
+```
+
+* <b>p0</b> (np.array | default=np.array([10,0])) : Position of the origin of the plane source
+* <b>n0</b> (float | default=np.array([-1,0])) : Orientation of the lens' optical axis
+* <b>f</b> (float | default=100*mm) : Focal distance of the lens
+* <b>diameter</b> (float | default=10*mm) : Diameter of the lens
+* <b>N</b> (float | default=N_glass) : Refractive index of the lens
+* <b>blur_angle</b> (float | default=0) : The angle over which rays are scattered when exiting the lens
+* <b>nr_of_secondary_rays</b> (float | default=1) : The number of scattered rays
 
 #### Spherical lens
+
+<p align="center">
+<img src="assets/Syntax_spherical_lens.png", alt="Syntax_spherical_lens.png", width=200, height=100/>
+</p>
+
+#### Glass parallel plate
+
+<p align="center">
+<img src="assets/Syntax_glass_parallel_plate.png", alt="Syntax_glass_parallel_plate.png", width=200, height=100/>
+</p>
 
 
 ### Surfaces
