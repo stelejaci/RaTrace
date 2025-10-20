@@ -31,15 +31,15 @@ class PointSourceClass(light_class.LightSourceClass):
         # Generate the rays according to a given distribution
         if self.intensity_distribution == 'equiangular':
             d_angle_range = np.linspace(-1, 1, N_rays, endpoint=True) * self.fan_angle/2
-
+            d_angle_range = d_angle_range if N_rays>1 else np.array([0])
         elif self.intensity_distribution == 'gaussian':
             (angles, probability_cumsum) = varia.generate_gaussian_pcs(FWHM=self.fan_angle)
             d_angle_range = varia.generate_samples_from_pcs(angles, probability_cumsum, nr_of_samples=N_rays, randomize=False)
-
+            d_angle_range = d_angle_range if N_rays>1 else np.array([0])
         elif self.intensity_distribution == 'gaussianrandom':
             (angles, probability_cumsum) = varia.generate_gaussian_pcs(FWHM=self.fan_angle)
             d_angle_range = varia.generate_samples_from_pcs(angles, probability_cumsum, nr_of_samples=N_rays, randomize=True)
-
+            d_angle_range = d_angle_range if N_rays>1 else np.array([0])
         elif self.intensity_distribution == 'random':
             d_angle_range = (np.random.rand(N_rays) * 2 - 1) * self.fan_angle/2
 

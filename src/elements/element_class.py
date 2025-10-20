@@ -96,6 +96,8 @@ class ElementClass:
         return s
 
     def plot(self, graph):
+        if not self.is_visible:
+            return
         print(f' --> Plotting element {self.ID + 1}/{ElementClass.nr_of_elements}: {self.name}')
         if config.getboolean('view', 'show_elements_properties'):
             graph.scatter(self.pts[:, X], self.pts[:, Y], color='black', s=2)

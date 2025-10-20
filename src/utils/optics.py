@@ -105,6 +105,25 @@ def calculate_refraction_index(N, wavelength):
         A, B = N, 0
     return A + B/wavelength_mu**2
 
+
+def calculate_reflectance_and_transmittance_coefficients(Ni, No, ai, ao):
+    # r: reflection, t: transmission, s: s-polarised (perpendicular), p: p-polarised (parallel), i:incoming, o: outgoing
+    # Amplitude coefficients
+    rs = (Ni*np.cos(ai)-No*np.cos(ao))/(Ni*np.cos(ai)+No*np.cos(ao))
+    rp = (No*np.cos(ai)-Ni*np.cos(ao))/(No*np.cos(ai)+Ni*np.cos(ao))
+    ts = 2*Ni*np.cos(ai)/(Ni*np.cos(ai)+No*np.cos(ao))
+    tp = 2*Ni*np.cos(ai)/(No*np.cos(ai)+Ni*np.cos(ao))
+    # Intensities
+    Rs = rs**2
+    Rp = rp**2
+    Ts = No*np.cos(ao)/(Ni*np.cos(ai)) * ts**2
+    Tp = No*np.cos(ao)/(Ni*np.cos(ai)) * tp**2
+    # For unpolarised light
+    R = (Rs+Rp)/2
+    T = (Ts+Tp)/2
+    return [R, T, Rs, Rp, Ts, Tp]
+
+
 # Lens with its first surface
 def construct_lens(p0, R0, R1, T, D, resolution):
     p1 = np.array([T,  0])          # Principle point on the second surface

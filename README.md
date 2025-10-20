@@ -52,10 +52,12 @@ The information in this README will later be formatted into a Wiki page of this 
 
 <b>To be implemented features</b>
 * Glass elements: plano-convex lens, biprism, microlens array, asphere
+* Internal & total reflections
 * Light source: B/W image source
 * Better error handling when there is a bug in the scene
 * Diffusely scattering sphere
-* Glass materials library
+* A library of glass materials
+* Glass dispersion described with Abbe numbers
 * Multi-node surfaces instead of simple lines
 * Show a list of elements (properties) in the UI
 * Edit elements in the UI itself
@@ -119,14 +121,6 @@ splash_screen_transition = 0
 ```
 
 The scenes itself are written in Python and are dynamically loaded whenever a new scene is loaded. See the next chapter for examples.
-
-### Note:
-The standard units for calculations in RaTrace are <b>mm</b> and <b>radians</b>. For ease-of-use you can import and use other units from the utils.vara module in the following way:
-```
-from utils.varia import mm, nm, deg
-wavelength_mm = 660*nm
-angle_radians = 30*deg
-```
 
 ---
 
@@ -255,20 +249,35 @@ The display tab is only enabled when there is a display or an imager present in 
 ### Miscellaneous
 
 #### Units
-* m, cm, mm, µm, nm
-* rad, deg
+
+The standard units for calculations in RaTrace are <b>mm</b> and <b>radians</b>. For ease-of-use you can import and use other units from the utils.varia module in the following way:
+
+```
+from utils.varia import m, cm, mm, µm, nm, rad, deg
+wavelength_mm = 660*nm
+angle_radians = 30*deg
+```
 
 #### Refractive index
-* N_air: 1
-* N_glass: 1.5
-* Custom one-number value, e.g. 1.7
-* Custom two-number value, e.g. [1.7, 0.05]
+
+Refractive indices can be either imported from the optics module, or self defined.
+
+```
+from utils.optics import N_air, N_glass
+```
+
+ For materials that have dispersion, the refractive index can be described with the materials "principal dispersion values", i.e. the refractive index at the blue F line minus the refractive index at the red C line, and is typically a small number.
+
+* No dispersion: N = 1.7
+* With dispersion: N = [1.7, 0.05]
 
 #### Colors
-* list: (1,0,0,1)
-* string: 'red'
-* rainbow: 'rainbow'
-* wavelength: 'wavelength'
+
+Colors can be described in a number of ways: 
+* <b>(R,G,B,A)</b> : A 4-element tuple of 3 RGB values and a transparency (or alpha) value
+* <b>'red', 'green', 'blue', ... </b> : A string describing the color 
+* <b>'rainbow'</b> : The colors of the n initial rays are given by ordered n colors of the rainbow    
+* <b>'wavelength'</b> : The color of rays is determined by their wavelength
 
 ### Light sources
 
@@ -290,8 +299,8 @@ A directed point light source object with an origin, orientation and spread fan 
 point_source_class.PointSourceClass(p0, n0, fan_angle wavelength, intensity, intensity_distribution, plot_color)
 ```
 
-* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the origin of the point source
-* <b>n0</b> (np.array | default=np.array([1,0])) : Orientation of the directed point source 
+* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the point source
+* <b>n0</b> (np.array | default=np.array([1,0])) : Direction of the point source 
 * <b>fan_angle</b> (float | default=30*deg) : Fan angle of the cone of light
 * <b>wavelength</b> (float | default=660*nm) : Wavelength of the light rays 
 * <b>intensity</b> (float | default=1) : Intensity of the initial light rays
@@ -310,8 +319,8 @@ A directed parallel light source object with an origin, orientation and width
 plane_source_class.PlaneSourceClass(p0, n0, diameter, wavelength, intensity, intensity_distribution='equidistant', plot_color='wavelength')
 ```
 
-* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the origin of the plane source
-* <b>n0</b> (np.array | default=np.array([1,0])) : Orientation of the directed plane source 
+* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the plane source
+* <b>n0</b> (np.array | default=np.array([1,0])) : Direction of the plane source 
 * <b>diameter</b> (float | default=10*mm) : Diameter, extent or size of the plane source
 * <b>wavelength</b> (float | default=660*nm) : Wavelength of the light rays 
 * <b>intensity</b> (float | default=1) : Intensity of the initial light rays
@@ -330,8 +339,8 @@ A directed diffuse parallel light source object with an origin, orientation, wid
 plane_source_class.DiffusePlaneSourceClass(p0, n0, diameter, fan_angle, wavelength, intensity, intensity_distribution, plot_color)
 ```
 
-* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the origin of the plane source
-* <b>n0</b> (np.array | default=np.array([1,0])) : Orientation of the directed plane source 
+* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the plane source
+* <b>n0</b> (np.array | default=np.array([1,0])) : Direction of the plane source 
 * <b>diameter</b> (float | default=10*mm) : Diameter, extent or size of the plane source
 * <b>fan_angle</b> (float | default=30*deg) : Fan angle, or angular 'spread' of the rays in the cone of light
 * <b>wavelength</b> (float | default=660*nm) : Wavelength of the light rays 
@@ -353,7 +362,7 @@ from elements import ideal_thin_lens_class, spherical_lens_class, glass_element_
 
 #### Ideal (thin) lens
 
-An ideal lens (perfect focus, no aberrations) with a certain focal distance and diameter
+An ideal lens (perfect focus, no aberrations) with a certain focal distance f and diameter.
 
 <p align="center">
 <img src="assets/Syntax_ideal_lens.png", alt="Syntax_ideal_lens.png", width=200, height=200/>
@@ -363,7 +372,7 @@ An ideal lens (perfect focus, no aberrations) with a certain focal distance and 
 ideal_thin_lens_class.IdealThinLensClass(p0, n0, f, diameter, N, blur_angle, nr_of_secondary_rays)
 ```
 
-* <b>p0</b> (np.array | default=np.array([10,0])) : Position of the origin of the plane source
+* <b>p0</b> (np.array | default=np.array([10,0])) : Position of the plane source
 * <b>n0</b> (float | default=np.array([-1,0])) : Orientation of the lens' optical axis
 * <b>f</b> (float | default=100*mm) : Focal distance of the lens
 * <b>diameter</b> (float | default=10*mm) : Diameter of the lens
@@ -373,9 +382,27 @@ ideal_thin_lens_class.IdealThinLensClass(p0, n0, f, diameter, N, blur_angle, nr_
 
 #### Spherical lens
 
+A glass lens with focal distance f and spherical surfaces with radii R0 and R1. If f is given, the radii R0 and R1 are ignored (if provided) and calculated from f. In that case the lens is considered symmetrical, i.e. R0 and R1 are equal. If f is not given and R0 and R1 are, then f is calculated from the radii.
+
 <p align="center">
 <img src="assets/Syntax_spherical_lens.png", alt="Syntax_spherical_lens.png", width=200, height=200/>
 </p>
+
+```
+spherical_lens_class.SphericalLensClass(p0, n0, R0, R1, f, thickness, diameter, N, blur_angle, nr_of_secondary_rays, plot_resolution)
+```
+
+* <b>p0</b> (np.array([10,0]) : Position of the first surface of the lens
+* <b>n0</b> (np.array([-1,0]) : Orientation of the optical axis of the spherical lens
+* <b>f</b> (float | default=None) : Focal distance
+* <b>R0</b> (float | default=None) : The radius of the first surface 
+* <b>R1</b> (float | default=None) : The radius of the second surface
+* <b>thickness</b> (float | default=2*mm) : Thickness of the lens along the optical axis
+* <b>diameter</b> (float | default=10*mm) : Diameter of the lens
+* <b>N</b> (float | default=N_glass) : Refraction index
+* <b>nr_of_secondary_rays</b> (float | default=1) : The number of secondary rays an outgoing ray generates
+* <b>blur_angle</b> (float | default=0°) : The fan angle of the secondary rays
+* <b>plot_resolution</b> (float | default=0.1*mm) : Resolution of the plotted lens shape
 
 #### Glass parallel plate
 
@@ -386,10 +413,35 @@ ideal_thin_lens_class.IdealThinLensClass(p0, n0, f, diameter, N, blur_angle, nr_
 
 ### Surfaces
 
-#### Diffuse plate
+Surfaces are imported from the elements folder:
 
-#### Diffuse sphere
+```
+from elements import diffuse_plate_class
+```
 
+#### Diffuse scattering plate
+
+A diffuse scattering surface scatters an incoming ray into a number of secondary rays, in a way defined by its bidirectional reflectance distribution function (BRDF). This BRDF is described by a diffuse scattering component with strength Kd and a specular component with strength Ks. The extent, or width, of the specular component is defined by the parameter alpha, according to the Blinn–Phong model.
+
+The figures below show a single incoming ray (coming from the bottom left) casted onto a surface with BRDF parameters Kd=1, Ks=2, alpha=100. The peak of the plotted BRDF points in the reflected direction of the incoming ray. See example 10 for the implementation of the scene.   
+
+<p align="center">
+<img src="assets/Syntax_diffuse_scattering_plate_1.png", alt="Syntax_diffuse_scattering_plate_1.png", width=200, height=200/><img src="assets/Syntax_diffuse_scattering_plate_2.png", alt="Syntax_diffuse_scattering_plate_2.png", width=200, height=200/>
+</p>
+
+```
+diffuse_plate_class.DiffusePlateClass(p0, n0, length, thickness, Kd=1, Ks, alpha, nr_of_scattered_rays, n_light)
+```
+
+* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the surface
+* <b>n0</b> (np.array | default=np.array([-1,0])) : Orientation of the surface
+* <b>length</b> (np.array | default=10*mm) : Length of the surface
+* <b>thickness</b> (np.array | default=1*mm) : Thickness of the surface
+* <b>Kd</b> (np.array | default=0) : Specular scattering component
+* <b>Ks</b> (np.array | default=0) : Diffuse scattering component
+* <b>alpha</b> (np.array | default=1) : Extent of the specular component
+* <b>nr_of_scattered_rays</b> (np.array | default=1) : The number of secondary rays generated by each incoming ray
+* <b>n_light</b>  (np.array | default=None) : An optional direction of preference of incoming light, only useful for plotting the BRDF if the roughly appropriate direction.
 
 ### Mirrors
 

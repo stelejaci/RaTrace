@@ -26,7 +26,8 @@ class BlackPlateClass(element_class.ElementClass):
         return txt
 
     def plot(self, graph):
-        poly = plt.Polygon(self.pts, closed=True, facecolor=self.plot_color, linewidth=5)
-        graph.add_patch(poly)
+        if self.is_visible:
+            poly = plt.Polygon(self.pts, closed=True, facecolor=self.plot_color, linewidth=5)
+            graph.add_patch(poly)
         super().plot(graph)
 
