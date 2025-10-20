@@ -53,8 +53,8 @@ The information in this README will later be formatted into a Wiki page of this 
 <b>To be implemented features</b>
 * Glass elements: plano-convex lens, biprism, microlens array, asphere
 * Light source: B/W image source
-* Better error handling when scene is faulty
-* Diffuse scattering sphere
+* Better error handling when there is a bug in the scene
+* Diffusely scattering sphere
 * Glass materials library
 * Multi-node surfaces instead of simple lines
 * Show a list of elements (properties) in the UI
@@ -63,6 +63,7 @@ The information in this README will later be formatted into a Wiki page of this 
 <b>Known bugs</b>
 * First screenshot in looped gui does not set the axis correctly
 * Warning concerning colors
+* Contact surfaces (e.g. double lens) not working
 * Many others ...
 
 <p align="center">
@@ -239,11 +240,11 @@ The display tab is only enabled when there is a display or an imager present in 
 * <b>Phase plot : </b>This too only works with imagers. This shows the phases of the rays at the intersection points, as well as the resulting phase.
 
 <p align="center">
-<img src="assets/UI_Display_Scatterplot_1D.png", alt="UI_Display_Scatterplot_1D.png", width=900, height=180/>
-<img src="assets/UI_Display_Scatterplot_2D.png", alt="UI_Display_Scatterplot_2D.png", width=900, height=180/>
-<img src="assets/UI_Display_Intensity_plot_1D.png", alt="UI_Display_Intensity_plot_1D.png", width=900, height=180/>
-<img src="assets/UI_Display_Intensity_plot_2D.png", alt="UI_Display_Intensity_plot_2D.png", width=900, height=180/>
-<img src="assets/UI_Display_Phase_plot.png", alt="UI_Display_Phase_plot.png", width=900, height=180/>
+<img src="assets/UI_Display_Scatterplot_1D.png", alt="UI_Display_Scatterplot_1D.png", width=900, height=200/>
+<img src="assets/UI_Display_Scatterplot_2D.png", alt="UI_Display_Scatterplot_2D.png", width=900, height=200/>
+<img src="assets/UI_Display_Intensity_plot_1D.png", alt="UI_Display_Intensity_plot_1D.png", width=900, height=200/>
+<img src="assets/UI_Display_Intensity_plot_2D.png", alt="UI_Display_Intensity_plot_2D.png", width=900, height=200/>
+<img src="assets/UI_Display_Phase_plot.png", alt="UI_Display_Phase_plot.png", width=900, height=200/>
 </p>
 
 
