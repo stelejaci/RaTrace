@@ -12,7 +12,7 @@ from utils.configuration_class import config
 
 
 class SphericalLensClass(glass_element_class.GlassElementClass):
-    def __init__(self, p0=np.array([10,0]), n0=np.array([-1,0]), R0=None, R1=None, f=None, thickness=2*mm, diameter=10*mm, N=N_glass, blur_angle=0, nr_of_secondary_rays=1, plot_resolution=0.1):
+    def __init__(self, p0=np.array([0,0]), n0=np.array([1,0]), R0=None, R1=None, f=None, thickness=2*mm, diameter=10*mm, N=N_glass, blur_angle=0, nr_of_secondary_rays=1, plot_resolution=0.1):
         # Position p0 is the position at the center of the first surface
         # Front face radius R0 is positive for convex faces (bulging out, "fat")
         # Back  face radius R1 is negative for convex faces (bulging out, "fat")

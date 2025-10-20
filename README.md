@@ -392,8 +392,8 @@ A glass lens with focal distance f and spherical surfaces with radii R0 and R1. 
 spherical_lens_class.SphericalLensClass(p0, n0, R0, R1, f, thickness, diameter, N, blur_angle, nr_of_secondary_rays, plot_resolution)
 ```
 
-* <b>p0</b> (np.array([10,0]) : Position of the first surface of the lens
-* <b>n0</b> (np.array([-1,0]) : Orientation of the optical axis of the spherical lens
+* <b>p0</b> (np.array([0,0]) : Position of the first surface of the lens
+* <b>n0</b> (np.array([1,0]) : Orientation of the optical axis of the spherical lens
 * <b>f</b> (float | default=None) : Focal distance
 * <b>R0</b> (float | default=None) : The radius of the first surface 
 * <b>R1</b> (float | default=None) : The radius of the second surface
@@ -445,11 +445,66 @@ diffuse_plate_class.DiffusePlateClass(p0, n0, length, thickness, Kd=1, Ks, alpha
 
 ### Mirrors
 
+Surfaces are imported from the elements folder:
+
+```
+from elements import flat_mirror_class, semi_transparent_mirror_class, parabolic_mirror_class
+```
+
 #### Flat mirror
+
+A flat, fully reflecting mirror
+
+<p align="center">
+<img src="assets/Syntax_flat_mirror.png", alt="Syntax_flat_mirror.png", width=200, height=200/>
+</p>
+
+```
+flat_mirror_class.FlatMirrorClass(p0, n0, length, thickness, plot_color)
+```
+
+* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the mirror
+* <b>n0</b> (np.array | default=np.array([-1,0])) : Orientation of the mirror
+* <b>length</b> (float | default=10*mm) : Length of the mirror
+* <b>thickness</b> (float | default=1*mm) : Thickness of the mirror
+* <b>plot_color</b> (color | default=(0,0,0.5,1)): Plot color of the mirror
 
 #### Semi-transparent mirror
 
+A semi-transparent mirror with a transmission coefficient
+
+<p align="center">
+<img src="assets/Syntax_semitransparent_mirror.png", alt="Syntax_semitransparent_mirror.png", width=200, height=200/>
+</p>
+
+```
+semi_transparent_mirror_class.SemiTransparentMirror(p0, n0, length, transmission)
+```
+
+* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the mirror
+* <b>n0</b> (np.array | default=np.array([-1,0])) : Orientation of the mirror
+* <b>length</b> (float | default=10*mm) : Length of the mirror
+* <b>transmission</b> (float | default=0.5) : Transmission coefficient, 1-transmission represents the reflection coefficient
+
 #### Parabolic mirror
+
+A parabolic mirror with a focal distance
+
+<p align="center">
+<img src="assets/Syntax_parabolic_mirror.png", alt="Syntax_parabolic_mirror.png", width=200, height=200/>
+</p>
+
+```
+parabolic_mirror_class.ParabolicMirrorClass(p0, n0, f, diameter, thickness, plot_color)
+```
+
+* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the parabolic mirror
+* <b>n0</b> (np.array | default=np.array([-1,0])) : Orientation of the parabolic mirror
+* <b>f</b> (float | default=100*mm) : Focal distance
+* <b>diameter</b> (float | default=100*mm) : Diameter of the mirror
+* <b>thickness</b> (float | default=10*mm) : Thickness of the mirror
+* <b>plot_color</b> (color | default=(0,0,0.5,1)): Plot color of the light rays
+* <b>plot_resolution</b> (float | default=0.1*mm) : Resolution of the plotted mirror
 
 #### Black plate (Beam dump)
 
