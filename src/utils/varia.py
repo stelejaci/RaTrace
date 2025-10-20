@@ -7,9 +7,12 @@ import os, sys
 from datetime import datetime
 
 mm = 1
+m = mm*1000
+cm = mm*100
 µm = mm/1000
 nm = µm/1000
-deg = np.pi/180
+rad = 1
+deg = np.pi*rad/180
 X = 0
 Y = 1
 

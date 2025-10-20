@@ -251,6 +251,24 @@ The display tab is only enabled when there is a display or an imager present in 
 
 ## Syntax
 
+### Miscellaneous
+
+#### Units
+* m, cm, mm, µm, nm
+* rad, deg
+
+#### Refractive index
+* N_air: 1
+* N_glass: 1.5
+* Custom one-number value, e.g. 1.7
+* Custom two-number value, e.g. [1.7, 0.05]
+
+#### Colors
+* list: (1,0,0,1)
+* string: 'red'
+* rainbow: 'rainbow'
+* wavelength: 'wavelength'
+
 ### Light sources
 
 The following object classes should be imported from the "lights" folder:
@@ -272,14 +290,32 @@ point_source_class.PointSourceClass(p0, n0, fan_angle wavelength, intensity, int
 ```
 
 * <b>p0</b> (np.array | default=np.array([0,0])) : Position of the origin of the point source
-* <b>n0</b> (np.array | default=np.array([1,0])) : Orientation of thed directed source 
-* <b>fan_angle</b> (double | default=30*deg,) : Fan angle of the cone of light
-* <b>wavelength</b> (double | default=660*nm) : Wavelength of the light rays 
-* <b>intensity</b> (double | default=1) : Intensity of the light rays
-* <b>intensity_distribution</b>  ('equiangular' | 'gaussian' | 'gaussianrandom' | 'random' | default='equiangular') : Intensity distribution of the rays along the light fan 
-* <b>plot_color</b> (color | default='wavelength'): Plot color of the light rays along the fan of rays 
+* <b>n0</b> (np.array | default=np.array([1,0])) : Orientation of the directed point source 
+* <b>fan_angle</b> (float | default=30*deg) : Fan angle of the cone of light
+* <b>wavelength</b> (float | default=660*nm) : Wavelength of the light rays 
+* <b>intensity</b> (float | default=1) : Intensity of the light rays
+* <b>intensity_distribution</b>  ('equiangular', 'gaussian', 'gaussianrandom', 'random' | default='equiangular') : Intensity distribution of the rays along the light fan 
+* <b>plot_color</b> (color | default='wavelength'): Plot color of the light rays
 
 #### Parallel plane source
+
+Creates a directed parallel source object with an origin, orientation and width
+
+<p align="center">
+<img src="assets/Syntax_plane_source.png", alt="Syntax_plane_source.png", width=200, height=100/>
+</p>
+
+```
+plane_source_class.PlaneSourceClass(p0, n0, diameter, wavelength, intensity=1, intensity_distribution='equidistant', plot_color='wavelength'):
+```
+
+* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the origin of the plane source
+* <b>n0</b> (np.array | default=np.array([1,0])) : Orientation of the directed plane source 
+* <b>diameter</b> (float | default=10*mm) : Diameter, extent or size of the plane source
+* <b>wavelength</b> (float | default=660*nm) : Wavelength of the light rays 
+* <b>intensity</b> (float | default=1) : Intensity of the light rays
+* <b>intensity_distribution</b>  ('equidistant', 'random' | default='equidistant') : Intensity distribution of the rays along the light fan 
+* <b>plot_color</b> (color | default='wavelength'): Plot color of the light rays
 
 #### Diffuse plane source
 
