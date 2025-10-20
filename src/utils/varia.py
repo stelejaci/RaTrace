@@ -43,8 +43,10 @@ def load_colormap(color=(0,0,0,1), N_rays=1, wavelength=None):
         cols = colormap_rainbow(N=N_rays)
     elif isinstance(color, str):
         col = matplotlib.colors.to_rgb(color)
-        cols = colormap_fixed(N=N_rays, color=col)
+        cols = colormap_fixed(N=N_rays, color=(col[0], col[1], col[2], 1))
     else:
+        if len(color)<4:
+            color = (color[0], color[1], color[2], 1)
         cols = colormap_fixed(N=N_rays, color=color)
     return cols
 

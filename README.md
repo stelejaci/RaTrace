@@ -271,7 +271,7 @@ The display tab is only enabled when there is a display or an imager present in 
 
 ### Light sources
 
-The following object classes should be imported from the "lights" folder:
+The following object classes should be imported from the 'light' folder:
 
 ```
 from light import point_source_class, plane_source_class, diffuse_plane_source_class, laser_class, virtual_ray_class
@@ -279,7 +279,7 @@ from light import point_source_class, plane_source_class, diffuse_plane_source_c
 
 #### Directed point source
 
-Creates a directed point source object with an origin, orientation and spread fan angle
+Creates a directed point light source object with an origin, orientation and spread fan angle
 
 <p align="center">
 <img src="assets/Syntax_point_source.png", alt="Syntax_point_source.png", width=200, height=100/>
@@ -293,31 +293,49 @@ point_source_class.PointSourceClass(p0, n0, fan_angle wavelength, intensity, int
 * <b>n0</b> (np.array | default=np.array([1,0])) : Orientation of the directed point source 
 * <b>fan_angle</b> (float | default=30*deg) : Fan angle of the cone of light
 * <b>wavelength</b> (float | default=660*nm) : Wavelength of the light rays 
-* <b>intensity</b> (float | default=1) : Intensity of the light rays
+* <b>intensity</b> (float | default=1) : Intensity of the initial light rays
 * <b>intensity_distribution</b>  ('equiangular', 'gaussian', 'gaussianrandom', 'random' | default='equiangular') : Intensity distribution of the rays along the light fan 
 * <b>plot_color</b> (color | default='wavelength'): Plot color of the light rays
 
 #### Parallel plane source
 
-Creates a directed parallel source object with an origin, orientation and width
+Creates a directed parallel light source object with an origin, orientation and width
 
 <p align="center">
 <img src="assets/Syntax_plane_source.png", alt="Syntax_plane_source.png", width=200, height=100/>
 </p>
 
 ```
-plane_source_class.PlaneSourceClass(p0, n0, diameter, wavelength, intensity=1, intensity_distribution='equidistant', plot_color='wavelength'):
+plane_source_class.PlaneSourceClass(p0, n0, diameter, wavelength, intensity, intensity_distribution='equidistant', plot_color='wavelength')
 ```
 
 * <b>p0</b> (np.array | default=np.array([0,0])) : Position of the origin of the plane source
 * <b>n0</b> (np.array | default=np.array([1,0])) : Orientation of the directed plane source 
 * <b>diameter</b> (float | default=10*mm) : Diameter, extent or size of the plane source
 * <b>wavelength</b> (float | default=660*nm) : Wavelength of the light rays 
-* <b>intensity</b> (float | default=1) : Intensity of the light rays
+* <b>intensity</b> (float | default=1) : Intensity of the initial light rays
 * <b>intensity_distribution</b>  ('equidistant', 'random' | default='equidistant') : Intensity distribution of the rays along the light fan 
 * <b>plot_color</b> (color | default='wavelength'): Plot color of the light rays
 
 #### Diffuse plane source
+
+Creates a directed diffuse parallel light source object with an origin, orientation, width and spread angle. The ray distribution along its diameter, as well as the ray orientation is random within the limits defined. The example below shows the situation for a 20° fan angle.
+
+<p align="center">
+<img src="assets/Syntax_diffuse_plane_source.png", alt="Syntax_diffuse_plane_source.png", width=200, height=100/>
+</p>
+
+```
+plane_source_class.DiffusePlaneSourceClass(p0, n0, diameter, fan_angle, wavelength, intensity, intensity_distribution, plot_color)
+```
+
+* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the origin of the plane source
+* <b>n0</b> (np.array | default=np.array([1,0])) : Orientation of the directed plane source 
+* <b>diameter</b> (float | default=10*mm) : Diameter, extent or size of the plane source
+* <b>fan_angle</b> (float | default=30*deg) : Fan angle, or angular 'spread' of the rays in the cone of light
+* <b>wavelength</b> (float | default=660*nm) : Wavelength of the light rays 
+* <b>intensity</b> (float | default=1) : Intensity of the initial light rays
+* <b>plot_color</b> (color | default='wavelength'): Plot color of the light rays
 
 #### Laser
 

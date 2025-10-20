@@ -11,7 +11,7 @@ WAVELENGTH_DEFAULT = 660*nm
 
 
 class DiffusePlaneSourceClass(light_class.LightSourceClass):
-    def __init__(self, p0=[0,0], n0=[1,0], diameter=10*mm, wavelength=WAVELENGTH_DEFAULT, fan_angle=30*deg, intensity=1, plot_color=None):
+    def __init__(self, p0=[0,0], n0=[1,0], diameter=10*mm, wavelength=WAVELENGTH_DEFAULT, fan_angle=30*deg, intensity=1, plot_color='wavelength'):
         self.diameter = diameter
         self.fan_angle = fan_angle
 
