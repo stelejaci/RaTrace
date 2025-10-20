@@ -11,7 +11,7 @@ WAVELENGTH_DEFAULT = 660*nm
 
 
 class PointSourceClass(light_class.LightSourceClass):
-    def __init__(self, p0=np.array([0, 0]), n0=np.array([1, 0]), fan_angle=30*deg, wavelength=WAVELENGTH_DEFAULT, intensity=1, intensity_distribution='equiangular', plot_color=None):
+    def __init__(self, p0=np.array([0, 0]), n0=np.array([1, 0]), fan_angle=30*deg, wavelength=WAVELENGTH_DEFAULT, intensity=1, intensity_distribution='equiangular', plot_color='wavelength'):
         self.fan_angle = fan_angle
         self.intensity_distribution = intensity_distribution
 

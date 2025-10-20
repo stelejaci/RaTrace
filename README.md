@@ -14,6 +14,8 @@
 <p><i>!! Disclaimer !! Mind you that this is very much a work-in-progress. This started as a personal hobby project and I never had the intent to release this publicly.
 The code is in many places sub-optimal and buggy, but it works for my intent of use. Ok ... most of the time ... in Windows.</i></p>
 
+The information in this README will later be formatted into a Wiki page of this project. But for the time being I'll just put it all in this one extensive document.
+
 ---
 
 ## Table of contents
@@ -249,10 +251,19 @@ The display tab is only enabled when there is a display or an imager present in 
 
 ## Syntax
 
-
 ### Light sources
 
-#### Point source
+#### Directed point source
+
+<b>point_source_class.PointSourceClass</b>(p0=np.array([0,0]), n0=np.array([1,0]), fan_angle=30*deg, wavelength=660*nm, intensity=1, intensity_distribution='equiangular', plot_color='wavelength')
+
+* <b>p0</b> (np.array | None) : Position of the origin of the point source
+* <b>n0</b> (np.array | None) : Orientation of thed directed source 
+* <b>fan_angle</b> (double | None) : Fan angle of the cone of light
+* <b>wavelength</b> (double | None) : Wavelength of the light rays 
+* <b>intensity</b> (double | None) : Intensity of the light rays
+* <b>intensity_distribution</b>  ('equiangular' | 'gaussian' | 'gaussianrandom' | 'random' | None) : Intensity distribution of the rays along the light fan 
+* <b>plot_color</b> (color | None): Plot color of the light rays along the fan of rays 
 
 #### Parallel plane source
 
