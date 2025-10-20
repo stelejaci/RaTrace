@@ -253,7 +253,16 @@ The display tab is only enabled when there is a display or an imager present in 
 
 ### Light sources
 
+The following object classes should be imported from the "lights" folder:
+
+```
+from light import point_source_class, plane_source_class, diffuse_plane_source_class, laser_class, virtual_ray_class
+```
+
 #### Directed point source
+
+Creates a directed point source object with an origin, orientation and spread fan angle
+
 ```
 point_source_class.PointSourceClass(p0, n0, fan_angle wavelength, intensity, intensity_distribution, plot_color)
 ```
