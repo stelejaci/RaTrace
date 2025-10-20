@@ -263,6 +263,10 @@ from light import point_source_class, plane_source_class, diffuse_plane_source_c
 
 Creates a directed point source object with an origin, orientation and spread fan angle
 
+<p align="center">
+<img src="assets/Syntax_point_source.png", alt="Syntax_point_source.png", width=200, height=100/>
+</p>
+
 ```
 point_source_class.PointSourceClass(p0, n0, fan_angle wavelength, intensity, intensity_distribution, plot_color)
 ```
