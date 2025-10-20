@@ -282,7 +282,7 @@ from light import point_source_class, plane_source_class, diffuse_plane_source_c
 A directed point light source object with an origin, orientation and spread fan angle
 
 <p align="center">
-<img src="assets/Syntax_point_source.png", alt="Syntax_point_source.png", width=300, height=300/>
+<img src="assets/Syntax_point_source.png", alt="Syntax_point_source.png", width=200, height=200/>
 </p>
 
 ```
@@ -302,7 +302,7 @@ point_source_class.PointSourceClass(p0, n0, fan_angle wavelength, intensity, int
 A directed parallel light source object with an origin, orientation and width
 
 <p align="center">
-<img src="assets/Syntax_plane_source.png", alt="Syntax_plane_source.png", width=300, height=300/>
+<img src="assets/Syntax_plane_source.png", alt="Syntax_plane_source.png", width=200, height=200/>
 </p>
 
 ```
@@ -322,7 +322,7 @@ plane_source_class.PlaneSourceClass(p0, n0, diameter, wavelength, intensity, int
 A directed diffuse parallel light source object with an origin, orientation, width and spread angle. The ray distribution along its diameter, as well as the ray orientation is random within the limits defined. The example below shows the situation for a 20° fan angle.
 
 <p align="center">
-<img src="assets/Syntax_diffuse_plane_source.png", alt="Syntax_diffuse_plane_source.png", width=300, height=300/>
+<img src="assets/Syntax_diffuse_plane_source.png", alt="Syntax_diffuse_plane_source.png", width=200, height=200/>
 </p>
 
 ```
@@ -355,7 +355,7 @@ from elements import ideal_thin_lens_class, spherical_lens_class, glass_element_
 An ideal lens (perfect focus, no aberrations) with a certain focal distance and diameter
 
 <p align="center">
-<img src="assets/Syntax_ideal_lens.png", alt="Syntax_ideal_lens.png", width=300, height=300/>
+<img src="assets/Syntax_ideal_lens.png", alt="Syntax_ideal_lens.png", width=200, height=200/>
 </p>
 
 ```
@@ -373,13 +373,13 @@ ideal_thin_lens_class.IdealThinLensClass(p0, n0, f, diameter, N, blur_angle, nr_
 #### Spherical lens
 
 <p align="center">
-<img src="assets/Syntax_spherical_lens.png", alt="Syntax_spherical_lens.png", width=300, height=300/>
+<img src="assets/Syntax_spherical_lens.png", alt="Syntax_spherical_lens.png", width=200, height=200/>
 </p>
 
 #### Glass parallel plate
 
 <p align="center">
-<img src="assets/Syntax_glass_parallel_plate.png", alt="Syntax_glass_parallel_plate.png", width=300, height=300/>
+<img src="assets/Syntax_glass_parallel_plate.png", alt="Syntax_glass_parallel_plate.png", width=200, height=200/>
 </p>
 
 
