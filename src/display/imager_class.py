@@ -16,7 +16,7 @@ IAS_slope = 12
 # Todo: getting rid of the pixels (???)
 
 class ImagerClass(display_class.DisplayClass):
-    def __init__(self, p0=np.array([0, 0]), n0=np.array([-1, 0]), length=10 * mm, pixel_size=5*µm, is_active=True, is_visible=True):
+    def __init__(self, p0=np.array([0, 0]), n0=np.array([-1, 0]), length=10 * mm, pixel_size=100*µm, is_active=True, is_visible=True):
         self.pixel_size = pixel_size
 
         # Instantiate the display class

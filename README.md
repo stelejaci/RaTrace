@@ -45,15 +45,17 @@ The information in this README will later be formatted into a Wiki page of this 
 * Color coding rays: wavelength, rainbow, fixed, intensity-scaling
 * Support for:
   * Light sources: point source, diffusing plane source, parallel plane source, laser source, virtual rays, double coherent point source
-  * Glass elements: spherical lens, ideal lens, glass slab, prism, filter
-  * Mirrors: flat, parabolic, semi-transparant
+  * Glass elements: spherical lens, ideal lens, glass slab,
+  * Mirrors: flat, parabolic, semi-transparent
   * Surfaces: black absorber, diffuse scattering plane
   * Targets: display surface, imager
 
 <b>To be implemented features</b>
-* Glass elements: plano-convex lens, biprism, microlens array, asphere
-* Internal & total reflections
+* Lenses: plano-convex lens, aspherical lens
+* Glass elements: prism, biprism, microlens array 
+* Mirrors: spherical mirror
 * Light source: B/W image source
+* Internal & total reflections
 * Better error handling when there is a bug in the scene
 * Diffusely scattering sphere
 * A library of glass materials
@@ -65,7 +67,7 @@ The information in this README will later be formatted into a Wiki page of this 
 <b>Known bugs</b>
 * First screenshot in looped gui does not set the axis correctly
 * Warning concerning colors
-* Contact surfaces (e.g. double lens) not working
+* Contact surfaces (e.g. lens doublet) not working
 * Crash when selecting an intensity plot in the display tab, when no imager is present 
 * Many others ...
 
@@ -235,11 +237,11 @@ The display tab is only enabled when there is a display or an imager present in 
 * <b>Phase plot : </b>This too only works with imagers. This shows the phases of the rays at the intersection points, as well as the resulting phase.
 
 <p align="center">
-<img src="assets/UI_Display_Scatterplot_1D.png", alt="UI_Display_Scatterplot_1D.png", width=900, height=200/>
-<img src="assets/UI_Display_Scatterplot_2D.png", alt="UI_Display_Scatterplot_2D.png", width=900, height=200/>
-<img src="assets/UI_Display_Intensity_plot_1D.png", alt="UI_Display_Intensity_plot_1D.png", width=900, height=200/>
-<img src="assets/UI_Display_Intensity_plot_2D.png", alt="UI_Display_Intensity_plot_2D.png", width=900, height=200/>
-<img src="assets/UI_Display_Phase_plot.png", alt="UI_Display_Phase_plot.png", width=900, height=200/>
+<img src="assets/UI_Display_Scatterplot_1D.png", alt="UI_Display_Scatterplot_1D.png", width=900, height=190/>
+<img src="assets/UI_Display_Scatterplot_2D.png", alt="UI_Display_Scatterplot_2D.png", width=900, height=190/>
+<img src="assets/UI_Display_Intensity_plot_1D.png", alt="UI_Display_Intensity_plot_1D.png", width=900, height=190/>
+<img src="assets/UI_Display_Intensity_plot_2D.png", alt="UI_Display_Intensity_plot_2D.png", width=900, height=190/>
+<img src="assets/UI_Display_Phase_plot.png", alt="UI_Display_Phase_plot.png", width=900, height=190/>
 </p>
 
 
@@ -296,10 +298,12 @@ A directed point light source object with an origin, orientation and spread fan 
 <img src="assets/Syntax_point_source.png", alt="Syntax_point_source.png", width=200, height=200/>
 </p>
 
+<i>Object initialisation:</i>
 ```
 point_source_class.PointSourceClass(p0, n0, fan_angle wavelength, intensity, intensity_distribution, plot_color)
 ```
 
+<i>Input parameters:</i>
 * <b>p0</b> (np.array | default=np.array([0,0])) : Position of the point source
 * <b>n0</b> (np.array | default=np.array([1,0])) : Direction of the point source 
 * <b>fan_angle</b> (float | default=30*deg) : Fan angle of the cone of light
@@ -316,10 +320,12 @@ A directed parallel light source object with an origin, orientation and width
 <img src="assets/Syntax_plane_source.png", alt="Syntax_plane_source.png", width=200, height=200/>
 </p>
 
+<i>Object initialisation:</i>
 ```
 plane_source_class.PlaneSourceClass(p0, n0, diameter, wavelength, intensity, intensity_distribution='equidistant', plot_color='wavelength')
 ```
 
+<i>Input parameters:</i>
 * <b>p0</b> (np.array | default=np.array([0,0])) : Position of the plane source
 * <b>n0</b> (np.array | default=np.array([1,0])) : Direction of the plane source 
 * <b>diameter</b> (float | default=10*mm) : Diameter, extent or size of the plane source
@@ -336,10 +342,12 @@ A directed diffuse parallel light source object with an origin, orientation, wid
 <img src="assets/Syntax_diffuse_plane_source.png", alt="Syntax_diffuse_plane_source.png", width=200, height=200/>
 </p>
 
+<i>Object initialisation:</i>
 ```
 plane_source_class.DiffusePlaneSourceClass(p0, n0, diameter, fan_angle, wavelength, intensity, intensity_distribution, plot_color)
 ```
 
+<i>Input parameters:</i>
 * <b>p0</b> (np.array | default=np.array([0,0])) : Position of the plane source
 * <b>n0</b> (np.array | default=np.array([1,0])) : Direction of the plane source 
 * <b>diameter</b> (float | default=10*mm) : Diameter, extent or size of the plane source
@@ -350,8 +358,11 @@ plane_source_class.DiffusePlaneSourceClass(p0, n0, diameter, fan_angle, waveleng
 
 #### Laser
 
+(To be documented) 
+
 #### Virtual ray
 
+(To be documented) 
 
 ### Glass elements
 
@@ -369,10 +380,12 @@ An ideal lens (perfect focus, no aberrations) with a certain focal distance f an
 <img src="assets/Syntax_ideal_lens.png", alt="Syntax_ideal_lens.png", width=200, height=200/>
 </p>
 
+<i>Object initialisation:</i>
 ```
 ideal_thin_lens_class.IdealThinLensClass(p0, n0, f, diameter, N, blur_angle, nr_of_secondary_rays)
 ```
 
+<i>Input parameters:</i>
 * <b>p0</b> (np.array | default=np.array([10,0])) : Position of the plane source
 * <b>n0</b> (float | default=np.array([-1,0])) : Orientation of the lens' optical axis
 * <b>f</b> (float | default=100*mm) : Focal distance of the lens
@@ -389,10 +402,12 @@ A glass lens with focal distance f and spherical surfaces with radii R0 and R1. 
 <img src="assets/Syntax_spherical_lens.png", alt="Syntax_spherical_lens.png", width=200, height=200/>
 </p>
 
+<i>Object initialisation:</i>
 ```
 spherical_lens_class.SphericalLensClass(p0, n0, R0, R1, f, thickness, diameter, N, blur_angle, nr_of_secondary_rays, plot_resolution)
 ```
 
+<i>Input parameters:</i>
 * <b>p0</b> (np.array([0,0]) : Position of the first surface of the lens
 * <b>n0</b> (np.array([1,0]) : Orientation of the optical axis of the spherical lens
 * <b>f</b> (float | default=None) : Focal distance
@@ -430,10 +445,12 @@ The figures below show a single incoming ray (coming from the bottom left) caste
 <img src="assets/Syntax_diffuse_scattering_plate_1.png", alt="Syntax_diffuse_scattering_plate_1.png", width=200, height=200/><img src="assets/Syntax_diffuse_scattering_plate_2.png", alt="Syntax_diffuse_scattering_plate_2.png", width=200, height=200/>
 </p>
 
+<i>Object initialisation:</i>
 ```
 diffuse_plate_class.DiffusePlateClass(p0, n0, length, thickness, Kd=1, Ks, alpha, nr_of_scattered_rays, n_light)
 ```
 
+<i>Input parameters:</i>
 * <b>p0</b> (np.array | default=np.array([0,0])) : Position of the surface
 * <b>n0</b> (np.array | default=np.array([-1,0])) : Orientation of the surface
 * <b>length</b> (np.array | default=10*mm) : Length of the surface
@@ -452,10 +469,12 @@ A black plate can be used as a beam dump, or for outlining light absorbing walls
 <img src="assets/Syntax_black_plate.png", alt="Syntax_black_plate.png", width=200, height=200/>
 </p>
 
+<i>Object initialisation:</i>
 ```
 black_plate_class.BlackPlateClass(p0, n0, length, thickness, plot_color)
 ```
 
+<i>Input parameters:</i>
 * <b>p0</b> (np.array | default=np.array([0,0])) : Position of the plate
 * <b>n0</b> (np.array | default=np.array([-1,0])) : Orientation of the plate
 * <b>length</b> (float | default=10*mm) : Length of the plate
@@ -479,10 +498,12 @@ A flat, fully reflecting mirror
 <img src="assets/Syntax_flat_mirror.png", alt="Syntax_flat_mirror.png", width=200, height=200/>
 </p>
 
+<i>Object initialisation:</i>
 ```
 flat_mirror_class.FlatMirrorClass(p0, n0, length, thickness, plot_color)
 ```
 
+<i>Input parameters:</i>
 * <b>p0</b> (np.array | default=np.array([0,0])) : Position of the mirror
 * <b>n0</b> (np.array | default=np.array([-1,0])) : Orientation of the mirror
 * <b>length</b> (float | default=10*mm) : Length of the mirror
@@ -497,10 +518,12 @@ A semi-transparent mirror with a transmission coefficient
 <img src="assets/Syntax_semitransparent_mirror.png", alt="Syntax_semitransparent_mirror.png", width=200, height=200/>
 </p>
 
+<i>Object initialisation:</i>
 ```
 semi_transparent_mirror_class.SemiTransparentMirror(p0, n0, length, transmission)
 ```
 
+<i>Input parameters:</i>
 * <b>p0</b> (np.array | default=np.array([0,0])) : Position of the mirror
 * <b>n0</b> (np.array | default=np.array([-1,0])) : Orientation of the mirror
 * <b>length</b> (float | default=10*mm) : Length of the mirror
@@ -514,10 +537,12 @@ A parabolic mirror with a focal distance and a diameter
 <img src="assets/Syntax_parabolic_mirror.png", alt="Syntax_parabolic_mirror.png", width=200, height=200/>
 </p>
 
+<i>Object initialisation:</i>
 ```
 parabolic_mirror_class.ParabolicMirrorClass(p0, n0, f, diameter, thickness, plot_color)
 ```
 
+<i>Input parameters:</i>
 * <b>p0</b> (np.array | default=np.array([0,0])) : Position of the parabolic mirror
 * <b>n0</b> (np.array | default=np.array([-1,0])) : Orientation of the parabolic mirror
 * <b>f</b> (float | default=100*mm) : Focal distance
@@ -543,6 +568,17 @@ A display is a stopping surface for colliding rays. Contrary to black and other 
 <img src="assets/Syntax_display_1.png", alt="Syntax_display_1.png", width=200, height=200/><img src="assets/Syntax_display_2.png", alt="Syntax_display_2.png", width=200, height=200/>
 </p>
 
+<i>Object initialisation:</i>
+```
+display_class.DisplayClass(p0, n0, length)
+```
+
+<i>Input parameters:</i>
+* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the display
+* <b>n0</b> (np.array | default=np.array([-1,0])) : Orientation of the display
+* <b>length</b> (float | default=10*mm) : Length of the display
+
+
 #### Imager
 
 An imager is a display with pixels of a finite width. If 'use phase information' is enabled, the phases of different rays coming together in a pixel will combine and result in an interfered intensity. When this option is disabled, all rays are presumed to have the same phase, and intensities are just added up.
@@ -550,3 +586,15 @@ An imager is a display with pixels of a finite width. If 'use phase information'
 <p align="center">
 <img src="assets/Syntax_imager_1.png", alt="Syntax_imager_1.png", width=200, height=200/><img src="assets/Syntax_imager_2.png", alt="Syntax_imager_2.png", width=200, height=200/>
 </p>
+
+<i>Object initialisation:</i>
+```
+imager_class.ImagerClass(p0, n0, length, pixel_size)
+```
+
+<i>Input parameters:</i>
+* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the imager
+* <b>n0</b> (np.array | default=np.array([-1,0])) : Orientation of the imager
+* <b>length</b> (float | default=10*mm) : Length of the imager
+* <b>pixel_size</b> (float | default=100*µm) : Pixel size of the imager. The number of pixels is determined by the length divided by the pixel size.
+

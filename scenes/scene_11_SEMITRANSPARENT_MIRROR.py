@@ -1,7 +1,4 @@
 import numpy as np
-import os, sys
-sys.path.append(os.path.abspath('..'))
-
 from utils.varia import mm, deg
 from light import point_source_class, plane_source_class
 from elements import semi_transparent_mirror_class, black_plate_class
