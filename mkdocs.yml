@@ -1,0 +1,5 @@
+site_name: RaTrace
+nav:
+  - Home: index.md
+  - Usage: usage.md
+theme: readthedocs
