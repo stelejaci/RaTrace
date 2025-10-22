@@ -41,8 +41,7 @@ class FilterClass:
         filter_transmission = self.calculate_filter_transmission(ray.r, ray.wavelength)
         I = filter_transmission * ray.I
         ray_new = light_functions.RayClass(p0=ray.p1, r=ray.r, I=I, wavelength=ray.wavelength, ID_parent=ray.ID, N=N_air, col=ray.col)
-        # rays.append(ray_new)
-        
+
         return ray_new
     
     def calculate_filter_transmission(self, r, wavelength):

@@ -4,11 +4,10 @@ from utils import geometry
 import matplotlib.pyplot as plt
 from utils.configuration_class import config
 from gui import canvas_class
+from elements import diffuse_element_class
 
 
-
-
-class DiffuseSphereClass(DiffuseSurfaceClass):
+class DiffuseSphereClass(diffuse_element_class):
     def __init__(self, p0, D, Kd, Ks, alpha, angular_spacing):
         self.p0 = p0
         self.D = D
@@ -57,7 +56,6 @@ class DiffuseSphereClass(DiffuseSurfaceClass):
         graph.add_patch(poly)
         if config.getboolean('view', 'show_elements_properties'):
             canvas_class.plot_normals(graph, self)
-        #     self.plot_plate_BSDF(surface)
 
 
 

@@ -8,8 +8,6 @@ from utils import geometry
 WAVELENGTH_DEFAULT = 660*nm
 
 
-
-
 class DoublePointSourceClass(light_class.LightSourceClass):
     def __init__(self, p0=np.array([0, 0]), n0=np.array([1, 0]), spacing=1*mm, fan_angle=30*deg, wavelength=WAVELENGTH_DEFAULT, intensity=1, intensity_distribution='equiangular', plot_color=None):
         self.fan_angle = fan_angle

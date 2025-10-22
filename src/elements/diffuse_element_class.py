@@ -7,8 +7,6 @@ from light import light_class
 from utils.configuration_class import config
 
 
-
-
 class DiffuseElementClass(element_class.ElementClass):
     def __init__(self, p0, n0, pts, Kd=0.0, Ks=0.0, alpha=1, nr_of_scattered_rays=1, n_light=None, is_active=True, is_visible=True):
         self.Kd = Kd        # Intensity of the diffuse reflection

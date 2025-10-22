@@ -1,9 +1,8 @@
 import matplotlib
 matplotlib.use('Qt5Agg')
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 import numpy as np
-from utils.varia import X, Y
 from utils.configuration_class import config
 
 
@@ -70,56 +69,6 @@ class CanvasClass(FigureCanvasQTAgg):
         self.graph.axis('equal')
         self.draw()
 
-    # # @timeit
-    # def plot_full_ray(self, source, i_ray):
-    #     self.plot_ray_segment(source, i_ray)
-    #     for ID_child in source.rays[i_ray].ID_children:
-    #         self.plot_full_ray(source, ID_child)
-    #
-    #
-    # def plot_flat_mirror(self, mirror):
-    #     poly = plt.Polygon(mirror.pts, closed=True, facecolor='grey', alpha=1.0, zorder=5)
-    #     self.graph.add_patch(poly)
-    #     self.graph.plot(mirror.pts[[0,1],0], mirror.pts[[0,1],1], c=PLOT_COLOR_BLACK, zorder=6)
-    #     if config.getboolean('view', 'show_elements_properties'):
-    #         self.plot_normals(self.graph, mirror)
-    #
-    # def plot_black_body(self, surface):
-    #     poly = plt.Polygon(surface.pts, closed=True, facecolor=PLOT_COLOR_BLACK)
-    #     self.graph.add_patch(poly)
-    #     if config.getboolean('view', 'show_elements_properties'):
-    #         self.plot_normals(self.graph, surface)
-    #
-    # def plot_displays(self):
-    #     for display in self.simulation.displays:
-    #         display.plot(self.graph)
-    #         # if isinstance(display, display_functions.ImagerClass):
-    #         #     self.plot_imager(display)
-    #         # else:
-    #         #     self.plot_display(display)
-    #
-    # def plot_plate_BSDF(self, surface):
-    #         p0 = ( surface.pts[0] + surface.pts[1] )/2
-    #         n  = surface.n[0]
-    #         ri = self.simulation.sources[0].r
-    #         p1_n  = p0 + 10*n
-    #         p1_ri = p0 - 10*ri  # ri is from the source, towards the plate
-    #
-    #         # angles = np.linspace(-np.pi/2, np.pi/2, 11)
-    #         angles = np.linspace(-np.pi/2, np.pi/2, 361)
-    #         R  = np.zeros(len(angles))
-    #         ro = np.zeros([len(angles),2])
-    #         angle_n = geometry.angle_from_vector(n)
-    #         for i_angle in range(len(angles)):
-    #             angle_o = angle_n - angles[i_angle]
-    #             ro[i_angle,:] = geometry.vector_from_angle(angle_o)
-    #             R[i_angle]  = surface.calculate_reflectivity(-ri, ro[i_angle], n)
-    #         self.graph.plot(p0[X]+10*R*ro[:,X], p0[Y]+10*R*ro[:,Y], c=PLOT_COLOR_BLACK, linewidth=5)
-    #
-    # def plot_sphere(self, surface):
-    #     circle = plt.Circle(surface.p0, radius=surface.R, facecolor='0.5', edgecolor='0.5')
-    #     self.graph.add_patch(circle)
-
 
 
 class CanvasDisplayClass(FigureCanvasQTAgg):
@@ -143,7 +92,6 @@ class CanvasDisplayClass(FigureCanvasQTAgg):
         if not display.cast_rays:
             return
 
-        # self.graph_types = ["1D scattered", "2D scattered", "2D greyscale", "Centroid", "Phase plot"]
         if graph_type_ind == 0:
             if len(display.cast_rays) <= MAX_NR_OF_SCATTERPOINTS_PLOTTED:
                 size_pts = 100/len(display.cast_rays)
@@ -199,7 +147,6 @@ class CanvasDisplayClass(FigureCanvasQTAgg):
                 self.ylims = np.array([-np.pi, np.pi])
                 self.graph.tick_params(axis='x', which='both', top=False, bottom=config.getboolean('view', 'show_axis_and_grid'))
                 self.graph.grid(config.getboolean('view', 'show_axis_and_grid'), which='both', axis='x')
-                # self.graph.set_yticks([])
 
         self.graph.set_xlim(self.xlims)
         self.graph.set_ylim(self.ylims)

@@ -16,8 +16,7 @@ class FlatMirrorClass(element_class.ElementClass):
         super().__init__(p0=p0, n0=n0, pts=pts, is_active=is_active, is_visible=is_visible)
         self.name = 'Flat mirror'
 
-    # TODO: handle 0 < transmission < 1
-    # TODO: Make only one side reflective (cfr. parabolic mirror)
+
     def propagate_ray(self, ray):
         new_rays = list()
         if (self.n_coll is not None)    and    (geometry.point_is_on_PP_line(ray.p1, self.pts[0], self.pts[1])):

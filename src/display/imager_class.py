@@ -11,8 +11,6 @@ IAS_width = 25
 IAS_slope = 12
 
 
-
-
 # Todo: getting rid of the pixels (???)
 
 class ImagerClass(display_class.DisplayClass):
@@ -34,7 +32,6 @@ class ImagerClass(display_class.DisplayClass):
         self.image     = np.zeros((10,self.number_of_pixels,))
         self.COG_IMF   = np.empty(1)
         self.COG_WCF   = np.empty(2)
-        # self.pixels_x = np.linspace(0, self.length, self.number_of_pixels)
         self.pixels_x = np.array([pixel.x for pixel in self.pixels])
         super().reset()
 

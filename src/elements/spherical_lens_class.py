@@ -9,8 +9,6 @@ import matplotlib.pyplot as plt
 from utils.configuration_class import config
 
 
-
-
 class SphericalLensClass(glass_element_class.GlassElementClass):
     def __init__(self, p0=np.array([0,0]), n0=np.array([1,0]), R0=None, R1=None, f=None, thickness=2*mm, diameter=10*mm, N=N_glass, blur_angle=0, nr_of_secondary_rays=1, plot_resolution=0.1):
         # Position p0 is the position at the center of the first surface
@@ -64,12 +62,6 @@ class SphericalLensClass(glass_element_class.GlassElementClass):
             return [self.p_coll, t1, t1]
         else:       # No intersections
             return [None, None, None]
-
-    # def rotate_by_angle(self, angle, p_rot=np.array([0,0])):
-    #     super().rotate_by_angle(angle=angle, p_rot=p_rot)
-    #     self.C0 = geometry.rotate_with_P_angle(pts=self.C0, p_rot=p_rot, angle=angle)
-    #     self.C1 = geometry.rotate_with_P_angle(pts=self.C1, p_rot=p_rot, angle=angle)
-    #     self.p_corners = geometry.rotate_with_P_angle(pts=self.p_corners, p_rot=p_rot, angle=angle)
 
 
     def plot(self, graph):

@@ -11,8 +11,6 @@ from utils.configuration_class import config
 from gui import canvas_class
 
 
-
-
 # ToDo rewrite to new structure, inherit from glass_element_class too
 class ThickLensClass(element_class.ElementClass):
     def __init__(self, p0=np.array([0,0]), f=100*mm, D=10*mm, N=N_glass, blur_angle=0*deg, nr_of_secondary_rays=1, p1=None, n0=None, length=None):

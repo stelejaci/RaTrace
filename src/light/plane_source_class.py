@@ -7,8 +7,6 @@ from utils.optics import N_air
 WAVELENGTH_DEFAULT = 660*nm
 
 
-
-
 class PlaneSourceClass(light_class.LightSourceClass):
     def __init__(self, p0=[0,0], n0=[1,0], diameter=10*mm, wavelength=WAVELENGTH_DEFAULT, intensity=1, intensity_distribution='equidistant', plot_color='wavelength'):
         self.diameter = diameter

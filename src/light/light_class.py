@@ -1,5 +1,4 @@
 import numpy as np
-import math
 from PyQt5.QtCore import pyqtSignal
 from PyQt5 import QtWidgets
 from utils import geometry
@@ -8,10 +7,7 @@ from utils import varia
 from utils.optics import N_air
 from utils.configuration_class import config
 
-
 WAVELENGTH_DEFAULT = 660*nm
-
-
 
 
 class LightSourceClass(QtWidgets.QWidget):
@@ -89,11 +85,7 @@ class LightSourceClass(QtWidgets.QWidget):
         if config.getboolean('view', 'intensity_coded_colors'):  int_rep_offset, int_rep_linear, int_rep_offset2, int_rep_linear2 = 0.0, 0.1, 0.01, 0.1
         else:                                                    int_rep_offset, int_rep_linear, int_rep_offset2, int_rep_linear2 = 1.0, 0.0, 1.00, 0.0
 
-        # if self.intensity_max is 0:
-        #     intensity_representation = 0.5
-        #     col = 'black'
         if ray.length is not None:        # A ray has length when it hits an object
-            # intensity_representation = int_rep_offset + int_rep_linear*np.power(ray.intensity / self.intensity_max, 1)
             # intensity_representation = int_rep_offset + int_rep_linear*np.power(ray.intensity / self.intensity_max, 1)
             intensity_representation = int_rep_offset + (ray.intensity / self.intensity_max)**2
             col = ray.plot_color
@@ -174,7 +166,6 @@ class RayClass:
         self.optical_path_length = self.N * self.length
         self.phase_shift = 2 * np.pi / self.wavelength * self.optical_path_length
         self.phase_end = self.phase_start + self.phase_shift
-        # self.phase_end = math.fmod(self.phase_end, 2 * math.pi) - math.pi
 
         # For "normal" light, the intensity of the active ray is what it is at the start, at initialisation
         # For laser light, the intensity of the active (!) ray depends on its position along the (cross-section of the) Gaussian beam
@@ -200,9 +191,6 @@ class RayClass:
         if (self.length is None)  and  (not config.getboolean('view', 'show_noncolliding_rays')):
             return
 
-        # # Convert to RGB colors
-        # if isinstance(col, str):
-        #     col = matplotlib.colors.to_rgb(col)
         col = varia.load_colormap(color=col, N_rays=1, wavelength=self.wavelength)
 
         # A bug when simulating a single ray --> TO DEBUG

@@ -4,8 +4,6 @@ from utils.varia import X, Y, EPSILON
 from utils.varia import sort_x_left_to_right
 
 
-
-
 def normalize(v):
     if np.ndim(v) == 1:
         return v/np.linalg.norm(v)
@@ -129,8 +127,6 @@ def subcalc_intersection_of_PR_line_with_PR_line(pt1, r1, pt2, r2):
     dx = pt2[0] - pt1[0]
     dy = pt2[1] - pt1[1]
 
-    # print(f'{pt1}  {r1}  {pt2}  {r2}  {dx}  {dy}')
-
     if np.array_equal(r1, [0,0]):
         t2 = 9999999
     else:
@@ -187,17 +183,9 @@ def intersection_of_PR_line_with_PPN_line(P, R, P0, P1, N):
 
 def line_arc_intersections(C_arc, p_ends, p_line, r_line):
     x0, y0 = C_arc[0], C_arc[1]    # Point at the centre of the arc circle
-    # a0, a1 = angles_arc[0], angles_arc[1]   # Angles of the 2 endpoints of the arc
     x1, y1 = p_line[0], p_line[1]   # Point on the line
     rx, ry = r_line[0], r_line[1]   # Direction of the line
     R_arc = np.linalg.norm(p_ends[0,:]-C_arc)
-
-    # # Normalize direction vector
-    # norm = np.sqrt(rx**2 + ry**2)
-    # if norm == 0:
-    #     return [None, None]
-    # rx /= norm
-    # ry /= norm
 
     # Proceed with full circle-line intersection check
     dx = x1 - x0
@@ -309,7 +297,6 @@ def angle_between_vectors(n,r):
     perp_dot = r[0] * n[1] - r[1] * n[0]        # Perpendicular dot product (determinant) = ||r|| * ||n|| * sin(θ)
     dot      = r[0] * n[0] + r[1] * n[1]        # Regular dot product = ||r|| * ||n|| * cos(θ)
     return np.arctan2(perp_dot, dot)            # arctan2(sin(θ), cos(θ)) gives θ ∈ [-π, π]
-    # return math.acos(min(np.dot(normalize(n),normalize(r)),1))
 
 
 def rotate_direction_over_angle(direction, angle):
@@ -378,34 +365,4 @@ def construct_plate(p0, n, thickness, length):
     pts = np.append(pts, [pts_corners[1]-n*thickness], axis=0)
     pts = np.append(pts, [pts_corners[0]-n*thickness], axis=0)
     return pts
-
-
-
-
-if __name__ == '__main__':
-    # pts = np.array([[0,-1],[0,1],[1,1],[1,-1]])
-    # print(pts)
-    # print(move_by(pts, np.array([1,0])))
-    # print(pts)
-    # print(move_to(pts, np.array([0,0]), np.array([0,1])))
-
-    # pts = np.array([0,1])
-    # print(pts)
-    # print(move_by(pts, np.array([1,0])))
-    # print(pts)
-    # print(move_to(pts, np.array([0,0]), np.array([0,1])))
-
-    # pts = construct_plate(p0=np.array([1,1]), n=np.array([-2,-1]), thickness=1*mm, length=10*mm)
-
-    # v = np.array([[1,1],[0,1],[-1,2]])
-    # print(v)
-    # print(normalize(v))
-    #
-    # v = np.array([-1,2])
-    # print(v)
-    # print(normalize(v))
-
-    print(vector_from_angle(0.7))
-    print(vector_from_angle([0.7]))
-    print(vector_from_angle([0.7,0.1,1.2]))
 

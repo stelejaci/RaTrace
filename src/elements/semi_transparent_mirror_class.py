@@ -6,8 +6,6 @@ from light import light_class
 from utils.configuration_class import config
 
 
-
-
 class SemiTransparentMirror(element_class.ElementClass):
     def __init__(self, p0=np.array([0,0]), n0=np.array([-1,0]), length=10*mm, transmission=0.5, is_active=True, is_visible=True):
         self.length = length

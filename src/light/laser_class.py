@@ -8,8 +8,6 @@ from utils.configuration_class import config
 
 
 
-
-
 class LaserClass(light_class.LightSourceClass):
     def __init__(self, p0=np.array([0,0]), n0=np.array([0,-1]), beamwaist=100*µm, beamwaist_distance=100*mm, sampling_width_at_BW=300*µm, wavelength=450*nm, M2=1, intensity=1, plot_color='wavelength'):
         self.beamwaist = beamwaist
@@ -81,14 +79,3 @@ class LaserClass(light_class.LightSourceClass):
         graph.plot(pts[:, X], pts[:, Y], color=col[0], linewidth=2, linestyle='solid')
         graph.scatter(P[X], P[Y], c=col[0], s=20)
 
-
-
-
-if __name__ == "__main__":
-    # The app is needed because the LightSourceClass inherits from QWidget, otherwise it will crash
-    # It 's the core event loop and initialization hub for all Qt objects.
-    from PyQt5 import QtWidgets
-    app = QtWidgets.QApplication(sys.argv)  # Needed because the LightSourceClass inherits from QWidget, otherwise it will crash
-    laser = LaserClass(p0=np.array([0,100]), n0=np.array([0,-1]), beamwaist=100*µm, wavelength=450*nm, M2=1, intensity=1, plot_color='wavelength')
-    print(laser)
-    pass

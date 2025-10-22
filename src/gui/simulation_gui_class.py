@@ -68,14 +68,10 @@ class SimulationGuiClass(QtWidgets.QWidget):
         self.simulation.simulation_run_done_signal.connect(self.update_graphics)
 
         self.tab_view.redraw_scene_signal.connect(self.update_graphics)
-        # self.tab_setup.config_file_selected_signal.connect(self.update_window_title)
-        # self.canvas.update_source_progress_signal.connect(self.tab_view.update_progress_bar)
 
         # Connect each of the sources' signals to the progress bar
         for source in self.simulation.sources:
             source.update_source_progress_signal.connect(self.tab_view.update_progress_bar)
-        # self.tab_setup.config_file_selected_signal.connect(self.simulation.load_configuration)
-        # self.canvas.update_components()
 
     @QtCore.pyqtSlot()
     def clear_and_update_graphics(self):
@@ -90,11 +86,6 @@ class SimulationGuiClass(QtWidgets.QWidget):
         self.tab_display.canvas_display.graph.cla()
         self.update_graphics()
 
-    # def set_axis_and_redraw(self, axis_lims):
-    #     self.canvas.axis_lims = axis_lims
-    #     self.canvas.update_items()
-    #     self.update_graphics()
-
     @QtCore.pyqtSlot()
     def update_graphics(self):
         print('Updating canvas and display graph ...')
@@ -102,17 +93,6 @@ class SimulationGuiClass(QtWidgets.QWidget):
         self.canvas.update_entire_scene()
         self.tab_display.update_graphs()
 
-    # @QtCore.pyqtSlot(bool)
-    # def update_color_code_intensities(self, value):
-    #     self.canvas.set_color_code_ray_intensities(value)
-
-    # @QtCore.pyqtSlot(bool)
-    # def update_show_elements_normals(self, value):
-    #     self.canvas.set_show_elements_normals(value)
-
-    # @QtCore.pyqtSlot(str)
-    # def update_window_title(self, filename_full):
-    #     self.setWindowTitle(f'{self.window_title}  [{filename_full}]')
 
 
 class SetupTabWidget(QtWidgets.QWidget):
@@ -531,10 +511,3 @@ class DisplayTabWidget(QtWidgets.QWidget):
             print(f'Imager data exported to: {filename}')
         except:
             print(f'{RED}Imager data could NOt be exported to: {filename}{WHITE}')
-
-
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    simulation_GUI = SimulationGuiClass()
-    simulation_GUI.show()
-    sys.exit(app.exec_())

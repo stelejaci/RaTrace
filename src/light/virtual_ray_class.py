@@ -9,8 +9,6 @@ from utils.configuration_class import config
 WAVELENGTH_DEFAULT = 660*nm
 
 
-
-
 class VirtualRayClass(light_class.LightSourceClass):
     def __init__(self, origin=None, destination=None, target_p0=None, target_n0=None, wavelength=WAVELENGTH_DEFAULT, intensity=1, plot_color=None):
         self.origin = origin
@@ -67,11 +65,3 @@ class VirtualRayClass(light_class.LightSourceClass):
         # Plot the rays itself
         super().plot(graph)
 
-
-if __name__ == '__main__':
-    print('\nTest 3')
-    PointSource = PointSourceClass(p0=np.array([0,0]), n=np.array([1,0]), wavelength=450*nm, intensity=10, fan_angle=30*deg, intensity_distribution='equiangular', plot_color='rainbow')
-    PointSource.generate_rays(N_rays=3)
-    print(PointSource)
-    for ray in PointSource.rays:
-        print(ray)

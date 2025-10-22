@@ -11,7 +11,6 @@ from gui import canvas_class
 import matplotlib.pyplot as plt
 
 
-
 class GlassElementClass(element_class.ElementClass):
     def __init__(self, p0, n0, pts, N=N_glass, blur_angle=0, nr_of_secondary_rays=1, is_active=True, is_visible=True):
         self.N = N
@@ -74,6 +73,7 @@ class GlassElementClass(element_class.ElementClass):
             # p_txt = (self.p0  + self.p1)/2
             graph.text(p_txt[X], p_txt[Y], f'{self.name} {self.ID}', color='cyan', horizontalalignment='center', verticalalignment='bottom', fontsize=10, rotation=0)
         super().plot(graph)
+
 
 class FresnellPrismClass(GlassElementClass):
     def __init__(self, p0, pitch, angle, thickness, length, N, is_active=True):

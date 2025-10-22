@@ -7,8 +7,6 @@ from light import light_class
 from utils.configuration_class import config
 
 
-
-
 class DiffuseElementClass(element_class.ElementClass):
     def __init__(self, p0, n0, pts, Kd=0.0, Ks=0.0, alpha=1, nr_of_scattered_rays=1, n_light=None, is_active=True, is_visible=True):
         self.Kd = Kd        # Intensity of the diffuse reflection
@@ -96,21 +94,6 @@ class DiffuseElementClass(element_class.ElementClass):
             self.specular_reflection_cumsum_shifted = np.concatenate( (np.zeros(i_angle_rr-i_angle_0), self.specular_reflection_cumsum[0:nr_of_entries-(i_angle_rr-i_angle_0)]), axis=0 )
             self.total_reflection_cumsum += self.specular_reflection_cumsum_shifted
 
-        if False:
-            fig, ax = plt.subplots(3,2)
-            ax[0,0].plot(self.angles_deg, self.diffuse_reflection)
-            ax[1,0].plot(self.angles_deg, self.specular_reflection)
-            ax[2,0].plot(self.angles_deg, self.total_reflection)
-            ax[0,1].plot(self.angles_deg, self.diffuse_reflection_cumsum)
-            ax[1,1].plot(self.angles_deg, self.specular_reflection_cumsum)
-            ax[2,1].plot(self.angles_deg, self.total_reflection_cumsum)
-            ax[0,0].grid()
-            ax[1,0].grid()
-            ax[2,0].grid()
-            ax[0,1].grid()
-            ax[1,1].grid()
-            ax[2,1].grid()
-            plt.show()
 
     def calculate_reflectivity(self, ri, ro, n, verbose=False):
         # Info on Lambertian surfaces, and diffuse reflection:

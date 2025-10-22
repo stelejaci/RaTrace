@@ -5,8 +5,6 @@ from elements import element_class
 import matplotlib.pyplot as plt
 
 
-
-
 class BlackPlateClass(element_class.ElementClass):
     def __init__(self, p0=np.array([0, 0]), n0=np.array([-1, 0]), length=10 * mm, thickness=1 * mm, plot_color=(0.5,0.5,0.5,1), is_active=True, is_visible=True):
         self.length     = length

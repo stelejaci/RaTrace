@@ -6,8 +6,6 @@ from utils.configuration_class import config
 EPSILON = 1e-6
 
 
-
-
 class ElementClass:
     nr_of_elements = 0
 
@@ -108,18 +106,3 @@ class ElementClass:
             for i_normal in range(self.nr_of_faces):
                 graph.quiver(self.pts_n[i_normal, X], self.pts_n[i_normal, Y], self.n[i_normal, X], self.n[i_normal, Y], color='orange', width=0.001, scale=50)
 
-
-
-
-if __name__ == '__main__':
-    p0 = np.array([0, 0])
-    pts = np.array([[0,-1],[0,1],[1,1],[1,-1]])+10
-    element = ElementClass(p0=p0, pts=pts)
-    print(element)
-
-    from light.light_class import RayClass
-    ray = RayClass(p0=np.array([-1,0]))
-    print(ray)
-
-    [p_coll, t1, t0] = element.check_collision(ray)
-    print(f'p_coll={p_coll}, t1={t1}, t0={t0}')

@@ -5,8 +5,6 @@ from elements import diffuse_element_class
 import matplotlib.pyplot as plt
 
 
-
-
 class DiffusePlateClass(diffuse_element_class.DiffuseElementClass):
     def __init__(self, p0=np.array([0,0]), n0=np.array([-1,0]), length=10 * mm, thickness=1 * mm, Kd=0.0, Ks=0.0, alpha=1, nr_of_scattered_rays=1, n_light=None, is_active=True, is_visible=True):
         self.length = length

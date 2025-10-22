@@ -22,7 +22,6 @@ class DisplayClass(element_class.ElementClass):
         # Derived parameters
         r = geometry.orientation_from_normal(n0)
         pts = geometry.points_from_position_direction_length(p0, r, self.length, symmetric=True, sort_left_to_right=False)
-        # self.nr_of_faces = 1
 
         DisplayClass.reset(self)
         super().__init__(p0=p0, n0=n0,  pts=pts, is_active=is_active, is_visible=is_visible)

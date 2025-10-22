@@ -11,8 +11,6 @@ from utils.configuration_class import config
 RED, WHITE = '\033[31m', '\033[0m'
 
 
-
-
 class IdealThinLensClass(glass_element_class.GlassElementClass):
     def __init__(self, p0=np.array([10,0]), n0=np.array([-1,0]), f=100*mm, diameter=10*mm, N=N_glass, blur_angle=0, nr_of_secondary_rays=1):
         self.diameter  = diameter     # Diameter of the lens

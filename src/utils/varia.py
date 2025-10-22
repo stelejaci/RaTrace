@@ -105,47 +105,6 @@ def colormap_fixed(N, color):
     return N*[color]
 
 
-# def generate_gaussian_sampling(FWHM=1, nr_of_samples=11, verbose=False, randomize=False):
-#     if FWHM == 0:
-#         x_sampling = np.zeros((nr_of_samples,))
-#         return x_sampling
-#
-#     sigma = FWHM / (2 * np.sqrt(np.log(2)))
-#     half_range = 3 * sigma
-#     dx = FWHM/10000
-#
-#     x = np.arange(-half_range, half_range, dx)
-#     probability = np.exp(-np.square(x/sigma))
-#     probability = probability / max(probability)
-#
-#     probability_cumsum = np.cumsum(probability * dx)
-#     probability_cumsum = probability_cumsum / max(probability_cumsum)
-#
-#     pcss_start = 0.01
-#     pcss_end = 1 - pcss_start
-#     # d_sampling = (pcss_end - pcss_start) / (nr_of_samples - 1)
-#     if randomize==False:
-#         probability_cumsum_sampling = np.linspace(pcss_start, pcss_end, nr_of_samples)
-#     else:
-#         probability_cumsum_sampling = pcss_start + np.random.rand(nr_of_samples) * (pcss_end-pcss_start)
-#     x_sampling = np.interp(probability_cumsum_sampling, probability_cumsum, x)
-#
-#     if verbose:
-#         plt.figure(num=None, figsize=(24, 15), dpi=80, facecolor='w', edgecolor='k')
-#         ax = plt.subplot2grid((1,1), (0,0), colspan=1, rowspan=1)
-#         plt.plot(x/deg, probability, 'b-')
-#         plt.plot(FWHM/2 * np.array([-1,-1,1,1])/deg, 0.5*np.array([0,1,1,0]), 'k--')
-#         plt.plot(x/deg, probability_cumsum, 'g-')
-#         plt.scatter(x_sampling/deg, 0.10+0*x_sampling, c='k') # * rand(length(angles_sampling), 1) / 20, 'markerfacecolor', 'r', 'markeredgecolor', 'none', 'sizedata', 20);
-#         for pcss in probability_cumsum_sampling:
-#             plt.plot(half_range*np.array([-1,1])/deg, pcss*np.array([1,1]), 'r--', linewidth=0.5)
-#         ax.grid()
-#         plt.ylim((0, 1))
-#         plt.xlabel('X  (°)')
-#         plt.show()
-#
-#     return x_sampling
-
 def alpha_from_N(N):
     N = N[0] if isinstance(N, list) else N
     return (N - 1) ** 2
@@ -207,8 +166,6 @@ def generate_samples_from_pcs(x, probability_cumsum, nr_of_samples=1, randomize=
         ax = plt.subplot2grid((1, 1), (0, 0), colspan=1, rowspan=1)
         plt.plot(x/ deg, probability_cumsum, 'g-')
         plt.scatter(x_sampling / deg, 0.10 + 0 * x_sampling, c='k')  # * rand(length(angles_sampling), 1) / 20, 'markerfacecolor', 'r', 'markeredgecolor', 'none', 'sizedata', 20);
-        # for pcss in probability_cumsum_sampling:
-        #     plt.plot(half_range * np.array([-1, 1]) / deg, pcss * np.array([1, 1]), 'r--', linewidth=0.5)
         ax.grid()
         plt.ylim((0, 1))
         plt.xlabel('X  (°)')
@@ -247,7 +204,6 @@ def calculate_FWHM(intensities):
 
 
 def parameter_string(par, val):
-    # par_str = '\n'
     if par[0:5] == 'empty':
         par_str = ' '
         return par_str
@@ -388,9 +344,9 @@ def output_imager_data_in_text_file(filename, imagers):
         file.write(line + "\n")
         for imager in imagers:
             for i_px in range(imager.number_of_pixels):
-                # pixel = imager.pixels[i_px]
                 line = f"I{imager.ID:<8d} | {i_px:>05d} | {imager.intensity[i_px]:>15.6f} | {imager.phase[i_px]:>+8.6f} | {imager.pixels[i_px].p0[X]:>+12.6f} | {imager.pixels[i_px].p0[Y]:>+12.6f}"
                 file.write(line + "\n")
+
 
 def plot_arrow_end_at_P(graph, P, r, s, angle, col):
     from utils import geometry
@@ -399,12 +355,3 @@ def plot_arrow_end_at_P(graph, P, r, s, angle, col):
     p1 = P - s * n * np.sin(angle) + s * r * np.cos(angle)
     graph.plot([P[X], p0[X]], [P[Y], p0[Y]], color=col, linewidth=3, linestyle='solid', alpha=1, zorder=5)
     graph.plot([P[X], p1[X]], [P[Y], p1[Y]], color=col, linewidth=3, linestyle='solid', alpha=1, zorder=5)
-
-
-if __name__ == "__main__":
-    (scattering_angles, scattering_pcs) = generate_gaussian_pcs(FWHM=0*deg, verbose=False)
-    S = generate_samples_from_pcs(x=scattering_angles, probability_cumsum=scattering_pcs, nr_of_samples=1, randomize=False, verbose=False)
-    # print(G)
-    print(scattering_angles)
-    print(scattering_pcs)
-    print(S)

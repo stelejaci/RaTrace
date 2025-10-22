@@ -18,9 +18,3 @@ while opaqueness < ANIMATION_TIME:
     opaqueness += step
 time.sleep(1)  # hold image on screen for a while
 splash.close()  # close the splash screen
-
-# widget = YourWidget()
-# widget.show() # This is where you'd run the normal application
-# from PyQt5.QtCore import QTimer
-# QTimer.singleShot(2000, splash.close)
-# app.exec_()

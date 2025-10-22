@@ -8,8 +8,6 @@ from utils import geometry
 WAVELENGTH_DEFAULT = 660*nm
 
 
-
-
 class DiffusePlaneSourceClass(light_class.LightSourceClass):
     def __init__(self, p0=[0,0], n0=[1,0], diameter=10*mm, wavelength=WAVELENGTH_DEFAULT, fan_angle=30*deg, intensity=1, plot_color='wavelength'):
         self.diameter = diameter
@@ -59,23 +57,3 @@ class DiffusePlaneSourceClass(light_class.LightSourceClass):
         graph.quiver(self.p0[X], self.p0[Y], 10*self.n0[X], 10*self.n0[Y], color=col, width=0.2, units='xy')
         # Plot the rays
         super().plot(graph)
-
-
-
-
-
-
-if __name__ == '__main__':
-    print('\nTest 1')
-    rays = []
-    rays.append(light_class.RayClass())
-    rays.append(light_class.RayClass())
-    print(rays[0])
-    print(rays[1])
-
-    print('\nTest 2')
-    PlaneSource = PlaneSourceClass(p0=np.array([0,0]), n=np.array([1,0]), wavelength=450*nm, intensity=10, diameter=10*mm, intensity_distribution='equidistant', plot_color='rainbow')
-    PlaneSource.generate_rays(N_rays=3)
-    print(PlaneSource)
-    for ray in PlaneSource.rays:
-        print(ray)
