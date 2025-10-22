@@ -1,2 +1,2 @@
-python main_console.py
+python main_noGUI.py
 pause

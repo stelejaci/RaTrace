@@ -15,16 +15,18 @@ for iter in range(len(f_lens)):
     simulation = simulation_class.SimulationClass()
 
     # Load a scene file that takes an argument
-    simulation.load_scene('../scenes/scene_10_SCENE_WITH_PARAMETERS_IN_A_LOOP.py', param=[f_lens[iter], p_BD[iter]])
+    scene_name = 'scene_20_SCENE_WITH_PARAMETERS_IN_A_LOOP'
+    simulation.load_scene(f"../scenes/{scene_name}.py", param=[f_lens[iter], p_BD[iter]])
 
     # Set the number of rays per source to raytrace. This overrides the number in the config.ini file
-    simulation.set_nr_of_rays_per_source(1000)
+    simulation.set_nr_of_rays_per_source(100)
 
     # Finally, raytrace the entire thing
     simulation.run()
 
     # Write the list of rays into a text file
-    varia.output_source_data_in_text_file("../test.txt", simulation.sources, add_timestamp=True)
+    export_filename = f"../scenes/{scene_name}_f{f_lens[iter]}mm_pBD{p_BD[iter]}mm.txt"
+    varia.output_source_data_in_text_file(export_filename, simulation.sources, add_timestamp=False)
 
     # If it simulates too quickly (imagine the horror), output files are written within the same second, and overwrites them
     time.sleep(1)

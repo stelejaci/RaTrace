@@ -337,6 +337,7 @@ def output_source_data_in_text_file(filename, sources, add_timestamp=False):
 
                 file.write(line + "\n")
 
+    print(f'\nRaytrace results written to: {filename}')
 
 def output_imager_data_in_text_file(filename, imagers):
     with open(filename, 'w') as file:

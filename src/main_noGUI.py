@@ -1,10 +1,7 @@
 import sys
 from PyQt5 import QtWidgets
-from datetime import datetime
 from raytracer import simulation_class
 from utils import varia
-
-
 
 
 # Start a QApplication in order to be able to use signals
@@ -14,16 +11,15 @@ app = QtWidgets.QApplication(sys.argv)
 simulation = simulation_class.SimulationClass()
 
 # Load a static scene file
-simulation.load_scene('../scene_01_Hello_world.py')
+scene_name = 'scene_07_THREE_LENS_OBJECTIVE_multiple_parallel_beams_and_lenses'
+simulation.load_scene(f"../scenes/{scene_name}.py")
 
 # Set the number of rays per source to raytrace. This overrides the number in the config.ini file
-simulation.set_nr_of_rays_per_source(1000)
+simulation.set_nr_of_rays_per_source(20)
 
 # Finally, raytrace the entire thing
 simulation.run()
 
 # Write the list of rays into a text file
-current_time = datetime.now()
-timestamp_string = current_time.strftime("%Y%m%d_%H%M%S")
-export_filename_full = f"G:/test_{timestamp_string}.txt"
-varia.output_source_data_in_text_file(export_filename_full, simulation.sources)
+export_filename = f"../scenes/{scene_name}.txt"
+varia.output_source_data_in_text_file(export_filename, simulation.sources, add_timestamp=True)
