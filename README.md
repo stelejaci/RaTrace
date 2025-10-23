@@ -77,6 +77,20 @@ The information in this README will later be formatted into a Wiki page of this 
 
 ---
 
+## Requirements
+
+### Python Version
+
+* Python 3.7 or higher
+
+### Libraries
+
+The following libraries were used:
+
+* PyQt5 5.15.11
+* numpy 2.1.3
+* matplotlib 3.9.2
+
 ## Usage
 
 Just download the files, and run one of the "main_XXX.py" files
