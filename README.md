@@ -94,13 +94,20 @@ The following libraries were used:
 ## Usage
 
 There are 4 ways to run RaTrace:
-* The primary way to use RaTrace is with the GUI. This way most of the settings can be changed, and new scenes can be loaded:
+1) The primary way to use RaTrace is with the GUI. This way most of the settings can be changed, and new scenes can be loaded:
+
 ``` python main_GUI.py```
-* With a GUI but automated and the possibility for taking screenshots. The program is closed when finished.
+
+2) With a GUI but automated and the possibility for taking screenshots. The program is closed when finished.
+
 ``` python main_GUI_in_loop.py```
-* Without GUI, the program finishes when finished.
+
+3) Without GUI, the program finishes when finished.
+
 ``` python main_noGUI.py```
-* Without GUI but automated, the program finishes when finished.
+
+4) Without GUI but automated, the program finishes when finished.
+
 ``` python main_noGUI_in_loop.py```
 
 When using the primary way-of-use via the GUI, the scene that is loaded is described in the config.ini file. 
