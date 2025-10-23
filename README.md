@@ -98,15 +98,15 @@ There are 4 ways to run RaTrace:
 
 ``` python main_GUI.py```
 
-2) With a GUI but automated and the possibility for taking screenshots. The program is closed when finished.
+2) With a GUI but automated and the possibility for taking screenshots. Each time a simulation in the loop is finished, the GUI closes and the next iteration starts.
 
 ``` python main_GUI_in_loop.py```
 
-3) Without GUI, the program finishes when finished.
+3) Running simulations without a GUI, with the possibility to export ray data to a text file when the simulation is finished.
 
 ``` python main_noGUI.py```
 
-4) Without GUI but automated, the program finishes when finished.
+4) The same GUI-less approach, but running in a loop
 
 ``` python main_noGUI_in_loop.py```
 
