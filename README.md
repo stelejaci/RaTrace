@@ -115,15 +115,15 @@ Also, most of the options that are available in the GUI can also be set in the s
 
 ``` 
 [scenes]
-scene_file = scene.py
-scenes_folder = D:/RaTrace/scenes
+scene_file = scene_01_SIMPLE_ON_AXIS_LENS_fan_beam_ideal_lens_beamdump.py
+scenes_folder = ..\scenes
 load_scene_at_startup = 1
 start_simulation_after_loading_scene = 1
-reset_axis_after_loading_scene = 0
+reset_axis_after_loading_scene = 1
 
 [simulation]
-nr_of_rays = 1000
-use_phase_information = 1
+nr_of_rays = 10
+use_phase_information = 0
 generate_reflected_rays = 0
 items_are_ordered = 0
 export_folder = ../
@@ -135,11 +135,11 @@ show_axis_and_grid = 1
 black_background = 0
 nr_of_rays_to_plot = 100
 show_elements_properties = 0
-intensity_coded_colors = 0
+intensity_coded_colors = 1
 show_pixels = 0
-intensity_scaler = 0.1
+intensity_scaler = 1
 show_noncolliding_rays = 1
-splash_screen_transition = 0
+splash_screen_transition = 2
 ```
 
 The scenes itself are written in Python and are dynamically loaded whenever a new scene is loaded. See the next chapter for examples.
