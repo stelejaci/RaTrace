@@ -93,8 +93,6 @@ The following libraries were used:
 
 ## Usage
 
-Just download the files, and run one of the "main_XXX.py" files
-
 There are 4 ways to run RaTrace:
 * The primary way to use RaTrace is with the GUI. This way most of the settings can be changed, and new scenes can be loaded:
 ``` python main_GUI.py```
