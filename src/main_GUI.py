@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets
 import sys, os
 from utils.configuration_class import config
-from gui import simulation_gui_class
+from gui import simulation_gui_class, splash
 from raytracer import simulation_class
 
 
@@ -15,7 +15,6 @@ simulation_GUI.show()
 if config.getboolean('scenes', 'load_scene_at_startup'):
     scene_file = os.path.join( config.get('scenes', 'scenes_folder'), config.get('scenes', 'scene_file') )
     simulation.load_scene(scene_file)
-    # print(simulation)
 
 # simulation_GUI.canvas.axis_lims = [53.2, 53.275, 114.1, 114.2]
 # simulation_GUI.canvas.graph.axis(simulation_GUI.canvas.axis_lims)
