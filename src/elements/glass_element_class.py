@@ -99,8 +99,9 @@ class FresnellPrismClass(GlassElementClass):
         self.name = 'fresnell prism'
 
     def plot(self, graph):
-        poly = plt.Polygon(self.pts, closed=True, facecolor='cyan', alpha=geometry.alpha_from_N(self.N), zorder=5)
+        poly = plt.Polygon(self.pts, closed=True, facecolor='cyan', edgecolor='blue', linewidth=3, alpha=geometry.alpha_from_N(self.N), zorder=5)
         graph.add_patch(poly)
+
         if config.getboolean('view', 'show_elements_properties'):
             canvas_class.plot_normals(graph, self)
 

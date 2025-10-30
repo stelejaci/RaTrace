@@ -65,8 +65,10 @@ class SphericalLensClass(glass_element_class.GlassElementClass):
 
 
     def plot(self, graph):
-        poly = plt.Polygon(self.pts, closed=True, facecolor='cyan', alpha=varia.alpha_from_N(self.N), zorder=0)
-        graph.add_patch(poly)
+        poly_face = plt.Polygon(self.pts, closed=True, facecolor='cyan', edgecolor='none', alpha=varia.alpha_from_N(self.N), zorder=0)
+        poly_edge = plt.Polygon(self.pts, closed=True, fill=False, edgecolor='blue', linewidth=1, alpha=0.2, zorder=0)
+        graph.add_patch(poly_face)
+        graph.add_patch(poly_edge)
         if config.getboolean('view', 'show_elements_properties'):
             graph.scatter(self.p1[0], self.p1[1], color='blue', s=25)
             graph.scatter([self.C0[0],self.C1[0]], [self.C0[1],self.C1[1]], color='cyan', s=25)

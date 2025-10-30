@@ -61,7 +61,8 @@ class PointSourceClass(light_class.LightSourceClass):
     def plot(self, graph):
         # Plotting the origin of the source, e.g. a plane, a point, a laser source, ...
         print(f' --> Plotting origin of source {self.ID+1}/{light_class.LightSourceClass.nr_of_sources}')
-        col = varia.colormap_wavelength(N=1, wavelength=self.wavelength)
+        # col = varia.colormap_wavelength(N=1, wavelength=self.wavelength)
+        col = varia.load_colormap(color=self.plot_color, N_rays=1, wavelength=self.wavelength)
         col = col[0]
         graph.scatter(self.p0[X], self.p0[Y], c=col, s=10)
         # Plot the principal radiating direction
