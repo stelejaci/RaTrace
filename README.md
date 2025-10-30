@@ -53,7 +53,7 @@ The information in this README will later be formatted into a Wiki page of this 
 <b>To be implemented features</b>
 * Lenses: plano-convex lens, aspherical lens
 * Glass elements: prism, biprism, microlens array 
-* Mirrors: spherical mirror
+* Mirrors: spherical mirror, one-way mirror, dichroic mirror
 * Light source: B/W image source
 * Internal & total reflections
 * Better error handling when there is a bug in the scene
