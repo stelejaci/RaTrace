@@ -155,6 +155,14 @@ def construct_parabolic_mirror(p0, f, D, T, resolution):
     pts = np.vstack((pts, [[T,D/2],[T,-D/2]]))
     return [pts+p0, p1+p0, f0+p0, p_corners+p0]
 
+def construct_aperture(p0, n0, Di, Do):
+    from utils import geometry
+    r = geometry.orientation_from_normal(n0)
+    pts = np.array([ p0 + r*Do/2,
+                     p0 + r*Di/2,
+                     p0 - r*Di/2,
+                     p0 - r*Do/2 ])
+    return pts
 
 def GLB_calculate_ZR(w0, M2, wavelength):  # GLB = Gaussian Laser Beam
     Z_R = np.pi * np.power(w0,2) / (M2*wavelength)

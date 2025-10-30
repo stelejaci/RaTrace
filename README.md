@@ -47,15 +47,16 @@ The information in this README will later be formatted into a Wiki page of this 
   * Light sources: point source, diffusing plane source, parallel plane source, laser source, virtual rays, double coherent point source
   * Glass elements: spherical lens, ideal lens, glass slab,
   * Mirrors: flat, parabolic, semi-transparent
-  * Surfaces: black absorber, diffuse scattering plane
+  * Surfaces: black absorber, aperture, diffuse scattering plane
   * Targets: display surface, imager
 
-<b>To be implemented features</b>
-* Lenses: plano-convex lens, aspherical lens
-* Glass elements: sphere, prism, biprism, microlens array 
+<b>To be implemented features (& priority)</b>
+* Lenses: plano-convex lens (1), aspherical lens (4)
+* Glass elements: sphere, prism (2), biprism, microlens array 
 * Mirrors: spherical mirror, one-way mirror, dichroic mirror
 * Light source: B/W image source
-* Internal & total reflections
+* Varia: Bandpass filter
+* Internal & total reflections (3)
 * Better error handling when there is a bug in the scene
 * Diffusely scattering sphere
 * A library of glass materials
@@ -499,6 +500,26 @@ black_plate_class.BlackPlateClass(p0, n0, length, thickness, plot_color)
 * <b>length</b> (float | default=10*mm) : Length of the plate
 * <b>thickness</b> (float | default=1*mm) : Thickness of the plate
 * <b>plot_color</b> (color | default=(0.5,0.5,0.5,1)): Plot color of the plate
+
+#### Aperture
+
+An aperture with an inner and outer diameter
+
+<p align="center">
+<img src="assets/Syntax_aperture.png", alt="Syntax_aperture.png", width=200, height=200/>
+</p>
+
+<i>Object initialisation:</i>
+```
+aperture_class.ApertureClass(p0, n0, diameter_inner, diameter_outer, plot_color)
+```
+
+<i>Input parameters:</i>
+* <b>p0</b> (np.array | default=np.array([0,0])) : Position of the aperture
+* <b>n0</b> (np.array | default=np.array([-1,0])) : Orientation of the aperture
+* <b>diameter_inner</b> (float | default=10*mm) : Inner (passing) diameter of the aperture
+* <b>diameter_outer</b> (float | default=20*mm) : Outer (blocking) diameter of the aperture
+* <b>plot_color</b> (color | default=(0.5,0.5,0.5,1)): Plot color of the aperture
 
 
 ### Mirrors
