@@ -113,6 +113,7 @@ class CanvasDisplayClass(FigureCanvasQTAgg):
             x_ind = np.arange(display.number_of_pixels)
             self.graph.plot(x_mm, display.intensity, color='blue', marker='.', linestyle='-', linewidth=1, markersize=4)
             self.ylims = np.array([0, 1.1 * display.peak_intensity])
+            self.xlims = np.array([0, display.length])
             self.graph.grid(config.getboolean('view', 'show_axis_and_grid'), which='both')
         elif graph_type_ind == 3:
             if self.greyscale_mode:

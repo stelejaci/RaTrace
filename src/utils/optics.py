@@ -1,5 +1,5 @@
 import numpy as np
-from utils.varia import mm, µm, X
+from utils.varia import mm, µm, X, Y
 
 global N_glass, N_air
 N_air = 1
@@ -84,9 +84,21 @@ def derive_lens_radii_and_f(N=N_glass, f=None, R0=None, R1=None, T=None):
     else:
         print(f'Error: Lens definition is incorrect, either define f OR R0 and R1: f={f}, R0={R0}, R1={R1}')
         return [None, None, None]
-
     return [f, R0, R1]
 
+def derive_planosphericallens_radius_and_f(N=N_glass, f=None, R=None):
+    # Using the lensmaker's equation: https://en.wikipedia.org/wiki/Lens#Lensmaker.27s_equation
+    N = N[0] if isinstance(N, list) else N
+    if f is not None:
+        R = f*(N-1)
+        print(f'Plano-convex lens parameters derived: f={f:0.2f}mm --> R={R:0.2f}mm')
+    elif R is not None:
+        f = R/(N-1)
+        print(f'Plano-convex lens parameters derived: R={R:0.2f}mm --> f={f:0.2f}mm')
+    else:
+        print(f'Error: Plano-convex lens definition is incorrect, either define f OR R: f={f}, R={R}')
+        return [None, None, None]
+    return [f, R]
 
 def lensmakers_equation(N,R0,R1,T):
     # Using the lensmaker's equation: https://en.wikipedia.org/wiki/Lens#Lensmaker.27s_equation
@@ -124,23 +136,34 @@ def calculate_reflectance_and_transmittance_coefficients(Ni, No, ai, ao):
     return [R, T, Rs, Rp, Ts, Tp]
 
 
-# Lens with its first surface
+# Lens with p0 at its first surface
 def construct_lens(p0, R0, R1, T, D, resolution):
-    p1 = np.array([T,  0])          # Principle point on the second surface
+    p1 = np.array([T,  0])          # p1 is at the second surface
     C0 = np.array([R0, 0])          # Centre of the circle of the first surface
     C1 = np.array([p1[X]+R1, 0])
 
     if not isinstance(D,list):
         D = [D, D]  # Use the same diameter for both lens surfaces, otherwise, use the ones that are given
 
-    y0 = np.linspace(-D[0]/2, D[0]/2, 1 + int(D[0]/resolution))
-    y1 = np.linspace(D[1]/2, -D[1]/2, 1 + int(D[1]/resolution))
-    x0 = C0[0] - np.sign(R0) * np.sqrt(R0**2-y0**2)
-    x1 = C1[0] - np.sign(R1) * np.sqrt(R1 ** 2 - y1 ** 2)
+    y0 = np.linspace(-D[0]/2,  D[0]/2, 1 + int(D[0]/resolution))
+    y1 = np.linspace( D[1]/2, -D[1]/2, 1 + int(D[1]/resolution))
+    x0 = C0[0] - np.sign(R0) * np.sqrt(R0**2 - y0**2)
+    x1 = C1[0] - np.sign(R1) * np.sqrt(R1**2 - y1**2)
     p_corners = np.array([[x0[0], y0[0]], [x0[-1], y0[-1]], [x1[0], y1[0]], [x1[-1], y1[-1]]])
     pts = np.concatenate([x0, x1, y0, y1]).reshape(2, -1).T  # Make it an Nx2 array
 
     return [pts + p0, p1 + p0, C0 + p0, C1 + p0, p_corners + p0]
+
+
+# Plano convex lens with its normal on the front convex surface in [-1,0] direction
+def construct_planosphericallens(p0, R, T, D, resolution):
+    p1 = np.array([T,  0])          # Principle point on the second flat surface
+    C = np.array([R, 0])            # Centre of the circle of the first surface
+    y = np.linspace(-D/2, D/2, 1 + int(D/resolution))
+    x = C[0] - np.sign(R) * np.sqrt(R**2-y**2)
+    p_corners = np.array([[x[0], y[0]], [x[-1], y[-1]], [T, y[-1]], [T, y[0]]])
+    pts = np.concatenate([x, p_corners[2:4][:,X], y, p_corners[2:4][:,Y]]).reshape(2, -1).T  # Make it an Nx2 array
+    return [pts + p0, p1 + p0, C + p0, p_corners + p0]
 
 
 

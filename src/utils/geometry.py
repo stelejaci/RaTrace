@@ -112,7 +112,10 @@ def intersection_of_PP_line_with_PR_line(p00, p01, p10, r1):
 def intersection_of_PR_line_with_PP_line(p00, r0, p10, p11):
     r1 = np.array([p11[X]-p10[X], p11[Y]-p10[Y]])
     [p, t0, t1] = intersection_of_PR_line_with_PR_line(p00, r0, p10, r1)
-    return [p, t0, t1]
+    if t0>=EPSILON:
+        return [p, t0, t1]
+    else:
+        return [None, None, None]
 
 
 def intersection_of_PR_line_with_PR_line(pt1, r1, pt2, r2):

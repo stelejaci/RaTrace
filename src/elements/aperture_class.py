@@ -44,5 +44,12 @@ class ApertureClass(element_class.ElementClass):
         if self.is_visible:
             graph.plot([self.pts[0][X], self.pts[1][X]], [self.pts[0][Y], self.pts[1][Y]], color=self.plot_color, linewidth=1, linestyle='solid', alpha=1, zorder=5)
             graph.plot([self.pts[2][X], self.pts[3][X]], [self.pts[2][Y], self.pts[3][Y]], color=self.plot_color, linewidth=1, linestyle='solid', alpha=1, zorder=5)
+            L = self.diameter_outer/30
+            p1a = self.pts[1]+self.n0*L/2
+            p1b = self.pts[1]-self.n0*L/2
+            p2a = self.pts[2]+self.n0*L/2
+            p2b = self.pts[2]-self.n0*L/2
+            graph.plot([p1a[X], p1b[X]], [p1a[Y], p1b[Y]], color=self.plot_color, linewidth=1, linestyle='solid', alpha=1, zorder=5)
+            graph.plot([p2a[X], p2b[X]], [p2a[Y], p2b[Y]], color=self.plot_color, linewidth=1, linestyle='solid', alpha=1, zorder=5)
         super().plot(graph)
 

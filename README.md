@@ -45,18 +45,18 @@ The information in this README will later be formatted into a Wiki page of this 
 * Color coding rays: wavelength, rainbow, fixed, intensity-scaling
 * Support for:
   * Light sources: point source, diffusing plane source, parallel plane source, laser source, virtual rays, double coherent point source
-  * Glass elements: spherical lens, ideal lens, glass slab,
+  * Glass elements: spherical lens, plano-spherical lens, ideal lens, glass slab,
   * Mirrors: flat, parabolic, semi-transparent
   * Surfaces: black absorber, aperture, diffuse scattering plane
   * Targets: display surface, imager
 
 <b>To be implemented features (& priority)</b>
-* Lenses: plano-convex lens (1), aspherical lens (4)
-* Glass elements: sphere, prism (2), biprism, microlens array 
+* Lenses: aspherical lens
+* Glass elements: sphere, prism, biprism, microlens array 
 * Mirrors: spherical mirror, one-way mirror, dichroic mirror
 * Light source: B/W image source
 * Varia: Bandpass filter
-* Internal & total reflections (3)
+* Internal & total reflections
 * Better error handling when there is a bug in the scene
 * Diffusely scattering sphere
 * A library of glass materials
@@ -70,6 +70,7 @@ The information in this README will later be formatted into a Wiki page of this 
 * Warning concerning colors
 * Contact surfaces (e.g. lens doublet) not working
 * Crash when selecting an intensity plot in the display tab, when no imager is present 
+* Inactive surfaces at the top and bottom of (plano-)spherical lenses
 * Many others ...
 
 <p align="center">
@@ -411,7 +412,7 @@ ideal_thin_lens_class.IdealThinLensClass(p0, n0, f, diameter, N, blur_angle, nr_
 * <b>f</b> (float | default=100*mm) : Focal distance of the lens
 * <b>diameter</b> (float | default=10*mm) : Diameter of the lens
 * <b>N</b> (float | default=N_glass) : Refractive index of the lens
-* <b>blur_angle</b> (float | default=0) : The angle over which rays are scattered when exiting the lens
+* <b>blur_angle</b> (float | default=0*deg) : The angle over which rays are scattered when exiting the lens
 * <b>nr_of_secondary_rays</b> (float | default=1) : The number of scattered rays
 
 #### Spherical lens
@@ -434,10 +435,35 @@ spherical_lens_class.SphericalLensClass(p0, n0, R0, R1, f, thickness, diameter, 
 * <b>R0</b> (float | default=None) : The radius of the first surface 
 * <b>R1</b> (float | default=None) : The radius of the second surface
 * <b>thickness</b> (float | default=2*mm) : Thickness of the lens along the optical axis
-* <b>diameter</b> (float | default=10*mm) : Diameter of the lens
+* <b>diameter</b> (float, [float, float] | default=10*mm) : Diameter of the entire lens when one value is given. When a 2-element list is passed, it defines the diameters of the first and second surface, e.g. [20,10]
 * <b>N</b> (float | default=N_glass) : Refraction index
 * <b>nr_of_secondary_rays</b> (float | default=1) : The number of secondary rays an outgoing ray generates
-* <b>blur_angle</b> (float | default=0°) : The fan angle of the secondary rays
+* <b>blur_angle</b> (float | default=0*deg) : The fan angle of the secondary rays
+* <b>plot_resolution</b> (float | default=0.1*mm) : Resolution of the plotted lens shape
+
+#### Plano-spherical lens
+
+A glass lens with focal distance f and spherical front surface with radius R and flat back surface. If f is given, the radius R is ignored (if provided) and calculated from f. If f is not given and R is, then f is calculated from the radius.
+
+<p align="center">
+<img src="assets/Syntax_plano_spherical_lens.png", alt="Syntax_plano_spherical_lens.png", width=200, height=200/>
+</p>
+
+<i>Object initialisation:</i>
+```
+plano_spherical_lens_class.PlanoSphericalLensClass(p0, n0, R, f, thickness, diameter, N, blur_angle, nr_of_secondary_rays, plot_resolution)
+```
+
+<i>Input parameters:</i>
+* <b>p0</b> (np.array([0,0]) : Position of the first surface of the lens
+* <b>n0</b> (np.array([1,0]) : Orientation of the optical axis of the spherical lens
+* <b>f</b> (float | default=None) : Focal distance
+* <b>R</b> (float | default=None) : The radius of the frontal spherical surface 
+* <b>thickness</b> (float | default=5*mm) : Thickness of the lens along the optical axis
+* <b>diameter</b> (float | default=10*mm) : Diameter of the entire lens when one value is given.
+* <b>N</b> (float | default=N_glass) : Refraction index
+* <b>nr_of_secondary_rays</b> (float | default=1) : The number of secondary rays an outgoing ray generates
+* <b>blur_angle</b> (float | default=0*deg) : The fan angle of the secondary rays
 * <b>plot_resolution</b> (float | default=0.1*mm) : Resolution of the plotted lens shape
 
 #### Glass parallel plate
