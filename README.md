@@ -39,25 +39,27 @@ The information in this README will later be formatted into a Wiki page of this 
 * Exact raytracing for analytically described elements (spherical, parabolic, flat surfaces)
 * Accurate raytracing for segments-based, more "complex" elements
 * "Fast" raytrace mode for ordered elements or "slow" mode for full raytracing
+* Internal & total reflections
 * Wavelength dispersion
 * Tracking of ray phase information
 * Export ray information to a text file
 * Color coding rays: wavelength, rainbow, fixed, intensity-scaling
 * Support for:
   * Light sources: point source, diffusing plane source, parallel plane source, laser source, virtual rays, double coherent point source
-  * Glass elements: spherical lens, plano-spherical lens, ideal lens, glass slab,
+  * Lenses: spherical lens, plano-spherical lens, ideal lens
+  * Glass elements: glass slab, prism, biprism
   * Mirrors: flat, parabolic, semi-transparent
   * Surfaces: black absorber, aperture, diffuse scattering plane
   * Targets: display surface, imager
 
 <b>To be implemented features (& priority)</b>
 * Lenses: aspherical lens
-* Glass elements: sphere, prism, biprism, microlens array 
+* Glass elements: sphere, microlens array
 * Mirrors: spherical mirror, one-way mirror, dichroic mirror
 * Light source: B/W image source
 * Varia: Bandpass filter
-* Internal & total reflections
 * Better error handling when there is a bug in the scene
+* Better plotting of properties
 * Diffusely scattering sphere
 * A library of glass materials
 * Glass dispersion described with Abbe numbers
@@ -385,7 +387,7 @@ plane_source_class.DiffusePlaneSourceClass(p0, n0, diameter, fan_angle, waveleng
 
 (To be documented) 
 
-### Glass elements
+### Lenses
 
 The following object classes should be imported from the 'light' folder:
 
@@ -439,7 +441,7 @@ spherical_lens_class.SphericalLensClass(p0, n0, R0, R1, f, thickness, diameter, 
 * <b>N</b> (float | default=N_glass) : Refraction index
 * <b>nr_of_secondary_rays</b> (float | default=1) : The number of secondary rays an outgoing ray generates
 * <b>blur_angle</b> (float | default=0*deg) : The fan angle of the secondary rays
-* <b>plot_resolution</b> (float | default=0.1*mm) : Resolution of the plotted lens shape
+* <b>plot_resolution</b> (float | default=1*mm) : Resolution of the plotted lens shape
 
 #### Plano-spherical lens
 
@@ -455,7 +457,7 @@ plano_spherical_lens_class.PlanoSphericalLensClass(p0, n0, R, f, thickness, diam
 ```
 
 <i>Input parameters:</i>
-* <b>p0</b> (np.array([0,0]) : Position of the first surface of the lens
+* <b>p0</b> (np.array([0,0]) : Position of the first (spherical) surface of the lens
 * <b>n0</b> (np.array([1,0]) : Orientation of the optical axis of the spherical lens
 * <b>f</b> (float | default=None) : Focal distance
 * <b>R</b> (float | default=None) : The radius of the frontal spherical surface 
@@ -464,9 +466,17 @@ plano_spherical_lens_class.PlanoSphericalLensClass(p0, n0, R, f, thickness, diam
 * <b>N</b> (float | default=N_glass) : Refraction index
 * <b>nr_of_secondary_rays</b> (float | default=1) : The number of secondary rays an outgoing ray generates
 * <b>blur_angle</b> (float | default=0*deg) : The fan angle of the secondary rays
-* <b>plot_resolution</b> (float | default=0.1*mm) : Resolution of the plotted lens shape
+* <b>plot_resolution</b> (float | default=1*mm) : Resolution of the plotted lens shape
+
+### Various glass elements
 
 #### Glass parallel plate
+
+<p align="center">
+<img src="assets/Syntax_glass_parallel_plate.png", alt="Syntax_glass_parallel_plate.png", width=200, height=200/>
+</p>
+
+#### Prism
 
 <p align="center">
 <img src="assets/Syntax_glass_parallel_plate.png", alt="Syntax_glass_parallel_plate.png", width=200, height=200/>
