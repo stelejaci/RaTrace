@@ -10,7 +10,7 @@ from utils.configuration_class import config
 
 
 class PlanoSphericalLensClass(glass_element_class.GlassElementClass):
-    def __init__(self, p0=np.array([0,0]), n0=np.array([1,0]), R=None, f=None, thickness=5*mm, diameter=10*mm, N=N_glass, blur_angle=0, nr_of_secondary_rays=1, plot_resolution=0.1):
+    def __init__(self, p0=np.array([0,0]), n0=np.array([1,0]), R=None, f=None, thickness=5*mm, diameter=10*mm, N=N_glass, plot_resolution=1, generate_reflections=False):
         # Position p0 is the position at the center of the first surface
         # Front face radius R is positive for convex faces (bulging out, "fat")
         self.diameter  = diameter     # Diameter of the lens
@@ -18,13 +18,13 @@ class PlanoSphericalLensClass(glass_element_class.GlassElementClass):
         self.plot_resolution = plot_resolution    # Inter-point distance for plotting the lens
 
         # If f is given, calculate R (also if they are given), else calculate f from R
-        [self.f, self.R] = optics.derive_planosphericallens_radius_and_f(N=N, f=f, R=R)
+        [self.f, self.R, self.H] = optics.derive_planosphericallens_properties(N=N, f=f, R=R, T=self.thickness)
 
         # Construct the outline of the lens in 0° orientation, rotate later
         [pts, self.p1, self.C, self.p_corners] = optics.construct_planosphericallens(p0=p0, R=self.R, T=self.thickness, D=self.diameter, resolution=self.plot_resolution)
 
         # Initialise the GlassElementsClass instance
-        super().__init__(p0=p0, n0=n0,  N=N, pts=pts, blur_angle=blur_angle, nr_of_secondary_rays=nr_of_secondary_rays, is_active=True, is_visible=True)
+        super().__init__(p0=p0, n0=n0,  N=N, pts=pts, is_active=True, is_visible=True, generate_reflections=generate_reflections)
         self.name = 'Plano-convex lens'
 
         # Rotate the lens to align with the normal vector n0
@@ -69,17 +69,25 @@ class PlanoSphericalLensClass(glass_element_class.GlassElementClass):
             graph.add_patch(poly_face)
             graph.add_patch(poly_edge)
             if config.getboolean('view', 'show_elements_properties'):
-                graph.scatter(self.p1[0], self.p1[1], color='blue', s=25)
-                graph.scatter(self.C[0], self.C[1], color='cyan', s=25)
-                graph.scatter(self.p_corners[:,0], self.p_corners[:,1], color='blue', s=25)
-                p_f0 = (self.p0+self.p1)/2 + self.n0*self.f
-                p_f1 = (self.p0+self.p1)/2 - self.n0*self.f
-                graph.scatter([p_f0[X], p_f1[X]], [p_f0[Y], p_f1[Y]], color='cyan', s=25)
-                graph.text(self.p1[X], self.p1[Y], f'p1', color='cyan', horizontalalignment='center', verticalalignment='bottom', fontsize=8)
-                graph.text(p_f0[X], p_f0[Y], f'f={self.f:0.2f}mm', color='cyan', horizontalalignment='center', verticalalignment='bottom', fontsize=8)
-                graph.text(p_f1[X], p_f1[Y], f'f={self.f:0.2f}mm', color='cyan', horizontalalignment='center', verticalalignment='bottom', fontsize=8)
-        super().plot(graph)
+                graph.scatter(self.p1[0], self.p1[1], color='black', s=20)
+                graph.scatter(self.C[0], self.C[1], color='black', s=20)
+                graph.scatter(self.p_corners[:,0], self.p_corners[:,1], color='black', s=20)
+                r = geometry.orientation_from_normal(self.n0)
+                p_H = self.p1 - self.n0*self.H
+                p_Ht, p_Hb = p_H + r*self.diameter/2,  p_H - r*self.diameter/2
+                p_f0, p_f1 = p_H + self.n0*self.f, p_H - self.n0*self.f
+                graph.scatter([p_f0[X], p_f1[X]], [p_f0[Y], p_f1[Y]], color='black', s=20)
+                graph.plot([p_Ht[X], p_Hb[X]], [p_Ht[Y], p_Hb[Y]], color='black', linewidth=1, linestyle='dashed', alpha=1, zorder=5)
+                graph.plot([p_f0[X], (3 * p_Ht[X] + p_Hb[X]) / 4], [p_f0[Y], (3 * p_Ht[Y] + p_Hb[Y]) / 4], color='black', linewidth=1, linestyle='--', alpha=0.2, zorder=5)
+                graph.plot([p_f1[X], (3 * p_Ht[X] + p_Hb[X]) / 4], [p_f1[Y], (3 * p_Ht[Y] + p_Hb[Y]) / 4], color='black', linewidth=1, linestyle='--', alpha=0.2, zorder=5)
+                graph.plot([self.C[X], self.p_corners[1, X]], [self.C[Y], self.p_corners[1, Y]], color='black', linewidth=1, linestyle=':', alpha=0.2, zorder=5)
+                graph.text(self.p1[X], self.p1[Y], f'p1', color='black', horizontalalignment='center', verticalalignment='bottom', fontsize=8, bbox=dict(facecolor='white', alpha=0.5, edgecolor='none', boxstyle='round,pad=0.2'))
+                graph.text(p_f0[X], p_f0[Y], f'f={self.f:0.2f}mm', color='black', horizontalalignment='center', verticalalignment='bottom', fontsize=8, bbox=dict(facecolor='white', alpha=0.5, edgecolor='none', boxstyle='round,pad=0.2'))
+                graph.text(p_f1[X], p_f1[Y], f'f={self.f:0.2f}mm', color='black', horizontalalignment='center', verticalalignment='bottom', fontsize=8, bbox=dict(facecolor='white', alpha=0.5, edgecolor='none', boxstyle='round,pad=0.2'))
+                graph.text(self.C[X], self.C[Y], f'C', color='black', horizontalalignment='center', verticalalignment='bottom', fontsize=8, bbox=dict(facecolor='white', alpha=0.5, edgecolor='none', boxstyle='round,pad=0.2'))
+                graph.text(p_Ht[X], p_Ht[Y], f'H', color='black', horizontalalignment='center', verticalalignment='bottom', fontsize=8, bbox=dict(facecolor='white', alpha=0.5, edgecolor='none', boxstyle='round,pad=0.2'))
+            super().plot(graph)
 
     def __str__(self):
-        s = f'{self.name} --> Element ID= {self.ID}, p0={self.p0}, n0={self.n0}, N={self.N}, R={self.R}, f={self.f}, thickness={self.thickness}, diameter={self.diameter}, blur angle={self.blur_angle}, number of secondary rays={self.nr_of_secondary_rays}, number of points={self.nr_of_pts}'
+        s = f'{self.name} --> Element ID= {self.ID}, p0={self.p0}, n0={self.n0}, N={self.N}, R={self.R}, f={self.f}, thickness={self.thickness}, diameter={self.diameter}, number of points={self.nr_of_pts}'
         return s

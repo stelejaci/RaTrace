@@ -130,6 +130,8 @@ class RayClass:
         self.ID = RayClass.nr_of_rays
         RayClass.nr_of_rays += 1
 
+        self.reset()
+
         # Track parent and children information
         self.ID_parent = []
         self.ID_children = []
@@ -137,11 +139,11 @@ class RayClass:
             self.ID_parent = ray_parent.ID
             self.phase_start = ray_parent.phase_end
 
-        self.reset()
 
     def reset(self):
         self._p1 = None             # The end point of the ray is a private member. This cannot be simply set, a setter method is used.
         self.element_hit = None
+        self.reflection_count = 0
         self.length = None
         self.optical_path_length = None
         self.p1_element_rel = np.nan

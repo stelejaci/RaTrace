@@ -1,5 +1,5 @@
 import numpy as np
-from utils import varia, geometry
+from utils import geometry, optics
 from utils.varia import mm, X, Y
 from elements import element_class
 from light import light_class
@@ -35,14 +35,11 @@ class SemiTransparentMirror(element_class.ElementClass):
         # print(f'Propagating on SSM:')
         # print(ray)
         if (self.n_coll is not None)    and    (geometry.point_is_on_PP_line(ray.p1, self.pts[0], self.pts[1])):
-            R = 2 * np.dot(self.n_coll, -ray.r) * self.n_coll + ray.r
-            ray_reflected = light_class.RayClass(p0=ray.p1, r=R, intensity=(1-self.transmission)*ray.intensity, wavelength=ray.wavelength, N=ray.N, ray_parent=ray, source_element=self, plot_color=ray.plot_color, is_active = True, is_visible=True)
+            r_refl = optics.calculate_reflected_orientation(ray, self.n_coll)
+            ray_reflected = light_class.RayClass(p0=ray.p1, r=r_refl, intensity=(1-self.transmission)*ray.intensity, wavelength=ray.wavelength, N=ray.N, ray_parent=ray, source_element=self, plot_color=ray.plot_color, is_active = True, is_visible=True)
             new_rays.append(ray_reflected)
             ray_transmitted = light_class.RayClass(p0=ray.p1, r=ray.r, intensity=self.transmission*ray.intensity, wavelength=ray.wavelength, N=ray.N, ray_parent=ray, source_element=self, plot_color=ray.plot_color, is_active = True, is_visible=True)
             new_rays.append(ray_transmitted)
-            # print('Propagated rays:')
-            # print(ray_reflected)
-            # print(ray_transmitted)
         return new_rays
 
     def __str__(self):

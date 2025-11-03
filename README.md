@@ -468,19 +468,40 @@ plano_spherical_lens_class.PlanoSphericalLensClass(p0, n0, R, f, thickness, diam
 * <b>blur_angle</b> (float | default=0*deg) : The fan angle of the secondary rays
 * <b>plot_resolution</b> (float | default=1*mm) : Resolution of the plotted lens shape
 
+
 ### Various glass elements
 
 #### Glass parallel plate
 
+A simple glass parallel plate with thickness
+
 <p align="center">
 <img src="assets/Syntax_glass_parallel_plate.png", alt="Syntax_glass_parallel_plate.png", width=200, height=200/>
 </p>
+
+<i>Object initialisation:</i>
+```
+glass_parallel_plate_class.GlassParallelPlate(p0, n0, , thickness, length, N, generate_reflections)
+```
+
+<i>Input parameters:</i>
+(To do)
 
 #### Prism
 
+A glass prism with a certain apex angle
+
 <p align="center">
-<img src="assets/Syntax_glass_parallel_plate.png", alt="Syntax_glass_parallel_plate.png", width=200, height=200/>
+<img src="assets/Syntax_prism.png", alt="Syntax_prism.png", width=200, height=200/>
 </p>
+
+<i>Object initialisation:</i>
+```
+glass_prism_class.GlassPrism(p0, n0, angle_apex, length, N, generate_reflections)
+```
+
+<i>Input parameters:</i>
+(To do)
 
 
 ### Surfaces

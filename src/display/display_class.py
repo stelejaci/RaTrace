@@ -78,9 +78,10 @@ class DisplayClass(element_class.ElementClass):
         return txt
 
     def plot(self, graph):
-        graph.plot([self.pts[0,X], self.pts[1,X]], [self.pts[0,Y], self.pts[1,Y]], color='green', linewidth=2)
-        if config.getboolean('view', 'show_elements_properties'):
-            graph.scatter(self.p0[X], self.p0[Y], s=10, facecolor='g')
-            p_txt = self.p0 - self.n0*0.5
-            graph.text(p_txt[X], p_txt[Y], f'{self.name} {self.ID}', color='green', horizontalalignment='left', verticalalignment='bottom', fontsize=10, rotation=0)
-        super().plot(graph)
+        if self.is_visible:
+            graph.plot([self.pts[0,X], self.pts[1,X]], [self.pts[0,Y], self.pts[1,Y]], color='green', linewidth=2)
+            if config.getboolean('view', 'show_elements_properties'):
+                graph.scatter(self.p0[X], self.p0[Y], s=10, facecolor='g')
+                p_txt = self.p0 - self.n0*0.5
+                graph.text(p_txt[X], p_txt[Y], f'{self.name} {self.ID}', color='green', horizontalalignment='left', verticalalignment='bottom', fontsize=10, rotation=0)
+            super().plot(graph)

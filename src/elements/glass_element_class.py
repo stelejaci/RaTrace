@@ -1,10 +1,8 @@
 import numpy as np
-from utils import varia
 from utils.varia import mm, X, Y
 from utils import optics
 from utils.optics import N_air, N_glass
 from utils import geometry
-from light import light_class
 from elements import element_class
 from utils.configuration_class import config
 from gui import canvas_class
@@ -12,22 +10,23 @@ import matplotlib.pyplot as plt
 
 
 class GlassElementClass(element_class.ElementClass):
-    def __init__(self, p0, n0, pts, N=N_glass, blur_angle=0, nr_of_secondary_rays=1, is_active=True, is_visible=True):
+    def __init__(self, p0, n0, pts, N=N_glass, generate_reflections=False, is_active=True, is_visible=True):
+
         self.N = N
-        self.blur_angle = blur_angle
-        self.nr_of_secondary_rays = nr_of_secondary_rays
+        self.generate_reflections = generate_reflections
+        # self.blur_angle = blur_angle
+        # self.nr_of_secondary_rays = nr_of_secondary_rays
 
         super().__init__(p0=p0, n0=n0, pts=pts, is_active=is_active, is_visible=is_visible)
         self.name = 'Glass element'
 
-        # For generating randomly scattered angles, one needs the Gaussian-based probability cumulative sum for sampling
-        # self.generate_ray_displacement_matrices(blur_angle=blur_angle, nr_of_secondary_rays=self.nr_of_secondary_rays)
-        (scattering_angles, scattering_pcs) = varia.generate_gaussian_pcs(FWHM=self.blur_angle, verbose=False)
-        self.scattering_angles_sampling = varia.generate_samples_from_pcs(x=scattering_angles, probability_cumsum=scattering_pcs, nr_of_samples=nr_of_secondary_rays, randomize=False, verbose=False)
+        # # For generating randomly scattered angles, one needs the Gaussian-based probability cumulative sum for sampling
+        # # self.generate_ray_displacement_matrices(blur_angle=blur_angle, nr_of_secondary_rays=self.nr_of_secondary_rays)
+        # (scattering_angles, scattering_pcs) = varia.generate_gaussian_pcs(FWHM=self.blur_angle, verbose=False)
+        # self.scattering_angles_sampling = varia.generate_samples_from_pcs(x=scattering_angles, probability_cumsum=scattering_pcs, nr_of_samples=nr_of_secondary_rays, randomize=False, verbose=False)
 
     def propagate_ray(self, ray):
         # Select the proper refractive indices
-        Ni = ray.N  # The incoming N is always that of the ray
         if np.dot(ray.r, self.n_coll)<0:
             No = self.N         # The element normal points towards the ray, meaning the ray enters the element, thus No=N
         else:
@@ -37,31 +36,32 @@ class GlassElementClass(element_class.ElementClass):
         Ni = optics.calculate_refraction_index(ray.N, ray.wavelength)
         No = optics.calculate_refraction_index(No, ray.wavelength)
 
-        ray_new = optics.refract_ray(ray, self.n_coll, Ni=Ni, No=No)
-        ray_new.source_element = self
+        # Calculate both the refracted and reflected rays (if enabled)
+        rays_new = optics.refract_and_reflect_ray(ray, self.n_coll, Ni=Ni, No=No, generate_reflection=self.generate_reflections)
 
-        # Virtual rays should not scatter in/on glass
-        if ray.is_virtual:
-            return ray_new
+        for ray_new in rays_new:
+            ray_new.source_element = self
 
-        # Refract the ray at the collision surface, but only at the exiting side of a glass element
-        if No>Ni:   # Entering glass
-            return ray_new
-        else:       # Leaving glass
-            rays_scattered = self.generate_scattered_rays(ray_new)
-            return rays_scattered
+        return rays_new
 
-    def generate_scattered_rays(self, ray):
-        rays_scattered = []
-        for angle in self.scattering_angles_sampling:
-            scattered_ray_direction = geometry.rotate_direction_over_angle(ray.r, angle)
-            # M = np.array([[np.cos(angle), -np.sin(angle)], [np.sin(angle), np.cos(angle)]])
-            # scattered_ray_direction = np.matmul(M, direction)
-            # scattered_ray_direction = misc.normalize(scattered_ray_direction)
-            scattered_ray_intensity = ray.intensity / self.nr_of_secondary_rays
-            scattered_ray = light_class.RayClass(p0=ray.p0, r=scattered_ray_direction, intensity=scattered_ray_intensity, wavelength=ray.wavelength, ray_parent=ray, N=ray.N, source_element=ray.source_element, is_active=True, is_visible=True, plot_color=ray.plot_color)
-            rays_scattered.append(scattered_ray)
-        return rays_scattered
+        # # Refract the ray at the collision surface, but only at the exiting side of a glass element
+        # if No>Ni:   # Entering glass
+        #     return ray_new
+        # else:       # Leaving glass
+        #     rays_scattered = self.generate_scattered_rays(ray_new)
+        #     return rays_scattered
+
+    # def generate_scattered_rays(self, ray):
+    #     rays_scattered = []
+    #     for angle in self.scattering_angles_sampling:
+    #         scattered_ray_direction = geometry.rotate_direction_over_angle(ray.r, angle)
+    #         # M = np.array([[np.cos(angle), -np.sin(angle)], [np.sin(angle), np.cos(angle)]])
+    #         # scattered_ray_direction = np.matmul(M, direction)
+    #         # scattered_ray_direction = misc.normalize(scattered_ray_direction)
+    #         scattered_ray_intensity = ray.intensity / self.nr_of_secondary_rays
+    #         scattered_ray = light_class.RayClass(p0=ray.p0, r=scattered_ray_direction, intensity=scattered_ray_intensity, wavelength=ray.wavelength, ray_parent=ray, N=ray.N, source_element=ray.source_element, is_active=True, is_visible=True, plot_color=ray.plot_color)
+    #         rays_scattered.append(scattered_ray)
+    #     return rays_scattered
 
     def __str__(self):
         s = f'{self.name} --> Element ID= {self.ID}, p0={self.p0}, n0={self.n0}, N={self.N}, blur angle={self.blur_angle}, number of secondary rays={self.nr_of_secondary_rays}, number of points={self.nr_of_pts}'
@@ -69,13 +69,13 @@ class GlassElementClass(element_class.ElementClass):
 
     def plot(self, graph):
         if config.getboolean('view', 'show_elements_properties'):
-            p_txt = np.array([(np.min(self.pts[:,X]) + np.max(self.pts[:,X]))/2, np.max(self.pts[:][Y])])
+            p_txt = np.array([(np.min(self.pts[:,X]) + np.max(self.pts[:,X]))/2, 1.2*np.max(self.pts[:,Y])])
             # p_txt = (self.p0  + self.p1)/2
-            graph.text(p_txt[X], p_txt[Y], f'{self.name} {self.ID}', color='cyan', horizontalalignment='center', verticalalignment='bottom', fontsize=10, rotation=0)
+            graph.text(p_txt[X], p_txt[Y], f'{self.name} {self.ID}', color='black', horizontalalignment='center', verticalalignment='bottom', fontsize=10, rotation=90)
         super().plot(graph)
 
 
-class FresnellPrismClass(GlassElementClass):
+class FresnelPrismClass(GlassElementClass):
     def __init__(self, p0, pitch, angle, thickness, length, N, is_active=True):
         self.nr_of_lenslets = int(np.ceil(length/pitch))
         self.pitch = pitch
@@ -102,78 +102,6 @@ class FresnellPrismClass(GlassElementClass):
         poly = plt.Polygon(self.pts, closed=True, facecolor='cyan', edgecolor='blue', linewidth=3, alpha=geometry.alpha_from_N(self.N), zorder=5)
         graph.add_patch(poly)
 
-        if config.getboolean('view', 'show_elements_properties'):
-            canvas_class.plot_normals(graph, self)
-
-
-class GlassParallelPlate(GlassElementClass):
-    def __init__(self, p0=np.array([0,0]), n0=np.array([-1,0]), thickness=1*mm, length=10*mm, N=N_glass, is_active=True, is_visible=True):
-        self.thickness = thickness
-        self.length = length
-
-        pts = geometry.construct_plate(p0=p0, n=n0, thickness=thickness, length=length)
-        super().__init__(p0=p0, n0=n0, pts=pts, N=N, is_active=is_active)
-        self.name = 'glass parallel plate'
-
-    def __str__(self):
-        s = f'Glass parallel plate --> ID= {self.ID}, p0={self.p0}, n0={self.n0}, thickness={self.thickness}, length={self.length}, N={self.N}, nr_of_points={self.nr_of_pts}'
-        return s
-
-    def plot(self, graph):
-        poly = plt.Polygon(self.pts, closed=True, facecolor='cyan', alpha=varia.alpha_from_N(self.N), zorder=5)
-        graph.add_patch(poly)
-        super().plot(graph)
-
-
-class GlassBiprism(GlassElementClass):
-    def __init__(self, p0, thickness, angle_apex, length, N, is_active=True):
-        self.thickness = thickness
-        self.angle_apes = angle_apex
-        self.length = length
-        self.N = N
-
-        pts = np.empty((0, 2))
-        pts = np.append(pts, [np.array([p0[X]-length/2, p0[Y]])],                                                    axis=0)
-        pts = np.append(pts, [np.array([p0[X]-length/2, p0[Y] + self.thickness])],                                   axis=0)
-        pts = np.append(pts, [np.array([p0[X],          p0[Y] + self.thickness + length/(2*np.tan(angle_apex/2))])], axis=0)
-        pts = np.append(pts, [np.array([p0[X]+length/2, p0[Y] + self.thickness])],                                   axis=0)
-        pts = np.append(pts, [np.array([p0[X]+length/2, p0[Y]])],                                                    axis=0)
-
-        super().__init__(p0, pts, N=N, is_active=is_active)
-        self.name = 'biprism'
-
-    def __str__(self):
-        txt = 'Biprism'
-        return txt
-
-    def plot(self, graph):
-        poly = plt.Polygon(self.pts, closed=True, facecolor='cyan', alpha=geometry.alpha_from_N(self.N), zorder=5)
-        graph.add_patch(poly)
-        if config.getboolean('view', 'show_elements_properties'):
-            canvas_class.plot_normals(graph, self)
-
-
-class GlassPrism(GlassElementClass):
-    def __init__(self, p0, angle, length, N, is_active=True):
-        self.angle = angle
-        self.length = length
-        self.N = N
-
-        pts = np.empty((0, 2))
-        pts = np.append(pts, [np.array([p0[X]-length/2, p0[Y]])],                        axis=0)
-        pts = np.append(pts, [np.array([p0[X]-length/2, p0[Y] + length*np.sin(angle)])], axis=0)
-        pts = np.append(pts, [np.array([p0[X]+length/2, p0[Y]])],                        axis=0)
-
-        super().__init__(p0, pts, N=N, is_active=is_active)
-        self.name = 'prism'
-
-    def __str__(self):
-        txt = 'Prism'
-        return txt
-
-    def plot(self, graph):
-        poly = plt.Polygon(self.pts, closed=True, facecolor='cyan', alpha=geometry.alpha_from_N(self.N), zorder=5)
-        graph.add_patch(poly)
         if config.getboolean('view', 'show_elements_properties'):
             canvas_class.plot_normals(graph, self)
 

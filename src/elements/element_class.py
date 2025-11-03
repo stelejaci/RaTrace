@@ -94,15 +94,14 @@ class ElementClass:
         return s
 
     def plot(self, graph):
-        if not self.is_visible:
-            return
-        print(f' --> Plotting element {self.ID + 1}/{ElementClass.nr_of_elements}: {self.name}')
-        if config.getboolean('view', 'show_elements_properties'):
-            graph.scatter(self.pts[:, X], self.pts[:, Y], color='black', s=2)
-            graph.scatter(self.pts_n[:, X], self.pts_n[:, Y], color='orange', s=2)
-            graph.scatter(self.p0[0], self.p0[1], color='black', s=25)
-            graph.quiver(self.p0[X], self.p0[Y], 1 * self.n0[X], 1 * self.n0[Y], color='orange', width=0.003)
-            graph.text(self.p0[X], self.p0[Y], f'p0', color='black', horizontalalignment='center', verticalalignment='bottom', fontsize=8)
-            for i_normal in range(self.nr_of_faces):
-                graph.quiver(self.pts_n[i_normal, X], self.pts_n[i_normal, Y], self.n[i_normal, X], self.n[i_normal, Y], color='orange', width=0.001, scale=50)
+        if self.is_visible:
+            print(f' --> Plotting element {self.ID + 1}/{ElementClass.nr_of_elements}: {self.name}')
+            if config.getboolean('view', 'show_elements_properties'):
+                graph.scatter(self.pts[:, X], self.pts[:, Y], color='black', s=2)
+                graph.scatter(self.pts_n[:, X], self.pts_n[:, Y], color='orange', s=2)
+                graph.scatter(self.p0[0], self.p0[1], color='black', s=25)
+                graph.quiver(self.p0[X], self.p0[Y], 1 * self.n0[X], 1 * self.n0[Y], color='orange', width=0.003)
+                graph.text(self.p0[X], self.p0[Y], f'p0', color='black', bbox=dict(facecolor='white', alpha=0.5, edgecolor='none', boxstyle='round,pad=0.2'), ha='center', va='bottom', fontsize=8)
+                for i_normal in range(self.nr_of_faces):
+                    graph.quiver(self.pts_n[i_normal, X], self.pts_n[i_normal, Y], self.n[i_normal, X], self.n[i_normal, Y], color='orange', width=0.001, scale=50)
 

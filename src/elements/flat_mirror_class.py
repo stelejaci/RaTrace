@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from utils.varia import mm, X, Y
 from light import light_class
 from elements import element_class
-from utils import geometry
+from utils import geometry, optics
 
 
 class FlatMirrorClass(element_class.ElementClass):
@@ -16,15 +16,14 @@ class FlatMirrorClass(element_class.ElementClass):
         super().__init__(p0=p0, n0=n0, pts=pts, is_active=is_active, is_visible=is_visible)
         self.name = 'Flat mirror'
 
-
     def propagate_ray(self, ray):
         new_rays = list()
         if (self.n_coll is not None)    and    (geometry.point_is_on_PP_line(ray.p1, self.pts[0], self.pts[1])):
-            R = 2 * np.dot(self.n_coll, -ray.r) * self.n_coll + ray.r
-            ray_new = light_class.RayClass(p0=ray.p1, r=R, intensity=ray.intensity, wavelength=ray.wavelength, N=ray.N, ray_parent=ray, source_element=self, plot_color=ray.plot_color, is_active=True, is_visible=True)
+            # R = 2 * np.dot(self.n_coll, -ray.r) * self.n_coll + ray.r
+            r_refl = optics.calculate_reflected_orientation(ray, self.n_coll)
+            ray_new = light_class.RayClass(p0=ray.p1, r=r_refl, intensity=ray.intensity, wavelength=ray.wavelength, N=ray.N, ray_parent=ray, source_element=self, plot_color=ray.plot_color, is_active=True, is_visible=True)
             new_rays.append(ray_new)
         return new_rays
-
 
     def plot(self, graph):
         poly = plt.Polygon(self.pts, closed=True, facecolor='darkgrey')  #, linewidth=5)

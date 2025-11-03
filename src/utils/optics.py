@@ -1,10 +1,11 @@
 import numpy as np
-from utils.varia import mm, µm, X, Y
+from utils.varia import mm, µm, X, Y, deg
+from utils.configuration_class import config
 
 global N_glass, N_air
-N_air = 1
-N_glass = 1.5
-
+N_air   = 1.00
+N_glass = 1.50
+N_water = 1.33
 
 
 
@@ -13,19 +14,73 @@ def calculate_image_distance(object_distance, focal_length):
     return image_distance
 
 
-def refract_ray(ray, n_coll, Ni, No, is_active=True, is_visible=True):
+def refract_and_reflect_ray(ray, n_coll, Ni, No, generate_reflection=False):
     from light import light_class
-    # Snell's law in 2D vector format, see:  https://www.slideshare.net/dieulinh299/ray-tracing
+    rays_new = list()
 
     # In the formula, ri, ro and n all point away from the surface
     n = n_coll  if  np.dot(ray.r, n_coll)<0  else  -n_coll  # Assure that n points away from the surface
     ri = -ray.r     # r should point away from the surface
 
-    Nr = Ni/No
-    ro = (Nr*np.dot(n,ri) - np.sqrt(1-Nr**2*(1-np.dot(n,ri)**2)))*n - Nr*ri
+    # The orientation of the refracted ray. Is [nan,nan] is case of total reflection
+    r_refracted = calculate_refracted_orientation(ri, n, Ni, No)
+    total_reflection = np.any(np.isnan(r_refracted))
 
-    ray_new = light_class.RayClass(p0=ray.p1, r=ro, intensity=ray.intensity, wavelength=ray.wavelength, ray_parent=ray, N=No, plot_color=ray.plot_color, is_active=is_active, is_visible=is_visible)
-    return ray_new
+    # Calculate the reflected ray, if enabled
+    max_number_of_reflections = config.getint('simulation', 'max_number_of_reflections')
+    if generate_reflection  and  ray.reflection_count < max_number_of_reflections:     # Partial reflection and transmission
+        if not total_reflection:
+            cos_ai = np.dot(ray.r, n)
+            cos_ao = np.dot(r_refracted, n)
+            [R, T, Rs, Rp, Ts, Tp] = calculate_reflectance_and_transmittance_coefficients(Ni, No, cos_ai, cos_ao)
+        else:   # There is total reflection
+            R = 1
+        r_reflected = calculate_reflected_orientation(ray.r, n)
+        ray_reflected = light_class.RayClass(p0=ray.p1, r=r_reflected, intensity=R * ray.intensity, wavelength=ray.wavelength, ray_parent=ray, N=Ni, plot_color=ray.plot_color, is_active=True, is_visible=True)
+        ray_reflected.reflection_count = ray.reflection_count + 1  # Keep track of the reflection count
+        rays_new.append(ray_reflected)
+    else:
+        T = 1
+
+    if not total_reflection:   # There is no refracted ray when total reflection is happening
+        ray_refracted = light_class.RayClass(p0=ray.p1, r=r_refracted, intensity=T * ray.intensity, wavelength=ray.wavelength, ray_parent=ray, N=No, plot_color=ray.plot_color, is_active=True, is_visible=True)
+        rays_new.append(ray_refracted)
+
+    return rays_new
+
+
+def calculate_reflected_orientation(ri, n):
+    # Reflection around a normal vector in 2D
+    r_refl = 2 * np.dot(n, -ri) * n + ri
+    return r_refl
+
+
+def calculate_refracted_orientation(ri, n, Ni, No):
+    try:
+        # Snell's law in 2D vector format, see:  https://www.slideshare.net/dieulinh299/ray-tracing
+        Nr = Ni/No
+        r_refr = (Nr*np.dot(n,ri) - np.sqrt(1-Nr**2*(1-np.dot(n,ri)**2)))*n - Nr*ri
+        return r_refr
+    except:
+        pass
+
+
+def calculate_reflectance_and_transmittance_coefficients(Ni, No, cos_ai, cos_ao):
+    # Fresnel's equations for refracted and reflected light. Legend: r=reflection, t=transmission, s=s-polarised (perpendicular), p=p-polarised (parallel), i=incoming, o=outgoing
+    # Amplitude coefficients
+    rs = (Ni*cos_ai-No*cos_ao)/(Ni*cos_ai+No*cos_ao)
+    rp = (No*cos_ai-Ni*cos_ao)/(No*cos_ai+Ni*cos_ao)
+    ts = 2*Ni*cos_ai/(Ni*cos_ai+No*cos_ao)
+    tp = 2*Ni*cos_ai/(No*cos_ai+Ni*cos_ao)
+    # Intensities
+    Rs = rs**2
+    Rp = rp**2
+    Ts = No*cos_ao/(Ni*cos_ai) * ts**2
+    Tp = No*cos_ao/(Ni*cos_ai) * tp**2
+    # For unpolarised light
+    R = (Rs+Rp)/2
+    T = (Ts+Tp)/2
+    return [R, T, Rs, Rp, Ts, Tp]
 
 
 def refract_ray_on_ideal_lens(p0, n0, f, p, r, p_coll):
@@ -60,7 +115,7 @@ def refract_ray_on_ideal_lens(p0, n0, f, p, r, p_coll):
     return ro
 
 
-def derive_lens_radii_and_f(N=N_glass, f=None, R0=None, R1=None, T=None):
+def derive_lens_properties(N=N_glass, f=None, R0=None, R1=None, T=None):
     # Using the lensmaker's equation: https://en.wikipedia.org/wiki/Lens#Lensmaker.27s_equation
     N = N[0] if isinstance(N, list) else N
     if f is not None:
@@ -84,9 +139,14 @@ def derive_lens_radii_and_f(N=N_glass, f=None, R0=None, R1=None, T=None):
     else:
         print(f'Error: Lens definition is incorrect, either define f OR R0 and R1: f={f}, R0={R0}, R1={R1}')
         return [None, None, None]
-    return [f, R0, R1]
 
-def derive_planosphericallens_radius_and_f(N=N_glass, f=None, R=None):
+    H0 = -f*(N-1)*T/(R1*N)  # Distance from p0 to the first principal point on the optical axis
+    H1 = -f*(N-1)*T/(R0*N)  # Distance from p1 to the second principal point on the optical axis
+
+    return [f, R0, R1, H0, H1]
+
+
+def derive_planosphericallens_properties(N=N_glass, f=None, R=None, T=None):
     # Using the lensmaker's equation: https://en.wikipedia.org/wiki/Lens#Lensmaker.27s_equation
     N = N[0] if isinstance(N, list) else N
     if f is not None:
@@ -98,7 +158,11 @@ def derive_planosphericallens_radius_and_f(N=N_glass, f=None, R=None):
     else:
         print(f'Error: Plano-convex lens definition is incorrect, either define f OR R: f={f}, R={R}')
         return [None, None, None]
-    return [f, R]
+
+    H = -f*(N-1)*T/(R*N)  # Distance from p1 to the principal point on the optical axis
+
+    return [f, R, H]
+
 
 def lensmakers_equation(N,R0,R1,T):
     # Using the lensmaker's equation: https://en.wikipedia.org/wiki/Lens#Lensmaker.27s_equation
@@ -116,24 +180,6 @@ def calculate_refraction_index(N, wavelength):
     else:
         A, B = N, 0
     return A + B/wavelength_mu**2
-
-
-def calculate_reflectance_and_transmittance_coefficients(Ni, No, ai, ao):
-    # r: reflection, t: transmission, s: s-polarised (perpendicular), p: p-polarised (parallel), i:incoming, o: outgoing
-    # Amplitude coefficients
-    rs = (Ni*np.cos(ai)-No*np.cos(ao))/(Ni*np.cos(ai)+No*np.cos(ao))
-    rp = (No*np.cos(ai)-Ni*np.cos(ao))/(No*np.cos(ai)+Ni*np.cos(ao))
-    ts = 2*Ni*np.cos(ai)/(Ni*np.cos(ai)+No*np.cos(ao))
-    tp = 2*Ni*np.cos(ai)/(No*np.cos(ai)+Ni*np.cos(ao))
-    # Intensities
-    Rs = rs**2
-    Rp = rp**2
-    Ts = No*np.cos(ao)/(Ni*np.cos(ai)) * ts**2
-    Tp = No*np.cos(ao)/(Ni*np.cos(ai)) * tp**2
-    # For unpolarised light
-    R = (Rs+Rp)/2
-    T = (Ts+Tp)/2
-    return [R, T, Rs, Rp, Ts, Tp]
 
 
 # Lens with p0 at its first surface
@@ -166,7 +212,6 @@ def construct_planosphericallens(p0, R, T, D, resolution):
     return [pts + p0, p1 + p0, C + p0, p_corners + p0]
 
 
-
 # Parabolic mirror with its first surface (and focal point) pointing left
 def construct_parabolic_mirror(p0, f, D, T, resolution):
     p1 = np.array([T,0])      # The central point on the back of the mirror
@@ -178,6 +223,7 @@ def construct_parabolic_mirror(p0, f, D, T, resolution):
     pts = np.vstack((pts, [[T,D/2],[T,-D/2]]))
     return [pts+p0, p1+p0, f0+p0, p_corners+p0]
 
+
 def construct_aperture(p0, n0, Di, Do):
     from utils import geometry
     r = geometry.orientation_from_normal(n0)
@@ -186,6 +232,7 @@ def construct_aperture(p0, n0, Di, Do):
                      p0 - r*Di/2,
                      p0 - r*Do/2 ])
     return pts
+
 
 def GLB_calculate_ZR(w0, M2, wavelength):  # GLB = Gaussian Laser Beam
     Z_R = np.pi * np.power(w0,2) / (M2*wavelength)
@@ -211,3 +258,7 @@ def GLB_calculate_peak_intensity_at_z(w0, ZR, intensity_total, z=0*mm):  # GLB =
     w = GLB_calculate_width_at_z(w0=w0, ZR=ZR, z=z)
     intensity_peak = np.sqrt(np.pi/2) * intensity_total/w
     return intensity_peak
+
+
+if __name__ == '__main__':
+    [] = calculate_reflectance_and_transmittance_coefficients(1.5, 1.0, 45*deg)
